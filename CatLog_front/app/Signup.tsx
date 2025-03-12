@@ -1,3 +1,4 @@
+import { apiRequest } from "@/utils/fetchApi";
 import { useState } from "react";
 import { Text, TextInput, View, Button } from "react-native";
 
@@ -8,20 +9,8 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const handleSignup = async () => {
-    try {
-      const response = await fetch(`${EXPO_PUBLIC_API_URL}/auth/signup`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, name }),
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+  const handleSignup = async (email: string, password: string, name: string) => {
+    return apiRequest("auth/signup", "PUT", { email, password, name });
   };
 
   return (
@@ -35,7 +24,7 @@ export default function Signup() {
         secureTextEntry
       />
       <TextInput placeholder="name" value={name} onChangeText={setName} />
-      <Button title="Signup" onPress={handleSignup} />
+      <Button title="Signup" onPress={() => handleSignup(email, password, name)} />
     </View>
   );
 }
