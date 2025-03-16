@@ -14,7 +14,7 @@ interface CustomRequest extends Request {
   };
 }
 
-router.put(
+router.post(
   "/signup",
   [
     body("email")
@@ -34,5 +34,7 @@ router.put(
   ],
   (req: CustomRequest, res: Response, next: NextFunction) => authController.signup(req, res, next),
 );
+
+router.post("/login", authController.login);
 
 export default router;

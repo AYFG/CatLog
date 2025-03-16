@@ -1,4 +1,5 @@
 import { apiRequest } from "@/utils/fetchApi";
+import { router } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, View, Button } from "react-native";
 
@@ -10,7 +11,13 @@ export default function Signup() {
   const [name, setName] = useState("");
 
   const handleSignup = async (email: string, password: string, name: string) => {
-    return apiRequest("auth/signup", "PUT", { email, password, name });
+    return apiRequest("auth/signup", "POST", { email, password, name })
+      .then((res) => {
+        router.push("/Login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
