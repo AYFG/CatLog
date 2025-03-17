@@ -3,11 +3,12 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 const AUTH_SECRET = process.env.AUTH_SECRET;
+const AUTH_REFRESH_SECRET = process.env.AUTH_REFRESH_SECRET;
 export const signup = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.array());
-        const error = new Error("검증 실패");
+        const error = new Error("회원가입에 실패했습니다.");
         error.statusCode = 422;
         error.data = errors.array();
         throw error;
@@ -26,7 +27,7 @@ export const signup = (req, res, next) => {
         return user.save();
     })
         .then((result) => {
-        res.status(201).json({ message: "유저 생성 성공", userId: result._id });
+        res.status(201).json({ ok: 1, message: "유저 생성 성공", userId: result._id });
     })
         .catch((err) => {
         if (!err.statusCode) {
@@ -55,11 +56,22 @@ export const login = (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
-        const token = jwt.sign({
+        const accessToken = jwt.sign({
             email: loadedUser.email,
             userId: loadedUser._id.toString(),
-        }, `${AUTH_SECRET}`, { expiresIn: "1h" });
-        res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+        }, `${AUTH_SECRET}`, { expiresIn: "1d" });
+        const refreshToken = jwt.sign({
+            email: loadedUser.email,
+            userId: loadedUser._id.toString(),
+        }, `${AUTH_REFRESH_SECRET}`, { expiresIn: "7d" });
+        // console.log(jwt.verify(accessToken, AUTH_SECRET));
+        res.status(200).json({
+            ok: 1,
+            message: "유저 로그인 성공",
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            userId: loadedUser._id.toString(),
+        });
     })
         .catch((err) => {
         if (!err.statusCode) {
