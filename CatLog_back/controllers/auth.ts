@@ -102,10 +102,14 @@ export const login = (req: SignupRequest, res: Response, next: NextFunction) => 
 
       res.status(200).json({
         ok: 1,
-        message: "유저 로그인 성공",
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-        userId: loadedUser._id.toString(),
+        item: {
+          message: "유저 로그인 성공",
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          userId: loadedUser._id.toString(),
+          email: loadedUser.email,
+          name: loadedUser.name,
+        },
       });
     })
     .catch((err) => {

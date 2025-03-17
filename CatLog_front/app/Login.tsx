@@ -1,9 +1,11 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Image } from "expo-image";
 import SocialButton from "@/components/socialButton";
 import { Link, router } from "expo-router";
 import { apiRequest } from "@/utils/fetchApi";
 import { useState } from "react";
+import { getData, storeData } from "@/utils/storage";
 
 export default function Login() {
   const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -14,13 +16,17 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async (email: string, password: string) => {
-    return apiRequest("auth/login", "POST", { email, password })
-      .then((res) => {
+    try {
+      const res = await apiRequest("auth/login", "POST", { email, password });
+      if (res) {
+        const userData = res.item;
+        await storeData("userData", userData);
+        await getData("userData");
         router.push("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    } catch (err) {
+      console.error("로그인 실패:", err);
+    }
   };
 
   return (

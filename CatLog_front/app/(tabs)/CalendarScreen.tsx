@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
@@ -38,9 +38,33 @@ export default function CalendarScreen() {
   };
   LocaleConfig.defaultLocale = "ko";
 
+  const [selected, setSelected] = useState("");
+
   return (
     <View>
-      <Calendar />
+      <Calendar
+        onDayPress={(day: object) => {
+          console.log("selected day", day);
+        }}
+        markedDates={{
+          [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: "orange" },
+        }}
+        style={{
+          borderWidth: 1,
+          borderColor: "gray",
+          height: 350,
+        }}
+        theme={{
+          backgroundColor: "#ffffff",
+          calendarBackground: "#ffffff",
+          textSectionTitleColor: "#b6c1cd",
+          selectedDayBackgroundColor: "#00adf5",
+          selectedDayTextColor: "#ffffff",
+          todayTextColor: "#00adf5",
+          dayTextColor: "#2d4150",
+          textDisabledColor: "#dd99ee",
+        }}
+      />
     </View>
   );
 }

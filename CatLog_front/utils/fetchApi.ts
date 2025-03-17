@@ -14,6 +14,7 @@ export const apiRequest = async (endpoint: string, method: string, body?: object
 
     const data = await response.json();
     console.log(data);
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
