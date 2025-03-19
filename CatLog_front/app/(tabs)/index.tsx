@@ -3,23 +3,17 @@ import Rive from "rive-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 
-// function RiveDemo() {
-//   return (
-//     <Rive
-//       url="https://public.rive.app/community/runtime-files/2195-4346-avatar-pack-use-case.riv"
-//       artboardName="Avatar 1"
-//       stateMachineName="avatar"
-//       style={{ width: 400, height: 400 }}
-//     />
-//   );
-// }
-
 export default function App() {
   const router = useRouter();
   return (
     <View style={styles.container}>
       <View>
-        <Text className="p-10 mb-10 bg-prelude">고양이 애니메이션?</Text>
+        <Rive
+          resourceName="testcat"
+          artboardName="WhiteCat"
+          stateMachineName="State Machine 1"
+          style={{ width: 200, height: 100 }}
+        />
       </View>
       <Pressable onPress={() => router.push("/CalendarScreen")}>
         <Text className="p-10 mb-10 bg-prelude">반려묘의 루틴을 등록해보세요</Text>
