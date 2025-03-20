@@ -6,30 +6,25 @@ import { useRouter } from "expo-router";
 export default function App() {
   const router = useRouter();
   return (
-    <View style={styles.container}>
-      <View>
+    <View className="">
+      <View className="flex items-center justify-center">
         <Rive
-          resourceName="testcat"
+          resourceName="catlog"
           artboardName="WhiteCat"
-          stateMachineName="State Machine 1"
-          style={{ width: 200, height: 100 }}
+          stateMachineName="BasicMovement"
+          style={{ width: 200, height: 200 }}
         />
       </View>
-      <Pressable onPress={() => router.push("/CalendarScreen")}>
-        <Text className="p-10 mb-10 bg-prelude">반려묘의 루틴을 등록해보세요</Text>
-      </Pressable>
-      <Pressable onPress={() => router.push("/Login")}>
-        <Text className="p-10 bg-prelude">로그인 페이지</Text>
-      </Pressable>
+      <View className="p-10 bg-prelude">
+        <Pressable onPress={() => router.push("/Login")}>
+          <Text>로그인 페이지</Text>
+        </Pressable>
+      </View>
+      <View className="p-10 bg-prelude">
+        <Pressable onPress={() => router.push("/CalendarScreen")}>
+          <Text>반려묘의 루틴을 등록해보세요</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
