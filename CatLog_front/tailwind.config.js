@@ -11,6 +11,7 @@ module.exports = {
       linen: "#faeee5",
       azalea: "#fad1d8",
       jaggedIce: "#c9e6ee",
+      snow: "#fffafa",
     },
   },
   plugins: [],

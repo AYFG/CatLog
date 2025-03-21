@@ -1,12 +1,13 @@
 import "@/global.css";
-import Rive from "rive-react-native";
-import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
+import { Pressable, Text, View } from "react-native";
+import Rive from "rive-react-native";
 
 export default function App() {
   const router = useRouter();
+
   return (
-    <View className="">
+    <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">
         <Rive
           resourceName="catlog"

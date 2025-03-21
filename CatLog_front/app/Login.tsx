@@ -6,12 +6,12 @@ import { Link, router } from "expo-router";
 import { apiRequest } from "@/utils/fetchApi";
 import { useState } from "react";
 import { getData, storeData } from "@/utils/storage";
+import logo from "../assets/images/splash-Image.png";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login() {
   const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-  const kakaoImage = require("@/assets/images/kakao.png");
-  const googleImage = require("@/assets/images/google.png");
-  const naverImage = require("@/assets/images/naver.png");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,34 +30,46 @@ export default function Login() {
   };
 
   return (
-    <>
-      <View className="justify-center mt-10 ">
-        <Text>로고 이미지</Text>
-      </View>
-      <View className="items-center justify-center flex-1">
-        <Text className="mb-10">이메일로 로그인</Text>
-        <TextInput className="mb-4" placeholder="이메일" value={email} onChangeText={setEmail} />
-        <TextInput
-          className="mb-10"
-          placeholder="비밀번호"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <Button title="로그인" onPress={() => handleLogin(email, password)} />
+    <View className="flex-1 bg-snow">
+      <View className="mx-6">
+        <SafeAreaView className="flex items-center mt-4 mb-8">
+          <Image className="" source={logo} style={{ width: 60, height: 60 }} />
+        </SafeAreaView>
 
-        <Link href="/Signup">
-          <Text>회원가입</Text>
-        </Link>
+        <View className="mb-2">
+          <Text className="mb-4 font-bold">이메일</Text>
+          <TextInput
+            className="p-4 border-2 border-[#ddd] rounded-xl"
+            placeholder="이메일을 입력해주세요"
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
+        <View className="">
+          <Text className="mb-4 font-bold">비밀번호</Text>
+          <TextInput
+            className="p-4 border-2 border-[#ddd] rounded-xl"
+            placeholder="비밀번호"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
 
-        {/* <Text className="mb-10">SNS 로그인</Text>
-        <View className="flex-row gap-10 ">
-          <SocialButton onPress={() => console.log("test")} source={kakaoImage} />
-          <SocialButton onPress={() => console.log("test")} source={naverImage} />
-          <SocialButton onPress={() => console.log("test")} source={googleImage} />
-        </View> */}
+        <Pressable
+          className="flex items-center p-4 mt-10 rounded-lg bg-wePeep"
+          onPress={() => handleLogin(email, password)}
+        >
+          <Text className="text-lg text-snow">로그인</Text>
+        </Pressable>
+
+        <View className="flex items-center w-full p-2 mt-4 rounded-lg ">
+          <Link href="/Signup" className="">
+            <Text className="text-[gray]">회원가입</Text>
+          </Link>
+        </View>
       </View>
-    </>
+    </View>
   );
 }
 const styles = StyleSheet.create({
