@@ -5,7 +5,7 @@ import SocialButton from "@/components/socialButton";
 import { Link, router } from "expo-router";
 import { apiRequest } from "@/utils/fetchApi";
 import { useState } from "react";
-import { getData, storeData } from "@/utils/storage";
+import { getData, setData } from "@/utils/storage";
 import logo from "../assets/images/splash-Image.png";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -20,7 +20,7 @@ export default function Login() {
       const res = await apiRequest("auth/login", "POST", { email, password });
       if (res) {
         const userData = res.item;
-        await storeData("userData", userData);
+        await setData("userData", userData);
         await getData("userData");
         router.push("/");
       }

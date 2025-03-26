@@ -1,4 +1,5 @@
-import { getData } from "@/utils/storage";
+import { getData, removeData } from "@/utils/storage";
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
@@ -14,9 +15,13 @@ export default function MyPage() {
     fetchData();
   }, []);
 
+  const handleLogout = async () => {
+    removeData("userData");
+    router.push("/Login");
+  };
   return (
     <View>
-      <Pressable>
+      <Pressable onPress={handleLogout}>
         <Text>로그아웃</Text>
       </Pressable>
       <Pressable>

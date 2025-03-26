@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const storeData = async <T>(key: string, value: T) => {
+export const setData = async <T>(key: string, value: T) => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
@@ -13,12 +13,21 @@ export const getData = async (key: string) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
     if (jsonValue != null) {
-      console.log("Stored data:", JSON.parse(jsonValue));
+      console.log(JSON.parse(jsonValue));
       return JSON.parse(jsonValue);
     }
-    console.log("No data found");
+    console.log(key + "데이터가 없습니다.");
     return null;
-  } catch (e) {
-    console.error("Error reading value:", e);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const removeData = async (key: string) => {
+  try {
+    await AsyncStorage.removeItem(key);
+    console.log("데이터가 삭제되었습니다.");
+  } catch (err) {
+    console.error(err);
   }
 };
