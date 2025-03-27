@@ -3,6 +3,7 @@ import "dotenv/config";
 import cors from "cors";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
+import catRoutes from "./routes/cat.js";
 import { errorHandler } from "./middleware/error.js";
 const app = express();
 app.use(cors());
@@ -13,10 +14,10 @@ const DATABASE_NAME = process.env.DATABASE_NAME;
 const PORT = process.env.PORT;
 const MongoDB_URI = `mongodb+srv://${DATABASE_ID}:${DATABASE_PASSWORD}@cluster0.xupmv.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
 app.get("/", (req, res) => {
-    console.log(req.headers["authorization"]);
     res.send("Hello World!!!");
 });
 app.use("/auth", authRoutes);
+app.use("/cat", catRoutes);
 app.use(errorHandler);
 mongoose
     .connect(MongoDB_URI)

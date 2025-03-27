@@ -35,7 +35,7 @@ export default function Signup() {
   return (
     <View className="flex-1 bg-snow">
       <View className="mx-6">
-        <SafeAreaView className="flex flex-row items-center mt-4 mb-6">
+        <SafeAreaView className="flex flex-row items-center mt-2 mb-6">
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="black" />
           </Pressable>

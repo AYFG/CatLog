@@ -16,7 +16,7 @@ export const getData = async (key: string) => {
       console.log(JSON.parse(jsonValue));
       return JSON.parse(jsonValue);
     }
-    console.log(key + "데이터가 없습니다.");
+    console.log(key + " 데이터가 없습니다.");
     return null;
   } catch (err) {
     console.error(err);

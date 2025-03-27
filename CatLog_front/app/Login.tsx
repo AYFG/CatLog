@@ -32,7 +32,7 @@ export default function Login() {
   return (
     <View className="flex-1 bg-snow">
       <View className="mx-6">
-        <SafeAreaView className="flex items-center mt-4 mb-8">
+        <SafeAreaView className="flex items-center mt-2 mb-8">
           <Image className="" source={logo} style={{ width: 60, height: 60 }} />
         </SafeAreaView>
 
