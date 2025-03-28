@@ -4,8 +4,24 @@ meta {
   seq: 4
 }
 
-get {
+post {
   url: http://localhost:8080/cat
-  body: none
-  auth: none
+  body: json
+  auth: bearer
+}
+
+params:query {
+  : 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name":"test10",
+    "birthDate":"2024-05-05",
+    "owner":"67e515eb7500ab506e201f49"
+  }
 }
