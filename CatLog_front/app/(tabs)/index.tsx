@@ -34,12 +34,12 @@ export default function App() {
   return (
     <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">
-        {/* <Rive
+        <Rive
           resourceName="catlog"
           artboardName="WhiteCat"
           stateMachineName="BasicMovement"
           style={{ width: 200, height: 200, backgroundColor: "#ebebeb" }}
-        /> */}
+        />
       </View>
       <View className="p-10 bg-prelude">
         <Pressable onPress={() => router.push("/Login")}>

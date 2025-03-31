@@ -1,10 +1,11 @@
 import { calculateAge } from "@/utils/calculateAge";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData, removeData } from "@/utils/storage";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
 export default function MyPage() {
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -44,22 +45,43 @@ export default function MyPage() {
   }, [data, isSuccess]);
 
   return (
-    <View>
-      <Pressable onPress={handleLogout}>
+    <ScrollView>
+      <Pressable className="ml-auto" onPress={handleLogout}>
+        <Ionicons name="log-out-outline" size={24} color="black" />
         <Text>로그아웃</Text>
       </Pressable>
       <Pressable>
         <Text>고양 정보 수정</Text>
       </Pressable>
-      <Text>{userData && userData.name}의 반려묘</Text>
-      <View>
-        {data.cats.map((v: CatData) => (
-          <View className="flex flex-row gap-10">
-            <Text key={v._id}>{v.name}</Text>
-            <Text>{calculateAge(v.birthDate)}살</Text>
-          </View>
-        ))}
+      <View className="m-10">
+        <Text className="w-full text-center">{userData && userData.name}의 반려묘</Text>
+        <View className="flex flex-row flex-wrap gap-10 border">
+          {data?.cats.map((v: CatData) => (
+            <View className="flex flex-col w-1/5 border">
+              <Text className="mb-4" key={v._id}>
+                {v.name}
+              </Text>
+              <Text className="text-center">{calculateAge(v.birthDate)}살</Text>
+            </View>
+          ))}
+          {data?.cats.map((v: CatData) => (
+            <View className="flex flex-col w-1/5 border">
+              <Text className="mb-4" key={v._id}>
+                {v.name}
+              </Text>
+              <Text className="text-center">{calculateAge(v.birthDate)}살</Text>
+            </View>
+          ))}
+          {data?.cats.map((v: CatData) => (
+            <View className="flex flex-col w-1/5 border">
+              <Text className="mb-4" key={v._id}>
+                {v.name}
+              </Text>
+              <Text className="text-center">{calculateAge(v.birthDate)}살</Text>
+            </View>
+          ))}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
