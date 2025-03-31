@@ -11,8 +11,13 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
         <Stack.Screen name="Login" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="LogoutModal"
+          options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
+        />
         <Stack.Screen name="Signup" options={{ headerShown: false }} />
         <Stack.Screen name="MyCat" options={{ headerShown: false }} />
+        <Stack.Screen name="DailyLog" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
     </QueryClientProvider>

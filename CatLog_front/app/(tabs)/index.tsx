@@ -34,12 +34,12 @@ export default function App() {
   return (
     <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">
-        <Rive
+        {/* <Rive
           resourceName="catlog"
           artboardName="WhiteCat"
           stateMachineName="BasicMovement"
           style={{ width: 200, height: 200, backgroundColor: "#ebebeb" }}
-        />
+        /> */}
       </View>
       <View className="p-10 bg-prelude">
         <Pressable onPress={() => router.push("/Login")}>
@@ -49,6 +49,11 @@ export default function App() {
       <View className="p-10 bg-prelude">
         <Pressable onPress={() => router.push("/MyCat")}>
           <Text>고양이 정보</Text>
+        </Pressable>
+      </View>
+      <View className="p-10 bg-prelude">
+        <Pressable onPress={() => router.push("/DailyLog")}>
+          <Text>데일리 로그 작성</Text>
         </Pressable>
       </View>
     </View>
