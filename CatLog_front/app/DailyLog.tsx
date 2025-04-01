@@ -1,19 +1,16 @@
-import { apiRequest } from "@/utils/fetchApi";
+import { useCatStore } from "@/store/useCatStore";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 import { Image } from "expo-image";
-import { router, useRouter } from "expo-router";
-import { useRef, useState } from "react";
-import { Text, TextInput, View, Button, Pressable, ScrollView } from "react-native";
+import { useRouter } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../assets/images/splash-Image.png";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
-import { useQueryClient } from "@tanstack/react-query";
-import { useCatStore } from "@/store/useCatStore";
 
 export default function DailyLog() {
   const router = useRouter();
-  const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,10 +18,11 @@ export default function DailyLog() {
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [show, setShow] = useState(false);
   const [vitaminTime, setVitaminTime] = useState(new Date());
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
   const pickerRef = useRef<Picker<string> | null>(null);
   const { cats } = useCatStore();
-  const handleTimeInput = (selectedDate?: Date) => {
+
+  const handleTimeInput = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setShow(false);
     if (selectedDate) {
       setVitaminTime(selectedDate);
@@ -42,8 +40,6 @@ export default function DailyLog() {
       pickerRef.current.blur();
     }
   }
-
-  console.log(cats);
 
   return (
     <ScrollView className="flex-1 bg-snow">
@@ -67,7 +63,7 @@ export default function DailyLog() {
               className="w-1/2"
               placeholder="이름을 입력해주세요"
               value={selectedLanguage}
-              onChangeText={selectedLanguage}
+              onChangeText={(text) => setSelectedLanguage(text)}
               onFocus={() => {
                 open();
               }}
@@ -76,7 +72,7 @@ export default function DailyLog() {
             <Picker
               ref={pickerRef}
               selectedValue={selectedLanguage}
-              onValueChange={(itemValue, itemIndex) => setSelectedLanguage(itemValue)}
+              onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
             >
               {cats?.map((cat: CatData) => (
                 <Picker.Item key={cat._id} label={cat.name} value={cat.name} />

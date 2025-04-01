@@ -13,34 +13,21 @@ export default function MyPage() {
   const [catNames, setCatNames] = useState<string[]>([]);
   const { cats, setCats } = useCatStore();
 
-  const fetchGetCat = apiRequest(
-    `cat/${userData?.userId}`,
-    "GET",
-    undefined,
-    userData?.accessToken,
-  );
+  // const { data, isSuccess } = useQuery({
+  //   queryKey: ["cats"],
+  //   queryFn: async () => {
+  //     if (!userData) return [];
+  //     return apiRequest(`cat/${userData.userId}`, "GET", undefined, userData.accessToken);
+  //   },
+  //   enabled: !!userData,
+  // });
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const data = await getData("userData");
-      setUserData(data);
-    };
-    fetchUserData();
-  }, []);
-  const { data, isSuccess } = useQuery({
-    queryKey: ["cats"],
-    queryFn: async () => {
-      if (!userData) return [];
-      return apiRequest(`cat/${userData.userId}`, "GET", undefined, userData.accessToken);
-    },
-    enabled: !!userData,
-  });
-  useEffect(() => {
-    if (isSuccess) {
-      setCatNames((data?.cats).map((cat: { name: string }) => cat.name));
-      setCats(data.cats);
-    }
-  }, [data, isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setCatNames((data?.cats).map((cat: { name: string }) => cat.name));
+  //     setCats(data.cats);
+  //   }
+  // }, [data, isSuccess]);
 
   return (
     <ScrollView>
@@ -51,7 +38,7 @@ export default function MyPage() {
       <View className="m-10">
         <Text className="w-full mb-5 text-center">{userData && userData.name}의 반려묘</Text>
         <View className="flex flex-row flex-wrap gap-10 ">
-          {data?.cats.map((v: CatData) => (
+          {cats?.map((v: CatData) => (
             <View className="flex flex-col w-full border" key={v._id}>
               <View className="flex items-center justify-center">
                 <Image

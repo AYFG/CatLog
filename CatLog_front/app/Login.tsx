@@ -7,11 +7,9 @@ import { apiRequest } from "@/utils/fetchApi";
 import { useState } from "react";
 import { getData, setData } from "@/utils/storage";
 import logo from "../assets/images/splash-Image.png";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login() {
-  const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -72,17 +70,3 @@ export default function Login() {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    padding: 10,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-});

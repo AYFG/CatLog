@@ -4,33 +4,55 @@ import { Link, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import Rive from "rive-react-native";
+import ReLogin from "../ReLogin";
+import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/utils/fetchApi";
+import { useCatStore } from "@/store/useCatStore";
 
 export default function App() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [notLogin, setNotLogin] = useState(true);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const { cats, setCats } = useCatStore();
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getData("userData");
-      console.log(data);
-      if (data == null) {
+      const storedUserData = await getData("userData");
+      if (storedUserData == null) {
         router.push("/Login");
       } else {
-        setIsLoading(false);
+        setUserData(storedUserData);
+        setNotLogin(false);
       }
     };
     fetchData();
   }, []);
+
+  const { data, isLoading, isError, isSuccess } = useQuery({
+    queryKey: ["cats"],
+    queryFn: () =>
+      apiRequest(`cat/${userData?.userId}`, "GET", undefined, userData?.accessToken || ""),
+  });
+  useEffect(() => {
+    if (isSuccess && data) {
+      setCats(data.cats);
+    }
+  }, [data, isSuccess]);
   if (isLoading) {
     return (
-      <View className="items-center justify-center flex-1 bg-snow">
-        <Text className="text-lg">다시 로그인 해주세요.</Text>
-        <Link href="/Login" className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-          <Text className="text-lg text-snow">로그인 하러가기</Text>
-        </Link>
+      <View className="items-center justify-center flex-1">
+        <ActivityIndicator size="large" color="#dbc0e7" />
       </View>
     );
   }
+  if (isError) {
+    return <ReLogin />;
+  }
+
+  if (notLogin) {
+    return <ReLogin />;
+  }
+  console.log(cats);
+
   return (
     <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">

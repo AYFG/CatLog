@@ -1,11 +1,6 @@
 import { getData } from "./storage";
 
-export const apiRequest = async (
-  endpoint: string,
-  method: string,
-  body?: object,
-  token?: string,
-) => {
+export async function apiRequest(endpoint: string, method: string, body?: object, token?: string) {
   try {
     const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/${endpoint}`, {
       method,
@@ -27,4 +22,4 @@ export const apiRequest = async (
     console.error(error);
     throw error;
   }
-};
+}

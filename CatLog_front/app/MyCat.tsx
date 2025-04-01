@@ -41,6 +41,7 @@ export default function MyCat() {
     onSuccess: (data) => {
       console.log("고양이가 등록되었습니다:", data);
       queryClient.invalidateQueries({ queryKey: ["cats"] });
+
       router.back();
     },
     onError: (error) => {
@@ -73,7 +74,7 @@ export default function MyCat() {
           <TextInput
             className="p-4 border-2 border-[#ddd] rounded-xl"
             placeholder="이름을 입력해주세요"
-            onChangeText={setCatName}
+            onChangeText={(text) => setCatName(text)}
             value={catName}
           />
         </View>

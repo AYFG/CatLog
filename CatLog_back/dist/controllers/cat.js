@@ -22,10 +22,7 @@ export const createCat = async (req, res, next) => {
         }
         user.cats.push(cat._id);
         await user.save();
-        res.status(201).json({
-            message: "고양이가 성공적으로 등록되었습니다.",
-            cat,
-        });
+        res.status(201).json({ ok: 1, message: "고양이가 성공적으로 등록되었습니다.", cat });
     }
     catch (err) {
         const error = err;
@@ -42,10 +39,9 @@ export const getCat = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        res.status(200).json({
-            message: "고양이 목록을 성공적으로 가져왔습니다.",
-            cats: user.cats,
-        });
+        res
+            .status(200)
+            .json({ ok: 1, message: "고양이 목록을 성공적으로 가져왔습니다.", cats: user.cats });
     }
     catch (err) {
         const error = err;
@@ -53,3 +49,4 @@ export const getCat = async (req, res, next) => {
         next(error);
     }
 };
+export const deleteCat = async (req, res, next) => { };
