@@ -18,6 +18,8 @@ export default function RootLayout() {
         <Stack.Screen name="Signup" options={{ headerShown: false }} />
         <Stack.Screen name="MyCat" options={{ headerShown: false }} />
         <Stack.Screen name="DailyLog" options={{ headerShown: false }} />
+        <Stack.Screen name="ChangeCat" options={{ headerShown: false }} />
+        <Stack.Screen name="MedicalLog" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
     </QueryClientProvider>

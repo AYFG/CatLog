@@ -3,31 +3,34 @@ import { calculateAge } from "@/utils/calculateAge";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Button, Image, Pressable, ScrollView, Text, View } from "react-native";
 
 export default function MyPage() {
+  const queryClient = useQueryClient();
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [catNames, setCatNames] = useState<string[]>([]);
-  const { cats, setCats } = useCatStore();
+  const { cats } = useCatStore();
+  useEffect(() => {
+    const getUserData = async () => {
+      const data = await getData("userData");
+      setUserData(data);
+    };
+    getUserData();
+  }, []);
 
-  // const { data, isSuccess } = useQuery({
-  //   queryKey: ["cats"],
-  //   queryFn: async () => {
-  //     if (!userData) return [];
-  //     return apiRequest(`cat/${userData.userId}`, "GET", undefined, userData.accessToken);
-  //   },
-  //   enabled: !!userData,
-  // });
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     setCatNames((data?.cats).map((cat: { name: string }) => cat.name));
-  //     setCats(data.cats);
-  //   }
-  // }, [data, isSuccess]);
+  const mutation = useMutation({
+    mutationFn: (catId: CatData["_id"]) =>
+      apiRequest(`cat/${catId}`, "DELETE", undefined, userData?.accessToken),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["cats"] });
+    },
+  });
+  const deleteCatHandler = (catId: CatData["_id"]) => {
+    mutation.mutate(catId);
+    console.log("고양이가 삭제되었습니다:", catId);
+  };
 
   return (
     <ScrollView>
@@ -45,6 +48,17 @@ export default function MyPage() {
                   source={require("@/assets/images/testCat.png")}
                   style={{ width: 100, height: 100 }}
                 />
+                <View className="mb-3">
+                  <Link
+                    href={{
+                      pathname: "/ChangeCat/[id]",
+                      params: { catId: v._id, name: v.name, birthDay: v.birthDate },
+                    }}
+                  >
+                    <Text>정보 수정</Text>
+                  </Link>
+                </View>
+                <Button title="삭제" onPress={() => deleteCatHandler(v._id)} />
               </View>
               <Text className="mb-4 text-center">{v.name}</Text>
               <Text className="text-center">{calculateAge(v.birthDate)}살</Text>

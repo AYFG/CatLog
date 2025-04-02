@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
+/**
+ * defecation: true,
+ * vitamin:
+ */
 const dailyLogSchema = new Schema({
     defecation: {
         type: Boolean,
@@ -19,6 +23,10 @@ const dailyLogSchema = new Schema({
     cat: {
         type: Schema.Types.ObjectId,
         ref: "Cat",
+    },
+    logDate: {
+        type: String,
+        required: true,
     },
 });
 export default mongoose.model("DailyLog", dailyLogSchema);

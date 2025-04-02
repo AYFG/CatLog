@@ -47,6 +47,7 @@ export default function CalendarScreen() {
         }}
         markedDates={{
           [selected]: { selected: true, disableTouchEvent: true },
+          "2025-04-05": { marked: true, selectedColor: "orange" },
         }}
         style={{
           borderWidth: 1,
