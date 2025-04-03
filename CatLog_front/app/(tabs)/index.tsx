@@ -51,7 +51,6 @@ export default function App() {
   if (notLogin) {
     return <ReLogin />;
   }
-  console.log(cats);
 
   return (
     <View className="flex-1 bg-snow">

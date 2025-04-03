@@ -41,7 +41,6 @@ export default function MyCat() {
     onSuccess: (data) => {
       console.log("고양이가 등록되었습니다:", data);
       queryClient.invalidateQueries({ queryKey: ["cats"] });
-
       router.back();
     },
     onError: (error) => {

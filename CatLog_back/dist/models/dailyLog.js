@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-/**
- * defecation: true,
- * vitamin:
- */
 const dailyLogSchema = new Schema({
     defecation: {
         type: Boolean,

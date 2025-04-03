@@ -1,31 +1,44 @@
 import { useCatStore } from "@/store/useCatStore";
+import { apiRequest } from "@/utils/fetchApi";
+import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../assets/images/splash-Image.png";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 export default function MedicalLog() {
   const router = useRouter();
   const { cats } = useCatStore();
-  const pickerRef = useRef<Picker<string> | null>(null);
+  const queryClient = useQueryClient();
+  const pickerRef = useRef<Picker<{ name: string; id: string }>>(null);
+  const [token, setToken] = useState("");
 
-  const [selectedCat, setSelectedCat] = useState<string | undefined>();
+  const [selectedCat, setSelectedCat] = useState({ name: "", id: "" });
 
   const [healthCheckupDate, setHealthCheckupDate] = useState(new Date());
+  console.log(healthCheckupDate.toISOString().split("T")[0]);
   const [healthCycle, setHealthCycle] = useState(0);
   const [healthCalendar, setHealthCalendar] = useState(false);
 
   const [heartWorm, setHeartWorm] = useState(new Date());
+  console.log(heartWorm.toISOString().split("T")[0]);
   const [heartWormCycle, setHeartWormCycle] = useState(0);
-  const [heartWormCaledar, setHeartWormCalendar] = useState(false);
+  const [heartWormCalendar, setHeartWormCalendar] = useState(false);
 
-  const [memo, setMemo] = useState("");
+  useEffect(() => {
+    const userData = getData("userData");
+    userData.then((data) => {
+      if (data) {
+        setToken(data.accessToken);
+      }
+    });
+  }, []);
 
   const healthCheckUpInput = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setHealthCalendar(false);
@@ -53,6 +66,25 @@ export default function MedicalLog() {
     }
   }
 
+  const mutation = useMutation({
+    mutationFn: (medicalLog: MedicalLogData) =>
+      apiRequest(`medicalLog/${selectedCat.id}`, "POST", medicalLog, token),
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["cats"] });
+      router.back();
+    },
+  });
+  console.log(selectedCat.name);
+  const handleSubmit = () => {
+    mutation.mutate({
+      cat: { catId: selectedCat.id, catName: selectedCat.name },
+      healthCheckupDate: healthCheckupDate.toISOString().split("T")[0],
+      healthCycle: healthCycle,
+      heartWorm: heartWorm.toISOString().split("T")[0],
+      heartWormCycle: heartWormCycle,
+    });
+  };
   return (
     <ScrollView className="flex-1 bg-snow">
       <View className="mx-6">
@@ -74,8 +106,7 @@ export default function MedicalLog() {
             <TextInput
               className="w-1/2"
               placeholder="반려묘를 선택해주세요"
-              value={selectedCat}
-              onChangeText={(cat) => setSelectedCat(cat)}
+              value={selectedCat.name}
               onFocus={() => {
                 open();
               }}
@@ -84,10 +115,14 @@ export default function MedicalLog() {
             <Picker
               ref={pickerRef}
               selectedValue={selectedCat}
-              onValueChange={(cat) => setSelectedCat(cat)}
+              onValueChange={(value: { name: string; id: string }) => setSelectedCat(value)}
             >
               {cats?.map((cat: CatData) => (
-                <Picker.Item key={cat._id} label={cat.name} value={cat.name} />
+                <Picker.Item
+                  key={cat._id}
+                  label={cat.name}
+                  value={{ name: cat.name, id: cat._id }}
+                />
               ))}
             </Picker>
           </View>
@@ -98,7 +133,7 @@ export default function MedicalLog() {
           <View className="flex flex-row items-center pl-2 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className=""
-              value={healthCheckupDate.toLocaleDateString()}
+              value={healthCheckupDate.toISOString().split("T")[0]}
               onFocus={() => {
                 setHealthCalendar(true);
               }}
@@ -124,23 +159,24 @@ export default function MedicalLog() {
               keyboardType="number-pad"
               value={healthCycle.toString()}
               onChangeText={(cycle) => {
-                setHealthCycle(parseInt(cycle));
+                setHealthCycle(parseInt(cycle) || 0);
               }}
+              maxLength={3}
             />
           </View>
         </View>
 
         <View className="mb-2">
-          <Text className="mb-4 font-bold">심장사상충 맞은 날</Text>
+          <Text className="mb-4 font-bold">심장사상충 약</Text>
           <View className="flex flex-row items-center pl-2 border-2 border-[#ddd] rounded-xl">
             <TextInput
-              value={heartWorm.toLocaleDateString()}
+              value={heartWorm.toISOString().split("T")[0]}
               onFocus={() => {
                 setHeartWormCalendar(true);
               }}
               onChangeText={() => {}}
             />
-            {heartWormCaledar && (
+            {heartWormCalendar && (
               <RNDateTimePicker
                 value={heartWorm}
                 mode="date"
@@ -151,30 +187,21 @@ export default function MedicalLog() {
           </View>
         </View>
         <View className="mb-2">
-          <Text className="mb-4 font-bold">심장사상충 주기</Text>
+          <Text className="mb-4 font-bold">심장사상충 약 주기</Text>
           <View className="flex flex-row items-center pl-2 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className="w-full"
               placeholder="몇 일 뒤에 심장사상충 약을 도포할지 작성해주세요"
               keyboardType="number-pad"
               value={heartWormCycle.toString()}
-              onChangeText={(cycle) => setHeartWormCycle(parseInt(cycle))}
+              onChangeText={(cycle) => setHeartWormCycle(Number(cycle) || 0)}
+              maxLength={3}
             />
           </View>
         </View>
 
-        <View className="mb-2">
-          <Text className="mb-4 font-bold">기타 특이사항</Text>
-          <TextInput
-            className="p-4 border-2 border-[#ddd] rounded-xl"
-            placeholder="메모할 내용을 입력해주세요"
-            value={memo}
-            onChangeText={setMemo}
-          />
-        </View>
-
         <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-          <Pressable onPress={() => {}}>
+          <Pressable onPress={handleSubmit}>
             <Text className="text-snow">저장하기</Text>
           </Pressable>
         </View>

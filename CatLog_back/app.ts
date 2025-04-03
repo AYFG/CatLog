@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import catRoutes from "./routes/cat.js";
+import medicalRoutes from "./routes/medicalLog.js";
 import { errorHandler } from "./middleware/error.js";
 
 const app = express();
@@ -23,6 +24,8 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/auth", authRoutes);
 app.use("/cat", catRoutes);
+app.use("/medicalLog", medicalRoutes);
+
 app.use(errorHandler);
 mongoose
   .connect(MongoDB_URI)

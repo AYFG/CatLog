@@ -1,0 +1,28 @@
+meta {
+  name: createMedicalLog
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8080/medicalLog/{{catId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {  
+    "cat":{
+      "catId":"67ecf985e0f9fa9e17fc1c0b",
+      "catName":"Summer"
+    },
+    "healthCheckupDate": "2024-10-10",
+    "healthCycle":100,
+    "heartWorm":"2024-10-10",
+    "heartWormCycle":100
+  }
+}

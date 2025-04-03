@@ -1,5 +1,3 @@
-import { getData } from "./storage";
-
 export async function apiRequest(endpoint: string, method: string, body?: object, token?: string) {
   try {
     const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/${endpoint}`, {

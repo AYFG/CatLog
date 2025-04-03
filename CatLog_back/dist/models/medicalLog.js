@@ -1,24 +1,31 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const medicalLogSchema = new Schema({
-    healthCheckup: {
-        type: Date,
+    healthCheckupDate: {
+        type: String,
         required: true,
     },
-    healthCheckupCycle: {
+    healthCycle: {
         type: Number,
         required: true,
     },
-    heartWormInjection: {
-        type: Date,
+    heartWorm: {
+        type: String,
         required: true,
     },
-    heartWormInjectionCycle: {
+    heartWormCycle: {
         type: Number,
     },
     cat: {
-        type: Schema.Types.ObjectId,
-        ref: "Cat",
+        catId: {
+            type: Schema.Types.ObjectId,
+            ref: "Cat",
+            required: true,
+        },
+        catName: {
+            type: String,
+            required: true,
+        },
     },
 });
 export default mongoose.model("MedicalLog", medicalLogSchema);
