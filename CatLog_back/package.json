@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "tsc && node ./dist/app.js",
-    "start": "nodemon -e ts --exec \"npm run compile\""
+    "start": "nodemon -e ts --exec \"bun run compile || exit 0\""
   },
   "author": "",
   "license": "ISC",

@@ -31,6 +31,7 @@ export default function App() {
     queryKey: ["cats"],
     queryFn: () =>
       apiRequest(`cat/${userData?.userId}`, "GET", undefined, userData?.accessToken || ""),
+    enabled: userData !== null,
   });
   useEffect(() => {
     if (isSuccess && data) {
@@ -51,6 +52,7 @@ export default function App() {
   if (notLogin) {
     return <ReLogin />;
   }
+  console.log(data);
 
   return (
     <View className="flex-1 bg-snow">

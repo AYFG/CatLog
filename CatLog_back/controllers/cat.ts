@@ -41,16 +41,21 @@ export const createCat = async (req: Request, res: Response, next: NextFunction)
 export const getCat = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.params.userId;
-    const user = await User.findById(userId).populate("cats");
+    if (!userId) {
+      const error = new Error("사용자 ID가 필요합니다.") as CustomError;
+      error.statusCode = 400;
+      throw error;
+    }
 
-    if (!user) {
-      const error = new Error("사용자를 찾을 수 없습니다.") as CustomError;
+    const cats = await Cat.find({ owner: userId }).populate("medicalLogs");
+
+    if (!cats) {
+      const error = new Error("고양이를 찾을 수 없습니다.") as CustomError;
       error.statusCode = 404;
       throw error;
     }
-    res
-      .status(200)
-      .json({ ok: 1, message: "고양이 목록을 성공적으로 가져왔습니다.", cats: user.cats });
+
+    res.status(200).json({ ok: 1, message: "고양이 목록을 성공적으로 가져왔습니다.", cats: cats });
   } catch (err) {
     const error = err as CustomError;
     error.statusCode = error.statusCode || 500;

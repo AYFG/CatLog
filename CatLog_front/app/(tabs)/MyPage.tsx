@@ -6,7 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Button, Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Button, Image, ScrollView, Text, View } from "react-native";
 
 export default function MyPage() {
   const queryClient = useQueryClient();
@@ -51,8 +51,8 @@ export default function MyPage() {
                 <View className="mb-3">
                   <Link
                     href={{
-                      pathname: "/ChangeCat/[id]",
-                      params: { catId: v._id, name: v.name, birthDay: v.birthDate },
+                      pathname: "/ChangeCat/[catId]",
+                      params: { catId: v._id || "", name: v.name, birthDay: v.birthDate },
                     }}
                   >
                     <Text>정보 수정</Text>
@@ -62,6 +62,14 @@ export default function MyPage() {
               </View>
               <Text className="mb-4 text-center">{v.name}</Text>
               <Text className="text-center">{calculateAge(v.birthDate)}살</Text>
+              {v.medicalLogs && (
+                <>
+                  <Text>healthCheckupDate :{v.medicalLogs.healthCheckupDate}</Text>
+                  <Text>healthCycle : {v.medicalLogs.healthCycle}</Text>
+                  <Text>heartWorm : {v.medicalLogs.heartWorm}</Text>
+                  <Text>heartWormCycle : {v.medicalLogs.heartWormCycle}</Text>
+                </>
+              )}
             </View>
           ))}
         </View>

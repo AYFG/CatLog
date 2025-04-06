@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import MedicalLog from "../models/medicalLog.js";
 import Cat from "../models/cat.js";
+import User from "../models/user.js";
 import { CustomError } from "../types/error.js";
 
 export const createMedicalLog = async (req: Request, res: Response, next: NextFunction) => {
@@ -42,22 +43,12 @@ export const createMedicalLog = async (req: Request, res: Response, next: NextFu
         error.statusCode = 404;
         throw error;
       }
-      cat.medicalLogs.push(medicalLog._id);
+      cat.medicalLogs = medicalLog._id;
       await cat.save();
       console.log("2");
     }
 
     res.status(201).json({ ok: 1, message: "건강 관리 정보가 등록되었습니다.", medicalLog });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-};
-
-export const getMedicalLog = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = req.userId;
-    const { catId } = req.params;
   } catch (error) {
     console.error(error);
     next(error);
