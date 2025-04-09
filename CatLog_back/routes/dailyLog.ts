@@ -3,6 +3,6 @@ import * as dailyLog from "../controllers/dailyLog.js";
 
 const router = express.Router();
 
-router.post("/dailyLog", dailyLog.createDailyLog);
+router.post("/:catId", dailyLog.createDailyLog);
 
 export default router;

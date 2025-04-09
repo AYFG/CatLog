@@ -61,14 +61,16 @@ export default function MyPage() {
                 <Button title="삭제" onPress={() => deleteCatHandler(v._id)} />
               </View>
               <Text className="mb-4 text-center">{v.name}</Text>
-              <Text className="text-center">{calculateAge(v.birthDate)}살</Text>
-              {v.medicalLogs && (
-                <>
+              <Text className="mb-4 text-center">{calculateAge(v.birthDate)}살</Text>
+              {v.medicalLogs ? (
+                <View className="flex items-center">
                   <Text>healthCheckupDate :{v.medicalLogs.healthCheckupDate}</Text>
                   <Text>healthCycle : {v.medicalLogs.healthCycle}</Text>
                   <Text>heartWorm : {v.medicalLogs.heartWorm}</Text>
                   <Text>heartWormCycle : {v.medicalLogs.heartWormCycle}</Text>
-                </>
+                </View>
+              ) : (
+                <Text className="text-center">건강기록을 등록해주세요</Text>
               )}
             </View>
           ))}

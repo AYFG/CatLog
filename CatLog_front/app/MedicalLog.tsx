@@ -102,9 +102,9 @@ export default function MedicalLog() {
         </View>
         <View className="mb-2">
           <Text className="mb-4 font-bold">기록할 반려묘</Text>
-          <View className="flex flex-row items-center  pl-2 border-2 border-[#ddd] rounded-xl">
+          <View className="flex flex-row items-center pl-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
-              className="w-1/2"
+              className="w-full"
               placeholder="반려묘를 선택해주세요"
               value={selectedCat.name}
               onFocus={() => {
@@ -130,7 +130,7 @@ export default function MedicalLog() {
 
         <View className="mb-2">
           <Text className="mb-4 font-bold">건강검진 다녀온 날</Text>
-          <View className="flex flex-row items-center pl-2 border-2 border-[#ddd] rounded-xl">
+          <View className="flex flex-row items-center pl-4 py-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className=""
               value={healthCheckupDate.toISOString().split("T")[0]}
@@ -152,7 +152,7 @@ export default function MedicalLog() {
 
         <View className="mb-2">
           <Text className="mb-4 font-bold">건강검진 주기</Text>
-          <View className="flex flex-row items-center pl-2 border-2 border-[#ddd] rounded-xl">
+          <View className="flex flex-row items-center pl-4 py-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className="w-full"
               placeholder="몇 일 뒤에 건강검진을 갈지 작성해주세요"
@@ -168,7 +168,7 @@ export default function MedicalLog() {
 
         <View className="mb-2">
           <Text className="mb-4 font-bold">심장사상충 약</Text>
-          <View className="flex flex-row items-center pl-2 border-2 border-[#ddd] rounded-xl">
+          <View className="flex flex-row items-center pl-4 py-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               value={heartWorm.toISOString().split("T")[0]}
               onFocus={() => {
@@ -188,7 +188,7 @@ export default function MedicalLog() {
         </View>
         <View className="mb-2">
           <Text className="mb-4 font-bold">심장사상충 약 주기</Text>
-          <View className="flex flex-row items-center pl-2 border-2 border-[#ddd] rounded-xl">
+          <View className="flex flex-row items-center pl-4 py-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className="w-full"
               placeholder="몇 일 뒤에 심장사상충 약을 도포할지 작성해주세요"

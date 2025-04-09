@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const dailyLogSchema = new Schema({
     defecation: {
-        type: Boolean,
+        type: String,
         required: true,
     },
     vitamin: {
@@ -17,8 +17,15 @@ const dailyLogSchema = new Schema({
         type: String,
     },
     cat: {
-        type: Schema.Types.ObjectId,
-        ref: "Cat",
+        catId: {
+            type: Schema.Types.ObjectId,
+            ref: "Cat",
+            required: true,
+        },
+        catName: {
+            type: String,
+            required: true,
+        },
     },
     logDate: {
         type: String,

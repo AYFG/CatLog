@@ -39,6 +39,25 @@ export default function CalendarScreen() {
 
   const [selected, setSelected] = useState("");
 
+  const { data, isLoading, isError, isSuccess } = useQuery({
+    queryKey: ["cats"],
+    queryFn: () =>
+      apiRequest(`cat/${userData?.userId}`, "GET", undefined, userData?.accessToken || ""),
+    enabled: userData !== null,
+  });
+  useEffect(() => {
+    if (isSuccess && data) {
+      setCats(data.cats);
+    }
+  }, [data, isSuccess]);
+  if (isLoading) {
+    return (
+      <View className="items-center justify-center flex-1">
+        <ActivityIndicator size="large" color="#dbc0e7" />
+      </View>
+    );
+  }
+
   return (
     <View>
       <Calendar

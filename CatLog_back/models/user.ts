@@ -14,6 +14,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  refereshToken: {
+    type: String,
+  },
   cats: [
     {
       type: Schema.Types.ObjectId,
