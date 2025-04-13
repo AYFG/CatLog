@@ -22,12 +22,10 @@ export default function MedicalLog() {
   const [selectedCat, setSelectedCat] = useState({ name: "", id: "" });
 
   const [healthCheckupDate, setHealthCheckupDate] = useState(new Date());
-  console.log(healthCheckupDate.toISOString().split("T")[0]);
   const [healthCycle, setHealthCycle] = useState(0);
   const [healthCalendar, setHealthCalendar] = useState(false);
 
   const [heartWorm, setHeartWorm] = useState(new Date());
-  console.log(heartWorm.toISOString().split("T")[0]);
   const [heartWormCycle, setHeartWormCycle] = useState(0);
   const [heartWormCalendar, setHeartWormCalendar] = useState(false);
 

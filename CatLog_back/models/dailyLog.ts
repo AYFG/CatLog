@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const dailyLogSchema = new Schema({
   defecation: {
-    type: String,
+    type: Boolean,
     required: true,
   },
   vitamin: {
-    type: Date,
+    type: String,
     required: true,
   },
   weight: {

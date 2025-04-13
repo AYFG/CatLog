@@ -10,7 +10,7 @@ export const createDailyLog = async (req, res, next) => {
             error.statusCode = 400;
             throw error;
         }
-        let dailyLog = await DailyLog.findOne({ "cat.catId": catId });
+        let dailyLog = await DailyLog.findOne({ "cat.catId": catId, logDate: req.body.logDate });
         console.log(dailyLog);
         if (dailyLog) {
             dailyLog.defecation = defecation;
@@ -28,6 +28,7 @@ export const createDailyLog = async (req, res, next) => {
                 },
                 defecation,
                 vitamin,
+                weight,
                 etc,
                 logDate,
             });
@@ -51,7 +52,8 @@ export const createDailyLog = async (req, res, next) => {
 };
 export const getDailyLog = async (req, res, next) => {
     try {
-        const { logDate } = req.params;
+        const { logDate } = req.query;
+        console.log(logDate);
         if (!logDate) {
             const error = new Error("날짜가 필요합니다.");
             error.statusCode = 400;
