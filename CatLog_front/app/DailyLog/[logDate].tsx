@@ -4,11 +4,11 @@ import Checkbox from "expo-checkbox";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import logo from "../assets/images/splash-Image.png";
+import logo from "@/assets/images/splash-Image.png";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
@@ -20,20 +20,19 @@ export default function DailyLog() {
   const [vitaminTime, setVitaminTime] = useState<Date>(new Date());
   const [weight, setWeight] = useState(0);
   const [etc, setEtc] = useState("");
-  const [logDate, setLogDate] = useState("2024-04-15");
   const [show, setShow] = useState(false);
   const [selectedCat, setSelectedCat] = useState({ name: "", id: "" });
   const pickerRef = useRef<Picker<{ name: string; id: string }>>(null);
   const { cats } = useCatStore();
   const queryClient = useQueryClient();
+  const { logDate } = useLocalSearchParams<{ logDate: string }>();
+  console.log(logDate);
   const formattedTime = vitaminTime.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
   });
-  console.log(formattedTime);
 
-  console.log(selectedCat.name);
   useEffect(() => {
     const userData = getData("userData");
     userData.then((data) => {
@@ -67,7 +66,7 @@ export default function DailyLog() {
       apiRequest(`dailyLog/${selectedCat.id}`, "POST", dailyLog, token),
     onSuccess: (data) => {
       console.log(data);
-      queryClient.invalidateQueries({ queryKey: ["cats"] });
+      queryClient.invalidateQueries({ queryKey: ["dailyLog", logDate] });
       router.back();
     },
   });
@@ -76,7 +75,7 @@ export default function DailyLog() {
     mutation.mutate({
       cat: { catId: selectedCat.id, catName: selectedCat.name },
       defecation: defecation,
-      vitamin: vitaminTime,
+      vitamin: formattedTime,
       weight: weight,
       logDate: logDate,
       etc: etc,

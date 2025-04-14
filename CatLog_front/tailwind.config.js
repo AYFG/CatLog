@@ -12,6 +12,7 @@ module.exports = {
       azalea: "#fad1d8",
       jaggedIce: "#c9e6ee",
       snow: "#fffafa",
+      white: "#ffffff",
     },
   },
   plugins: [],

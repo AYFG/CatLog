@@ -1,6 +1,7 @@
-import { Tabs } from "expo-router";
+import { Link, Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { Pressable, Text } from "react-native";
 export default function RootLayout() {
   return (
     <Tabs
@@ -50,6 +51,14 @@ export default function RootLayout() {
               color={color}
               size={focused ? 27 : 24}
             />
+          ),
+          headerRight: () => (
+            <>
+              <Link href="/LogoutModal" className="ml-auto mr-4">
+                {/* <Ionicons name="log-out-outline" size={24} color="black" /> */}
+                <Text className="text-xl color-white">로그아웃</Text>
+              </Link>
+            </>
           ),
         }}
       />

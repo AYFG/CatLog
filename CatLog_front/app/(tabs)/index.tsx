@@ -75,11 +75,6 @@ export default function App() {
         </Pressable>
       </View>
       <View className="p-10 bg-prelude">
-        <Pressable onPress={() => router.push("/DailyLog")}>
-          <Text>데일리 로그 작성</Text>
-        </Pressable>
-      </View>
-      <View className="p-10 bg-prelude">
         <Pressable onPress={() => router.push("/MedicalLog")}>
           <Text>메디컬 로그 작성</Text>
         </Pressable>

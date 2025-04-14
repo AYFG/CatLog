@@ -5,13 +5,12 @@ export const createDailyLog = async (req, res, next) => {
         const { catId } = req.params;
         const { defecation, vitamin, weight, etc, logDate, cat } = req.body;
         const { catName } = cat;
-        if (!defecation || !vitamin || !weight || !etc || !logDate) {
+        if (defecation === undefined || !vitamin || !weight || !logDate) {
             const error = new Error("필수 입력값이 누락되었습니다.");
             error.statusCode = 400;
             throw error;
         }
         let dailyLog = await DailyLog.findOne({ "cat.catId": catId, logDate: req.body.logDate });
-        console.log(dailyLog);
         if (dailyLog) {
             dailyLog.defecation = defecation;
             dailyLog.vitamin = vitamin;
@@ -69,14 +68,17 @@ export const getDailyLog = async (req, res, next) => {
             path: "dailyLogs",
             match: { logDate: logDate },
         });
+        console.log(cats);
         if (!cats) {
             const error = new Error("고양이를 찾을 수 없습니다.");
             error.statusCode = 404;
             throw error;
         }
-        res
-            .status(200)
-            .json({ ok: 1, message: "일일 건강기록을 성공적으로 가져왔습니다.", cats: cats });
+        res.status(200).json({
+            ok: 1,
+            message: "일일 건강기록을 성공적으로 가져왔습니다.",
+            dailyLogs: cats.map((cat) => cat.dailyLogs).flat(),
+        });
     }
     catch (err) {
         const error = err;
