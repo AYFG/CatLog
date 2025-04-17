@@ -60,12 +60,12 @@ export default function MyCat() {
   return (
     <SafeAreaView className="flex-1 bg-snow">
       <View className="mx-6 ">
-        <View className="flex flex-row items-center mt-2 mb-6">
+        <View className="flex flex-row items-center mt-8 mb-6">
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="black" />
           </Pressable>
           <View className="items-center flex-1 mr-7">
-            <Text className="text-xl font-semibold">고양이 추가</Text>
+            <Text className="text-xl font-semibold ">반려묘 정보 저장</Text>
           </View>
         </View>
         <View className="mt-6 mb-2">

@@ -5,11 +5,11 @@ meta {
 }
 
 delete {
-  url: http://localhost:8080/cat/:catId
+  url: http://localhost:8080/cat/{{catId}}
   body: none
-  auth: none
+  auth: bearer
 }
 
-params:path {
-  catId: 
+auth:bearer {
+  token: {{token}}
 }

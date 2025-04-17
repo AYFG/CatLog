@@ -1,5 +1,7 @@
 import Cat from "../models/cat.js";
 import User from "../models/user.js";
+import dailyLog from "../models/dailyLog.js";
+import medicalLog from "../models/medicalLog.js";
 export const createCat = async (req, res, next) => {
     try {
         const { name, birthDate, owner } = req.body;
@@ -70,6 +72,8 @@ export const updateCat = async (req, res, next) => {
         cat.name = name;
         cat.birthDate = birthDate;
         await cat.save();
+        await dailyLog.updateMany({ "cat.catId": catId }, { $set: { "cat.catName": name } });
+        await medicalLog.updateMany({ "cat.catId": catId }, { $set: { "cat.catName": name } });
         res.status(201).json({ ok: 1, message: "고양이의 정보를 성공적으로 수정했습니다.", cat });
     }
     catch (err) {
@@ -90,7 +94,12 @@ export const deleteCat = async (req, res, next) => {
             throw error;
         }
         if (!user || cat.owner.toString() !== user._id.toString()) {
+            const error = new Error("삭제 권한이 없습니다.");
+            error.statusCode = 403;
+            throw error;
         }
+        await medicalLog.deleteMany({ "cat.catId": catId });
+        await dailyLog.deleteMany({ "cat.catId": catId });
         await Cat.findByIdAndDelete(catId);
         if (user) {
             user.cats = user.cats.filter((id) => id.toString() !== catId);

@@ -1,5 +1,7 @@
+import RouteButton from "@/components/RouteButton";
 import { useCatStore } from "@/store/useCatStore";
 import { calculateAge } from "@/utils/calculateAge";
+import { calculateNextDate } from "@/utils/calculateNextDate";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -40,7 +42,7 @@ export default function MyPage() {
         <View className="flex flex-row flex-wrap gap-10 ">
           {cats.length > 0 ? (
             cats?.map((v: CatData) => (
-              <View className="flex flex-col w-full border" key={v._id}>
+              <View className="flex flex-col w-full " key={v._id}>
                 <View className="flex items-center justify-center">
                   <Image
                     source={require("@/assets/images/testCat.png")}
@@ -63,21 +65,57 @@ export default function MyPage() {
                 {v.medicalLogs ? (
                   <View className="flex items-center gap-2">
                     <Text>건강검진 다녀온 날 :{v.medicalLogs.healthCheckupDate}</Text>
-                    <Text>다음 건강검진까지 : D-{v.medicalLogs.healthCycle}일</Text>
+                    <Text
+                      style={
+                        calculateNextDate(
+                          v.medicalLogs.healthCheckupDate,
+                          v.medicalLogs.healthCycle,
+                        ) > 0
+                          ? { color: "black" }
+                          : { color: "red" }
+                      }
+                    >
+                      다음 건강검진까지 : D-{" "}
+                      {calculateNextDate(
+                        v.medicalLogs.healthCheckupDate,
+                        v.medicalLogs.healthCycle,
+                      ) > 0
+                        ? calculateNextDate(
+                            v.medicalLogs.healthCheckupDate,
+                            v.medicalLogs.healthCycle,
+                          )
+                        : "예정일이 지났습니다"}
+                    </Text>
                     <Text>심장사상충 약 바른 날 : {v.medicalLogs.heartWorm}</Text>
-                    <Text>다음 심장사상충 약 바를 날 : D-{v.medicalLogs.heartWormCycle}일</Text>
+                    <Text
+                      style={
+                        calculateNextDate(v.medicalLogs.heartWorm, v.medicalLogs.heartWormCycle) > 0
+                          ? { color: "black" }
+                          : { color: "red" }
+                      }
+                    >
+                      다음 심장사상충 약 바를 날 : D-{" "}
+                      {calculateNextDate(
+                        v.medicalLogs.healthCheckupDate,
+                        v.medicalLogs.heartWormCycle,
+                      ) > 0
+                        ? calculateNextDate(
+                            v.medicalLogs.healthCheckupDate,
+                            v.medicalLogs.heartWormCycle,
+                          )
+                        : "예정일이 지났습니다"}
+                    </Text>
                   </View>
                 ) : (
-                  <Text className="text-center">건강기록을 등록해주세요</Text>
+                  <RouteButton
+                    children={`${v.name}의 건강검진 기록 등록하기`}
+                    routeHref="/MedicalLog"
+                  />
                 )}
               </View>
             ))
           ) : (
-            <View className="p-10 m-auto bg-prelude">
-              <Pressable onPress={() => router.push("/MyCat")}>
-                <Text className="text-center">반려묘를 등록해주세요</Text>
-              </Pressable>
-            </View>
+            <RouteButton children="반려묘를 등록해주세요" routeHref="/MyCat" />
           )}
         </View>
       </View>

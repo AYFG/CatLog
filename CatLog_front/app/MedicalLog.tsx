@@ -86,18 +86,16 @@ export default function MedicalLog() {
   return (
     <ScrollView className="flex-1 bg-snow">
       <View className="mx-6">
-        <SafeAreaView className="flex flex-row items-center mt-2 mb-6">
+        <SafeAreaView className="flex flex-row items-center mt-8 mb-6">
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="black" />
           </Pressable>
           <View className="items-center flex-1 mr-7">
-            <Image className="" source={logo} style={{ width: 60, height: 60 }} />
+            <Text className="mb-4 text-xl font-bold">메디컬 로그</Text>
           </View>
         </SafeAreaView>
 
-        <View className="mb-8">
-          <Text className="mb-4 text-xl font-bold">메디컬 로그</Text>
-        </View>
+        <View className="mb-8"></View>
         <View className="mb-2">
           <Text className="mb-4 font-bold">기록할 반려묘</Text>
           <View className="flex flex-row items-center pl-4 border-2 border-[#ddd] rounded-xl">

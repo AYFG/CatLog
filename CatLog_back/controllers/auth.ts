@@ -87,7 +87,8 @@ export const login = (req: SignupRequest, res: Response, next: NextFunction) => 
           userId: loadedUser._id.toString(),
         },
         `${AUTH_SECRET}`,
-        { expiresIn: "1d" },
+        // { expiresIn: "1d" },
+        { expiresIn: "1m" }, // refresh token 발급 로직 작성을 위해 1분으로 임시 설정
       );
       const refreshToken = jwt.sign(
         {
@@ -97,7 +98,10 @@ export const login = (req: SignupRequest, res: Response, next: NextFunction) => 
         `${AUTH_REFRESH_SECRET}`,
         { expiresIn: "7d" },
       );
-
+      req.refreshToken = refreshToken;
+      console.log("refreshToken", refreshToken);
+      loadedUser.refreshToken = refreshToken;
+      loadedUser.save();
       // console.log(jwt.verify(accessToken, AUTH_SECRET));
 
       res.status(200).json({
@@ -118,4 +122,40 @@ export const login = (req: SignupRequest, res: Response, next: NextFunction) => 
       }
       next(err);
     });
+};
+
+export const refresh = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const refreshToken = req.body.refreshToken;
+    if (!refreshToken) {
+      const error = new Error("refresh token이 없습니다.") as CustomError;
+      error.statusCode = 401;
+      throw error;
+    }
+    const user = await User.findOne({ refreshToken: refreshToken });
+    if (!user) {
+      const error = new Error(
+        "refresh token이 만료되었습니다. 다시 로그인 해주세요",
+      ) as CustomError;
+      error.statusCode = 401;
+      throw error;
+    }
+    const accessToken = jwt.sign(
+      {
+        email: user.email,
+        userId: user._id.toString(),
+      },
+      `${AUTH_SECRET}`,
+      { expiresIn: "1d" },
+    );
+    res.status(200).json({
+      ok: 1,
+      message: "access token을 재발급했습니다.",
+      accessToken: accessToken,
+    });
+  } catch (err) {
+    const error = err as CustomError;
+    error.statusCode = error.statusCode || 500;
+    next(error);
+  }
 };

@@ -33,6 +33,9 @@ export default function Login() {
         <SafeAreaView className="flex items-center mt-2 mb-8">
           <Image className="" source={logo} style={{ width: 60, height: 60 }} />
         </SafeAreaView>
+        <View className="mb-8">
+          <Text className="mb-4 text-xl font-bold">로그인</Text>
+        </View>
 
         <View className="mb-2">
           <Text className="mb-4 font-bold">이메일</Text>

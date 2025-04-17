@@ -14,8 +14,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  refereshToken: {
+  refreshToken: {
     type: String,
+    required: true,
   },
   cats: [
     {

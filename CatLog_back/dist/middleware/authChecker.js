@@ -11,7 +11,7 @@ export const authChecker = (req, res, next) => {
     let decodedToken;
     try {
         if (!AUTH_SECRET) {
-            throw new Error("인증에 실패했습니다.");
+            throw new Error("서버 에러");
         }
         decodedToken = jwt.verify(token, AUTH_SECRET);
     }
@@ -25,7 +25,7 @@ export const authChecker = (req, res, next) => {
         error.statusCode = 401;
         throw error;
     }
-    if (typeof decodedToken !== "string") {
+    if (typeof decodedToken === "object") {
         req.userId = decodedToken.userId;
     }
     next();

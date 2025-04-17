@@ -12,21 +12,43 @@ import logo from "@/assets/images/splash-Image.png";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function DailyLog() {
   const router = useRouter();
+  const {
+    catIdParams,
+    catNameParams,
+    logDate,
+    defecationParams,
+    vitaminParams,
+    weightParams,
+    etcParams,
+  } = useLocalSearchParams<{
+    catIdParams: string;
+    catNameParams: string;
+    logDate: string;
+    defecationParams: string;
+    vitaminParams: string;
+    weightParams: string;
+    etcParams: string;
+  }>();
+
+  console.log(catNameParams, typeof defecationParams, vitaminParams, weightParams, etcParams);
   const [token, setToken] = useState("");
-  const [defecation, setDefecation] = useState(true);
+  const [defecation, setDefecation] = useState<boolean>(defecationParams === "true" || true);
   const [vitaminTime, setVitaminTime] = useState<Date>(new Date());
-  const [weight, setWeight] = useState(0);
-  const [etc, setEtc] = useState("");
+  const [weight, setWeight] = useState(weightParams || "0");
+  const [etc, setEtc] = useState(etcParams || "");
   const [show, setShow] = useState(false);
-  const [selectedCat, setSelectedCat] = useState({ name: "", id: "" });
+  const [selectedCat, setSelectedCat] = useState({
+    name: catNameParams || "",
+    id: catIdParams || "",
+  });
   const pickerRef = useRef<Picker<{ name: string; id: string }>>(null);
   const { cats } = useCatStore();
   const queryClient = useQueryClient();
-  const { logDate } = useLocalSearchParams<{ logDate: string }>();
-  console.log(logDate);
+
   const formattedTime = vitaminTime.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
@@ -70,7 +92,12 @@ export default function DailyLog() {
       router.back();
     },
   });
-
+  const handleWeightInput = (text: string) => {
+    const formatted = text.replace(/[^0-9.]/g, "");
+    const parts = formatted.split(".");
+    if (parts.length > 2) return;
+    setWeight(formatted);
+  };
   const handleSubmit = () => {
     mutation.mutate({
       cat: { catId: selectedCat.id, catName: selectedCat.name },
@@ -84,26 +111,25 @@ export default function DailyLog() {
 
   return (
     <ScrollView className="flex-1 bg-snow">
-      <View className="mx-6">
-        <SafeAreaView className="flex flex-row items-center mt-2 mb-6">
+      <View className="mx-6 mt-2 ">
+        <SafeAreaView className="flex flex-row items-center mt-8 mb-6">
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="black" />
           </Pressable>
           <View className="items-center flex-1 mr-7">
-            <Image className="" source={logo} style={{ width: 60, height: 60 }} />
+            <Text className="text-xl font-bold ">{logDate}</Text>
+            <Text className="text-xl font-bold "> 건강 기록</Text>
           </View>
         </SafeAreaView>
 
-        <View className="mb-8">
-          <Text className="mb-4 text-xl font-bold">데일리로그</Text>
-        </View>
+        <View className="mb-8"></View>
         <View className="mb-2">
           <Text className="mb-4 font-bold">기록할 반려묘</Text>
           <View className="flex flex-row items-center  justify-between p-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className="w-full"
               placeholder="반려묘를 선택해주세요"
-              value={selectedCat.name}
+              value={catNameParams || selectedCat.name}
               onFocus={() => {
                 open();
               }}
@@ -174,8 +200,9 @@ export default function DailyLog() {
           <TextInput
             className="py-4 pl-6 border-2 border-[#ddd] rounded-xl"
             placeholder=""
+            keyboardType="numeric"
             value={weight.toString()}
-            onChangeText={(text) => setWeight(Number(text))}
+            onChangeText={handleWeightInput}
           />
         </View>
 
@@ -189,11 +216,7 @@ export default function DailyLog() {
           />
         </View>
 
-        <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-          <Pressable onPress={handleSubmit}>
-            <Text className="text-snow">저장하기</Text>
-          </Pressable>
-        </View>
+        <SubmitButton children="저장하기" handleSubmit={handleSubmit} />
       </View>
     </ScrollView>
   );

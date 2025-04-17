@@ -4,7 +4,7 @@ interface DailyLogData {
     catName: string;
   };
   defecation: boolean;
-  weight: number;
+  weight: string;
   vitamin: string;
   etc: string;
   logDate: string;
