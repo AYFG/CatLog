@@ -20,4 +20,5 @@ router.post("/signup", [
     body("password").trim().isLength({ min: 5 }),
 ], (req, res, next) => authController.signup(req, res, next));
 router.post("/login", authController.login);
+router.post("/refresh", authController.refresh);
 export default router;

@@ -23,6 +23,11 @@ export const authChecker = (req: Request, res: Response, next: NextFunction) => 
   } catch (err) {
     const error = err as CustomError;
     error.statusCode = 500;
+    if (error.message === "jwt expired") {
+      error.statusCode = 401;
+      error.message = "토큰이 만료되었습니다.";
+      return next(error);
+    }
     return next(error);
   }
   if (!decodedToken) {

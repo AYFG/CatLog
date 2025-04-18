@@ -45,7 +45,7 @@ export default function CalendarScreen() {
   const [selected, setSelected] = useState("");
   const [userData, setUserData] = useState<UserData | null>(null);
   const [logDate, setLogDate] = useState(new Date().toISOString().split("T")[0]);
-
+  console.log(userData);
   useEffect(() => {
     const fetchUserData = async () => {
       const storedUserData = await getData("userData");
@@ -60,6 +60,7 @@ export default function CalendarScreen() {
       apiRequest(`dailyLog?logDate=${logDate}`, "GET", undefined, userData?.accessToken || ""),
     enabled: userData !== null,
   });
+
   console.log(data);
 
   console.log(logDate);

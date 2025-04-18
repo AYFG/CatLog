@@ -96,13 +96,16 @@ export const login = (req: SignupRequest, res: Response, next: NextFunction) => 
           userId: loadedUser._id.toString(),
         },
         `${AUTH_REFRESH_SECRET}`,
-        { expiresIn: "7d" },
+        // { expiresIn: "7d" },
+        { expiresIn: "1m" }, // refresh Token 마저 만료되었을 때를 가정해 1분으로 임시 설정
       );
-      req.refreshToken = refreshToken;
-      console.log("refreshToken", refreshToken);
+
+      if (!AUTH_REFRESH_SECRET) {
+        throw new Error("AUTH_REFRESH_SECRET is not defined.");
+      }
+
       loadedUser.refreshToken = refreshToken;
       loadedUser.save();
-      // console.log(jwt.verify(accessToken, AUTH_SECRET));
 
       res.status(200).json({
         ok: 1,
@@ -117,6 +120,9 @@ export const login = (req: SignupRequest, res: Response, next: NextFunction) => 
       });
     })
     .catch((err) => {
+      if (err.name === "TokenExpiredError") {
+        err.statusCode = 401;
+      }
       if (!err.statusCode) {
         err.statusCode = 500;
       }
@@ -127,17 +133,20 @@ export const login = (req: SignupRequest, res: Response, next: NextFunction) => 
 export const refresh = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const refreshToken = req.body.refreshToken;
+
     if (!refreshToken) {
       const error = new Error("refresh token이 없습니다.") as CustomError;
       error.statusCode = 401;
       throw error;
     }
     const user = await User.findOne({ refreshToken: refreshToken });
+
     if (!user) {
       const error = new Error(
         "refresh token이 만료되었습니다. 다시 로그인 해주세요",
       ) as CustomError;
       error.statusCode = 401;
+      error.name = "RefreshTokenExpired";
       throw error;
     }
     const accessToken = jwt.sign(
@@ -146,7 +155,8 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
         userId: user._id.toString(),
       },
       `${AUTH_SECRET}`,
-      { expiresIn: "1d" },
+      // { expiresIn: "1d" },
+      { expiresIn: "1m" }, //refresh Token 만료 테스트를 위한 accessToken 임시 1분 설정
     );
     res.status(200).json({
       ok: 1,
@@ -155,6 +165,17 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
     });
   } catch (err) {
     const error = err as CustomError;
+
+    if (error.name == "TokenExpiredError") {
+      const refreshToken = req.body.refreshToken;
+      const verifyRefresh = jwt.verify(refreshToken, AUTH_REFRESH_SECRET!);
+      error.statusCode = 401;
+      console.log("verifyRefresh");
+      console.log(verifyRefresh);
+      // error.message = "refresh token이 만료되었습니다. 다시 로그인 해주세요";
+      // error.name = "RefreshTokenExpired";
+      next(error);
+    }
     error.statusCode = error.statusCode || 500;
     next(error);
   }

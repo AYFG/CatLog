@@ -16,15 +16,19 @@ export default function ChangeCat() {
   const [show, setShow] = useState(false);
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
-
+  const [userData, setUserData] = useState<any>(null);
   useEffect(() => {
     const fetchUserData = async () => {
-      const userData = await getData("userData");
-      setToken(userData?.accessToken || null);
+      const data = await getData("userData");
+      setUserData(data);
     };
     fetchUserData();
   }, []);
-
+  useEffect(() => {
+    if (userData) {
+      setToken(userData.accessToken || null);
+    }
+  }, [userData]);
   const formatDate = (date: string) => date?.split("T")[0];
 
   const handleChange = (event: object, selectedDate?: Date) => {

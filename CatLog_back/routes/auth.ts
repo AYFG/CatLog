@@ -36,5 +36,6 @@ router.post(
 );
 
 router.post("/login", authController.login);
+router.post("/refresh", authController.refresh);
 
 export default router;
