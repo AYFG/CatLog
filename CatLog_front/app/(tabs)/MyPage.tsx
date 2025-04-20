@@ -4,11 +4,10 @@ import { calculateAge } from "@/utils/calculateAge";
 import { calculateNextDate } from "@/utils/calculateNextDate";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Button, Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Button, Image, ScrollView, Text, View } from "react-native";
 
 export default function MyPage() {
   const router = useRouter();
@@ -18,11 +17,25 @@ export default function MyPage() {
   useEffect(() => {
     const getUserData = async () => {
       const data = await getData("userData");
-      setUserData(data);
+      if (!data) {
+        router.replace("/Login");
+      } else {
+        setUserData(data);
+      }
     };
     getUserData();
   }, []);
-
+  useEffect(() => {
+    const fetchData = async () => {
+      const storedUserData = await getData("userData");
+      if (storedUserData == null) {
+        router.replace("/Login");
+      } else {
+        setUserData(storedUserData);
+      }
+    };
+    fetchData();
+  }, []);
   const mutation = useMutation({
     mutationFn: (catId: CatData["_id"]) =>
       apiRequest(`cat/${catId}`, "DELETE", undefined, userData?.accessToken),

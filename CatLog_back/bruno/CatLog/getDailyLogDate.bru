@@ -1,0 +1,15 @@
+meta {
+  name: getDailyLogDate
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://localhost:8080/dailyLog/everyLogDates
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

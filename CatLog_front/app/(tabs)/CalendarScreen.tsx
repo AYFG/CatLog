@@ -1,8 +1,8 @@
 import RouteButton from "@/components/RouteButton";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "expo-router";
+import { useQueries } from "@tanstack/react-query";
+import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
@@ -43,37 +43,65 @@ export default function CalendarScreen() {
   LocaleConfig.defaultLocale = "ko";
 
   const [selected, setSelected] = useState("");
+  const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [logDate, setLogDate] = useState(new Date().toISOString().split("T")[0]);
+  const [markedDates, setMarkedDates] = useState({});
   console.log(userData);
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchData = async () => {
       const storedUserData = await getData("userData");
-      setUserData(storedUserData);
+      if (storedUserData == null) {
+        router.replace("/Login");
+      } else {
+        setUserData(storedUserData);
+      }
     };
-    fetchUserData();
+    fetchData();
   }, []);
 
-  const { data, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ["dailyLog", logDate],
-    queryFn: () =>
-      apiRequest(`dailyLog?logDate=${logDate}`, "GET", undefined, userData?.accessToken || ""),
-    enabled: userData !== null,
+  const [getDailyLog, getEveryDate] = useQueries({
+    queries: [
+      {
+        queryKey: ["dailyLog", logDate],
+        queryFn: () =>
+          apiRequest(`dailyLog?logDate=${logDate}`, "GET", undefined, userData?.accessToken || ""),
+        enabled: userData !== null,
+      },
+      {
+        queryKey: ["dailyLog"],
+        queryFn: () =>
+          apiRequest(`dailyLog/everyLogDates`, "GET", undefined, userData?.accessToken || ""),
+        enabled: userData !== null,
+      },
+    ],
   });
 
-  console.log(data);
+  const [date, setDate] = useState<string[]>([]);
+  useEffect(() => {
+    if (getEveryDate.isSuccess) {
+      setDate(getEveryDate.data.everyLogDates);
+    }
+  }, [getEveryDate]);
 
-  console.log(logDate);
+  useEffect(() => {
+    const updatedMarkedDates: Record<string, { marked: boolean }> = {};
+    date?.forEach((v) => {
+      updatedMarkedDates[v] = { marked: true };
+    });
+    setMarkedDates(updatedMarkedDates);
+  }, [date]);
+
   return (
     <ScrollView className="p-4 ">
       <Calendar
         onDayPress={(day) => {
           setLogDate(day.dateString);
+          setSelected(day.dateString);
         }}
         markedDates={{
+          ...markedDates,
           [selected]: { selected: true, disableTouchEvent: true },
-          "2025-04-05": { marked: true, selectedColor: "orange" },
-          selected: { marked: true, selectedColor: "orange" },
         }}
         style={{
           height: 350,
@@ -87,16 +115,16 @@ export default function CalendarScreen() {
           selectedDayTextColor: "#ffffff",
           todayTextColor: "#00adf5",
           dayTextColor: "#2d4150",
-          textDisabledColor: "#dd99ee",
+          textDisabledColor: "#d9e1e8",
         }}
       />
       <View className="flex items-center justify-center p-4 mt-5 bg-white bg-gray-100 rounded-lg ">
         <Text className="mt-5 mb-5 text-lg font-bold text-purple-700">{logDate}</Text>
 
         <View className="items-center">
-          {isSuccess &&
-            data?.dailyLogs?.length > 0 &&
-            data?.dailyLogs?.map((dailyLog: DailyLogData) => (
+          {getDailyLog.isSuccess &&
+            getDailyLog?.data?.dailyLogs?.length > 0 &&
+            getDailyLog?.data?.dailyLogs?.map((dailyLog: DailyLogData) => (
               <View
                 key={dailyLog.cat.catId}
                 className="flex flex-row flex-wrap items-center justify-center gap-3 p-3 mt-2 mb-4 bg-white border-2 border-[#ddd] rounded-md"
@@ -138,7 +166,7 @@ export default function CalendarScreen() {
                 </View>
               </View>
             ))}
-          {data?.dailyLogs?.length === 0 ? (
+          {getDailyLog?.data?.dailyLogs?.length === 0 ? (
             <>
               <Link
                 href={{ pathname: "/DailyLog/[logDate]", params: { logDate } }}
@@ -164,7 +192,7 @@ export default function CalendarScreen() {
           )}
         </View>
 
-        {isLoading && (
+        {getDailyLog.isLoading && (
           <View className="absolute">
             <ActivityIndicator size="large" color="#dbc0e7" />
           </View>

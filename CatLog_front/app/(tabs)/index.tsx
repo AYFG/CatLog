@@ -1,13 +1,12 @@
 import "@/global.css";
+import { useCatStore } from "@/store/useCatStore";
+import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
-import { Link, useRouter } from "expo-router";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
-import Rive from "rive-react-native";
 import ReLogin from "../ReLogin";
-import { useQuery } from "@tanstack/react-query";
-import { apiRequest } from "@/utils/fetchApi";
-import { useCatStore } from "@/store/useCatStore";
 
 export default function App() {
   const router = useRouter();
@@ -18,7 +17,7 @@ export default function App() {
     const fetchData = async () => {
       const storedUserData = await getData("userData");
       if (storedUserData == null) {
-        router.push("/Login");
+        router.replace("/Login");
       } else {
         setUserData(storedUserData);
         setNotLogin(false);

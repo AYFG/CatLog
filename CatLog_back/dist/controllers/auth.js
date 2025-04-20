@@ -1,5 +1,5 @@
-import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
+import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 const AUTH_SECRET = process.env.AUTH_SECRET;
@@ -59,15 +59,11 @@ export const login = (req, res, next) => {
         const accessToken = jwt.sign({
             email: loadedUser.email,
             userId: loadedUser._id.toString(),
-        }, `${AUTH_SECRET}`, 
-        // { expiresIn: "1d" },
-        { expiresIn: "1m" });
+        }, `${AUTH_SECRET}`, { expiresIn: "1d" });
         const refreshToken = jwt.sign({
             email: loadedUser.email,
             userId: loadedUser._id.toString(),
-        }, `${AUTH_REFRESH_SECRET}`, 
-        // { expiresIn: "7d" },
-        { expiresIn: "1m" });
+        }, `${AUTH_REFRESH_SECRET}`, { expiresIn: "14d" });
         if (!AUTH_REFRESH_SECRET) {
             throw new Error("AUTH_REFRESH_SECRET is not defined.");
         }
@@ -113,9 +109,7 @@ export const refresh = async (req, res, next) => {
         const accessToken = jwt.sign({
             email: user.email,
             userId: user._id.toString(),
-        }, `${AUTH_SECRET}`, 
-        // { expiresIn: "1d" },
-        { expiresIn: "1m" });
+        }, `${AUTH_SECRET}`, { expiresIn: "1d" });
         res.status(200).json({
             ok: 1,
             message: "access token을 재발급했습니다.",
@@ -130,8 +124,8 @@ export const refresh = async (req, res, next) => {
             error.statusCode = 401;
             console.log("verifyRefresh");
             console.log(verifyRefresh);
-            // error.message = "refresh token이 만료되었습니다. 다시 로그인 해주세요";
-            // error.name = "RefreshTokenExpired";
+            error.message = "refresh token이 만료되었습니다. 다시 로그인 해주세요";
+            error.name = "RefreshTokenExpired";
             next(error);
         }
         error.statusCode = error.statusCode || 500;

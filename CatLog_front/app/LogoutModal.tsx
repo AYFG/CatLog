@@ -1,14 +1,17 @@
 import { removeData } from "@/utils/storage";
+import { useQueryClient } from "@tanstack/react-query";
 import { Link, useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";
 
 export default function Modal() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleLogout = () => {
     removeData("userData");
-    router.push("/Login");
+    queryClient.clear();
+    router.dismissTo("/Login");
   };
   return (
     <Animated.View className="items-center justify-center flex-1 bg-[#00000040]" entering={FadeIn}>
