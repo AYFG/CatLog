@@ -5,28 +5,48 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Image } from "expo-image";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import logo from "../assets/images/splash-Image.png";
 
 export default function MedicalLog() {
   const router = useRouter();
   const { cats } = useCatStore();
   const queryClient = useQueryClient();
+
+  const {
+    catId,
+    nameParams,
+    healthDateParams,
+    healthCycleParams,
+    heartWormParams,
+    heartWormCycleParams,
+  } = useLocalSearchParams();
+
+  console.log(nameParams);
   const pickerRef = useRef<Picker<{ name: string; id: string }>>(null);
   const [token, setToken] = useState("");
 
-  const [selectedCat, setSelectedCat] = useState({ name: "", id: "" });
+  const [selectedCat, setSelectedCat] = useState({
+    name: (nameParams && nameParams.toString()) || "",
+    id: (catId && catId.toString()) || "",
+  });
 
-  const [healthCheckupDate, setHealthCheckupDate] = useState(new Date());
-  const [healthCycle, setHealthCycle] = useState(0);
+  const [healthCheckupDate, setHealthCheckupDate] = useState(
+    (healthDateParams && new Date(healthDateParams.toString())) || new Date(),
+  );
+  const [healthCycle, setHealthCycle] = useState(
+    (healthCycleParams && parseInt(healthCycleParams.toString())) || 0,
+  );
   const [healthCalendar, setHealthCalendar] = useState(false);
 
-  const [heartWorm, setHeartWorm] = useState(new Date());
-  const [heartWormCycle, setHeartWormCycle] = useState(0);
+  const [heartWorm, setHeartWorm] = useState(
+    (heartWormParams && new Date(heartWormParams.toString())) || new Date(),
+  );
+  const [heartWormCycle, setHeartWormCycle] = useState(
+    (heartWormCycleParams && parseInt(heartWormCycleParams.toString())) || 0,
+  );
   const [heartWormCalendar, setHeartWormCalendar] = useState(false);
 
   useEffect(() => {
@@ -73,10 +93,19 @@ export default function MedicalLog() {
       router.back();
     },
   });
-  console.log(selectedCat.name);
+
   const handleSubmit = () => {
+    if (selectedCat.name === "") {
+      return Alert.alert("", "기록할 반려묘를 선택해주세요");
+    }
+    if (healthCycle === 0) {
+      return Alert.alert("", "다음 건강검진을 갈 주기를 입력해주세요.");
+    }
+    if (heartWormCycle === 0) {
+      return Alert.alert("", "다음 심장사상충 약을 바를 주기를 입력해주세요.");
+    }
     mutation.mutate({
-      cat: { catId: selectedCat.id, catName: selectedCat.name },
+      cat: { catId: selectedCat.id, catName: selectedCat.name.toString() },
       healthCheckupDate: healthCheckupDate.toISOString().split("T")[0],
       healthCycle: healthCycle,
       heartWorm: heartWorm.toISOString().split("T")[0],
@@ -95,14 +124,13 @@ export default function MedicalLog() {
           </View>
         </SafeAreaView>
 
-        <View className="mb-8"></View>
         <View className="mb-2">
           <Text className="mb-4 font-bold">기록할 반려묘</Text>
           <View className="flex flex-row items-center pl-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className="w-full"
               placeholder="반려묘를 선택해주세요"
-              value={selectedCat.name}
+              value={selectedCat.name.toString()}
               onFocus={() => {
                 open();
               }}
@@ -129,11 +157,11 @@ export default function MedicalLog() {
           <View className="flex flex-row items-center pl-4 py-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className=""
+              placeholder={healthCheckupDate.toISOString().split("T")[0]}
               value={healthCheckupDate.toISOString().split("T")[0]}
               onFocus={() => {
                 setHealthCalendar(true);
               }}
-              onChangeText={() => {}}
             />
             {healthCalendar && (
               <RNDateTimePicker
@@ -151,7 +179,7 @@ export default function MedicalLog() {
           <View className="flex flex-row items-center pl-4 py-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className="w-full"
-              placeholder="몇 일 뒤에 건강검진을 갈지 작성해주세요"
+              placeholder={healthCycle.toString()}
               keyboardType="number-pad"
               value={healthCycle.toString()}
               onChangeText={(cycle) => {
@@ -166,6 +194,7 @@ export default function MedicalLog() {
           <Text className="mb-4 font-bold">심장사상충 약</Text>
           <View className="flex flex-row items-center pl-4 py-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
+              placeholder={heartWorm.toISOString().split("T")[0]}
               value={heartWorm.toISOString().split("T")[0]}
               onFocus={() => {
                 setHeartWormCalendar(true);
@@ -187,9 +216,9 @@ export default function MedicalLog() {
           <View className="flex flex-row items-center pl-4 py-4 border-2 border-[#ddd] rounded-xl">
             <TextInput
               className="w-full"
-              placeholder="몇 일 뒤에 심장사상충 약을 도포할지 작성해주세요"
               keyboardType="number-pad"
               value={heartWormCycle.toString()}
+              placeholder={heartWormCycle.toString()}
               onChangeText={(cycle) => setHeartWormCycle(Number(cycle) || 0)}
               maxLength={3}
             />
@@ -197,8 +226,8 @@ export default function MedicalLog() {
         </View>
 
         <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-          <Pressable onPress={handleSubmit}>
-            <Text className="text-snow">저장하기</Text>
+          <Pressable onPress={handleSubmit} disabled={mutation.isPending}>
+            <Text className="text-snow">{mutation.isPending ? "저장 중..." : "저장하기"}</Text>
           </Pressable>
         </View>
       </View>

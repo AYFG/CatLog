@@ -15,8 +15,20 @@ export default function RootLayout() {
           name="LogoutModal"
           options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
         />
+        <Stack.Screen
+          name="EditCatModal"
+          options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
+        />
+        <Stack.Screen
+          name="DeleteCatModal"
+          options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
+        />
+        <Stack.Screen
+          name="EditCalendarModal"
+          options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
+        />
         <Stack.Screen name="Signup" options={{ headerShown: false }} />
-        <Stack.Screen name="MyCat" options={{ headerShown: false }} />
+        <Stack.Screen name="CreateCat" options={{ headerShown: false }} />
         <Stack.Screen name="DailyLog/[logDate]" options={{ headerShown: false }} />
         <Stack.Screen name="ChangeCat/[catId]" options={{ headerShown: false }} />
         <Stack.Screen name="MedicalLog" options={{ headerShown: false }} />

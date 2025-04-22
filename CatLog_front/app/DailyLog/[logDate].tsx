@@ -8,7 +8,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DailyLog() {
@@ -96,6 +96,12 @@ export default function DailyLog() {
     setWeight(formatted);
   };
   const handleSubmit = () => {
+    if (selectedCat.name == "") {
+      return Alert.alert("", "기록할 반려묘를 선택해주세요");
+    }
+    if (weight == "0") {
+      return Alert.alert("", "반려묘의 체중을 기록해주세요");
+    }
     mutation.mutate({
       cat: { catId: selectedCat.id, catName: selectedCat.name },
       defecation: defecation,
@@ -119,7 +125,6 @@ export default function DailyLog() {
           </View>
         </SafeAreaView>
 
-        <View className="mb-8"></View>
         <View className="mb-2">
           <Text className="mb-4 font-bold">기록할 반려묘</Text>
           <View className="flex flex-row items-center  justify-between p-4 border-2 border-[#ddd] rounded-xl">
@@ -152,20 +157,24 @@ export default function DailyLog() {
           <Text className="mb-4 font-bold">대변 상태</Text>
           <View className="flex flex-row items-center justify-center gap-24 p-4 border-2 border-[#ddd] rounded-xl">
             <Pressable
-              className={`p-4 border rounded-lg ${defecation ? "bg-wePeep" : ""}`}
+              className={`border-[#ddd] border-2 p-4 rounded-lg ${
+                defecation ? " bg-prelude " : ""
+              }`}
               onPress={() => {
                 setDefecation(true);
               }}
             >
-              <Text>좋았어요</Text>
+              <Text className={`${defecation && "text-snow font-extrabold"}`}>좋았어요</Text>
             </Pressable>
             <Pressable
-              className={`p-4 border rounded-lg ${!defecation ? "bg-wePeep" : ""}`}
+              className={`border-[#ddd] border-2 p-4 rounded-lg ${
+                !defecation ? " bg-prelude " : ""
+              }`}
               onPress={() => {
                 setDefecation(false);
               }}
             >
-              <Text>좋지 않았어요</Text>
+              <Text className={`${!defecation && "text-snow font-extrabold"}`}>좋지 않았어요</Text>
             </Pressable>
           </View>
         </View>
@@ -196,9 +205,9 @@ export default function DailyLog() {
           <Text className="mb-4 font-bold">체중</Text>
           <TextInput
             className="py-4 pl-6 border-2 border-[#ddd] rounded-xl"
-            placeholder=""
-            keyboardType="numeric"
+            placeholder={weight.toString()}
             value={weight.toString()}
+            keyboardType="numeric"
             onChangeText={handleWeightInput}
           />
         </View>

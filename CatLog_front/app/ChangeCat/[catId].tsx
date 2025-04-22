@@ -9,9 +9,9 @@ import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ChangeCat() {
-  const { catId, name, birthDay } = useLocalSearchParams();
+  const { catId, nameParams, birthDay } = useLocalSearchParams();
   const queryClient = useQueryClient();
-  const [catName, setCatName] = useState(name as CatData["name"]);
+  const [catName, setCatName] = useState(nameParams as CatData["name"]);
   const [birthDate, setBirthDate] = useState(birthDay as CatData["birthDate"]);
   const [show, setShow] = useState(false);
   const router = useRouter();

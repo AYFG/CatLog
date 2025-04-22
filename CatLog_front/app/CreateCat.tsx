@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function MyCat() {
+export default function CreateCat() {
   const queryClient = useQueryClient();
   const [catName, setCatName] = useState("");
   const [birthDate, setBirthDate] = useState(new Date());
@@ -38,13 +38,9 @@ export default function MyCat() {
       const userData = await getData("userData");
       return apiRequest("cat", "POST", newCat, userData?.accessToken || "");
     },
-    onSuccess: (data) => {
-      console.log("고양이가 등록되었습니다:", data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cats"] });
       router.back();
-    },
-    onError: (error) => {
-      console.error("고양이 등록 실패:", error);
     },
   });
 
@@ -68,41 +64,43 @@ export default function MyCat() {
             <Text className="text-xl font-semibold ">반려묘 정보 저장</Text>
           </View>
         </View>
-        <View className="mt-6 mb-2">
-          <Text className="mb-4 font-bold">이름</Text>
+        <View className="">
+          <View className="mt-6 mb-2 ">
+            <Text className="mb-4 font-bold">이름</Text>
+            <TextInput
+              className="p-4 border-2 border-[#ddd] rounded-xl"
+              placeholder="이름을 입력해주세요"
+              onChangeText={(text) => setCatName(text)}
+              value={catName}
+            />
+          </View>
+          <Text className="mb-4 font-bold">생일</Text>
+
           <TextInput
             className="p-4 border-2 border-[#ddd] rounded-xl"
-            placeholder="이름을 입력해주세요"
-            onChangeText={(text) => setCatName(text)}
-            value={catName}
+            placeholder={formatDate(birthDate)}
+            value={formatDate(birthDate)}
+            onFocus={() => {
+              setShow(true);
+            }}
+            onChangeText={() => {}}
           />
-        </View>
-        <Text className="mb-4 font-bold">생일</Text>
 
-        <TextInput
-          className="p-4 border-2 border-[#ddd] rounded-xl"
-          placeholder={formatDate(birthDate)}
-          value={formatDate(birthDate)}
-          onFocus={() => {
-            setShow(true);
-          }}
-          onChangeText={() => {}}
-        />
-
-        <View>
-          {show && (
-            <DateTimePicker
-              value={birthDate}
-              mode="date"
-              display="default"
-              onChange={handleChange}
-            />
-          )}
-        </View>
-        <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-          <Pressable onPress={handleSubmit} disabled={mutation.isPending}>
-            <Text className="text-snow">{mutation.isPending ? "처리 중..." : "확인"}</Text>
-          </Pressable>
+          <View>
+            {show && (
+              <DateTimePicker
+                value={birthDate}
+                mode="date"
+                display="default"
+                onChange={handleChange}
+              />
+            )}
+          </View>
+          <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
+            <Pressable onPress={handleSubmit} disabled={mutation.isPending}>
+              <Text className="text-snow">{mutation.isPending ? "처리 중..." : "확인"}</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </SafeAreaView>

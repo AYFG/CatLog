@@ -55,7 +55,6 @@ export default function RootLayout() {
           headerRight: () => (
             <>
               <Link href="/LogoutModal" className="ml-auto mr-4">
-                {/* <Ionicons name="log-out-outline" size={24} color="black" /> */}
                 <Text className="text-xl color-white">로그아웃</Text>
               </Link>
             </>

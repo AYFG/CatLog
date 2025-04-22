@@ -1,6 +1,7 @@
 import RouteButton from "@/components/RouteButton";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useQueries } from "@tanstack/react-query";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -93,7 +94,7 @@ export default function CalendarScreen() {
   }, [date]);
 
   return (
-    <ScrollView className="p-4 ">
+    <ScrollView className="p-4 bg-snow">
       <Calendar
         onDayPress={(day) => {
           setLogDate(day.dateString);
@@ -134,7 +135,7 @@ export default function CalendarScreen() {
                     <Text className="text-2xl font-bold ">{dailyLog.cat.catName}</Text>
                     <Text className="text-2xl font-medium">의 건강 기록</Text>
                   </View>
-
+                  {/* 
                   <Link
                     className="p-2 rounded-lg bg-prelude"
                     href={{
@@ -151,6 +152,22 @@ export default function CalendarScreen() {
                     }}
                   >
                     <Text className="text-lg font-semiBold text-snow">수정하기</Text>
+                  </Link> */}
+                  <Link
+                    href={{
+                      pathname: "/EditCalendarModal",
+                      params: {
+                        logDate,
+                        catIdParams: dailyLog.cat.catId,
+                        catNameParams: dailyLog.cat.catName,
+                        defecationParams: dailyLog.defecation ? "true" : "false",
+                        vitaminParams: dailyLog.vitamin,
+                        weightParams: dailyLog.weight,
+                        etcParams: dailyLog.etc,
+                      },
+                    }}
+                  >
+                    <Ionicons name={"ellipsis-vertical"} size={24} color="black" />
                   </Link>
 
                   <View className="flex flex-col items-center justify-center w-full mt-2 mb-2 pl-">
@@ -161,24 +178,20 @@ export default function CalendarScreen() {
                       영양제 먹는 시간: {dailyLog.vitamin}
                     </Text>
                     <Text className="w-full text-lg font-bold ">체중: {dailyLog.weight}kg</Text>
-                    <Text className="w-full text-lg font-bold ">특이사항 : {dailyLog.etc}</Text>
+                    <Text className="w-full text-lg font-bold ">
+                      특이사항 : {dailyLog.etc ? dailyLog.etc : "없었어요"}
+                    </Text>
                   </View>
                 </View>
               </View>
             ))}
           {getDailyLog?.data?.dailyLogs?.length === 0 ? (
             <>
-              <Link
-                href={{ pathname: "/DailyLog/[logDate]", params: { logDate } }}
-                className="p-3 my-12 bg-purple-100 border-2 border-purple-500 rounded-lg"
-              >
-                <Text className="text-lg font-bold ">반려묘 건강 기록하기</Text>
-              </Link>
+              <Text className="mb-6">오늘의 반려묘 건강을 기록해보세요</Text>
 
-              <Text>오늘의 반려묘 건강을 기록해보세요</Text>
               <RouteButton
                 routeHref="/DailyLog/[logDate]"
-                param={logDate}
+                param={{}}
                 children="반려묘 건강 기록하기"
               />
             </>

@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import ReLogin from "../ReLogin";
+import Rive from "rive-react-native";
 
 export default function App() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function App() {
     if (isSuccess && data) {
       setCats(data.cats);
     }
-  }, [data, isSuccess]);
+  }, [data]);
   if (isLoading) {
     return (
       <View className="items-center justify-center flex-1">
@@ -57,26 +58,11 @@ export default function App() {
     <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">
         {/* <Rive
-          resourceName="catlog"
-          artboardName="WhiteCat"
+          resourceName="whitecat"
+          artboardName="WhiteCat 2"
           stateMachineName="BasicMovement"
-          style={{ width: 200, height: 200, backgroundColor: "#ebebeb" }}
+          style={{ width: 300, height: 300, backgroundColor: "#ebebeb" }}
         /> */}
-      </View>
-      <View className="p-10 bg-prelude">
-        <Pressable onPress={() => router.push("/Login")}>
-          <Text>로그인 페이지</Text>
-        </Pressable>
-      </View>
-      <View className="p-10 bg-prelude">
-        <Pressable onPress={() => router.push("/MyCat")}>
-          <Text>고양이 정보</Text>
-        </Pressable>
-      </View>
-      <View className="p-10 bg-prelude">
-        <Pressable onPress={() => router.push("/MedicalLog")}>
-          <Text>메디컬 로그 작성</Text>
-        </Pressable>
       </View>
     </View>
   );

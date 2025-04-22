@@ -4,7 +4,7 @@ import { Link, useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";
 
-export default function Modal() {
+export default function LogoutModal() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
