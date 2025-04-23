@@ -129,3 +129,16 @@ export const getDailyLogDates = async (req: Request, res: Response, next: NextFu
     next(error);
   }
 };
+
+export const deleteDailyLog = async (req: Request, res: Response, next: NextFunction) => {
+  const { dailyLogId } = req.params;
+
+  if (!dailyLogId) {
+    const error = new Error("삭제할 일일 기록을 찾을 수 없습니다.") as CustomError;
+    error.statusCode = 404;
+    throw error;
+  }
+  await DailyLog.findByIdAndDelete(dailyLogId);
+
+  res.status(200).json({ ok: 1, message: "일일기록을 성공적으로 제거했습니다." });
+};

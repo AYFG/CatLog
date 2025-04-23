@@ -24,7 +24,6 @@ export default function MedicalLog() {
     heartWormCycleParams,
   } = useLocalSearchParams();
 
-  console.log(nameParams);
   const pickerRef = useRef<Picker<{ name: string; id: string }>>(null);
   const [token, setToken] = useState("");
 
@@ -37,7 +36,7 @@ export default function MedicalLog() {
     (healthDateParams && new Date(healthDateParams.toString())) || new Date(),
   );
   const [healthCycle, setHealthCycle] = useState(
-    (healthCycleParams && parseInt(healthCycleParams.toString())) || 0,
+    (healthCycleParams && healthCycleParams.toString()) || "",
   );
   const [healthCalendar, setHealthCalendar] = useState(false);
 
@@ -45,7 +44,7 @@ export default function MedicalLog() {
     (heartWormParams && new Date(heartWormParams.toString())) || new Date(),
   );
   const [heartWormCycle, setHeartWormCycle] = useState(
-    (heartWormCycleParams && parseInt(heartWormCycleParams.toString())) || 0,
+    (heartWormCycleParams && heartWormCycleParams.toString()) || "",
   );
   const [heartWormCalendar, setHeartWormCalendar] = useState(false);
 
@@ -98,10 +97,10 @@ export default function MedicalLog() {
     if (selectedCat.name === "") {
       return Alert.alert("", "기록할 반려묘를 선택해주세요");
     }
-    if (healthCycle === 0) {
+    if (healthCycle === "0" || "") {
       return Alert.alert("", "다음 건강검진을 갈 주기를 입력해주세요.");
     }
-    if (heartWormCycle === 0) {
+    if (heartWormCycle === "0" || "") {
       return Alert.alert("", "다음 심장사상충 약을 바를 주기를 입력해주세요.");
     }
     mutation.mutate({
@@ -183,7 +182,7 @@ export default function MedicalLog() {
               keyboardType="number-pad"
               value={healthCycle.toString()}
               onChangeText={(cycle) => {
-                setHealthCycle(parseInt(cycle) || 0);
+                setHealthCycle(cycle);
               }}
               maxLength={3}
             />
@@ -219,8 +218,8 @@ export default function MedicalLog() {
               keyboardType="number-pad"
               value={heartWormCycle.toString()}
               placeholder={heartWormCycle.toString()}
-              onChangeText={(cycle) => setHeartWormCycle(Number(cycle) || 0)}
-              maxLength={3}
+              onChangeText={(cycle) => setHeartWormCycle(cycle || "")}
+              maxLength={4}
             />
           </View>
         </View>

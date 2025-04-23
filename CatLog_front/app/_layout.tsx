@@ -27,6 +27,10 @@ export default function RootLayout() {
           name="EditCalendarModal"
           options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
         />
+        <Stack.Screen
+          name="DeleteCalendarModal"
+          options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
+        />
         <Stack.Screen name="Signup" options={{ headerShown: false }} />
         <Stack.Screen name="CreateCat" options={{ headerShown: false }} />
         <Stack.Screen name="DailyLog/[logDate]" options={{ headerShown: false }} />

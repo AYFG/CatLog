@@ -1,4 +1,5 @@
 interface DailyLogData {
+  _id?: string;
   cat: {
     catId: string;
     catName: string;

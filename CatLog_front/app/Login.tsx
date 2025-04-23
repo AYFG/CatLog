@@ -16,6 +16,7 @@ export default function Login() {
   const handleLogin = async (email: string, password: string) => {
     try {
       const res = await apiRequest("auth/login", "POST", { email, password });
+      console.log(res);
       if (res) {
         const userData = res.item;
         await setData("userData", userData);
@@ -23,7 +24,7 @@ export default function Login() {
         router.push("/");
       }
     } catch (err) {
-      console.error("로그인 실패:", err);
+      console.error("로그인 실패 : ", err);
     }
   };
 

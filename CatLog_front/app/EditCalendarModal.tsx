@@ -18,7 +18,9 @@ export default function EditCalendarModal() {
     vitaminParams,
     weightParams,
     etcParams,
+    logDateIdParams,
   } = useLocalSearchParams();
+  console.log(logDateIdParams);
   return (
     <Animated.View className="items-center justify-end flex-1 bg-[#00000040]" entering={FadeIn}>
       <Pressable onPress={() => router.back()} style={StyleSheet.absoluteFill} />
@@ -48,7 +50,8 @@ export default function EditCalendarModal() {
 
         <Link
           href={{
-            pathname: "/DeleteCatModal",
+            pathname: "/DeleteCalendarModal",
+            params: { logDateIdParams },
           }}
         >
           <View className="w-full p-6 border-b">

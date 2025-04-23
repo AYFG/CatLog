@@ -15,23 +15,26 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [passwordMismatch, setPasswordMismatch] = useState(false);
-
+  const [responseError, setResponseError] = useState("");
   const handleSignup = async (email: string, password: string, name: string) => {
-    if (password !== confirmPassword) {
-      setPasswordMismatch(true);
-      return;
-    } else {
-      setPasswordMismatch(false);
-    }
-    return apiRequest("auth/signup", "POST", { email, password, name })
-      .then((res) => {
+    try {
+      if (password !== confirmPassword) {
+        setPasswordMismatch(true);
+        return;
+      } else {
+        setPasswordMismatch(false);
+      }
+      const res = await apiRequest("auth/signup", "POST", { email, password, name });
+      console.log(res.data);
+      if (res) {
         router.push("/Login");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    } catch (err) {
+      setResponseError(err?.data[0]?.msg);
+      console.error(err);
+    }
   };
-
+  console.log(responseError);
   return (
     <View className="flex-1 bg-snow">
       <View className="mx-6">
@@ -55,6 +58,7 @@ export default function Signup() {
             value={email}
             onChangeText={setEmail}
           />
+          {responseError && <Text className="text-[#ff0000] mt-0 ml-2">{responseError}</Text>}
         </View>
         <View className="mb-2">
           <Text className="mb-4 font-bold">닉네임</Text>

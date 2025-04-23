@@ -21,9 +21,12 @@ export async function apiRequest(endpoint: string, method: string, body?: object
           return await apiRequest(endpoint, method, body, refreshTokenResponse.accessToken);
         }
       }
-      throw new Error(`${response.status}`);
+
+      throw errorResponse;
     }
+
     const data = await response.json();
+
     return data;
   } catch (error) {
     console.error(error);

@@ -48,7 +48,8 @@ export default function CalendarScreen() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [logDate, setLogDate] = useState(new Date().toISOString().split("T")[0]);
   const [markedDates, setMarkedDates] = useState({});
-  console.log(userData);
+  const [date, setDate] = useState<string[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const storedUserData = await getData("userData");
@@ -78,7 +79,6 @@ export default function CalendarScreen() {
     ],
   });
 
-  const [date, setDate] = useState<string[]>([]);
   useEffect(() => {
     if (getEveryDate.isSuccess) {
       setDate(getEveryDate.data.everyLogDates);
@@ -164,6 +164,7 @@ export default function CalendarScreen() {
                         vitaminParams: dailyLog.vitamin,
                         weightParams: dailyLog.weight,
                         etcParams: dailyLog.etc,
+                        logDateIdParams: dailyLog._id,
                       },
                     }}
                   >
@@ -186,21 +187,20 @@ export default function CalendarScreen() {
               </View>
             ))}
           {getDailyLog?.data?.dailyLogs?.length === 0 ? (
-            <>
+            <View className="mb-4">
               <Text className="mb-6">오늘의 반려묘 건강을 기록해보세요</Text>
-
               <RouteButton
                 routeHref="/DailyLog/[logDate]"
-                param={{}}
+                param={{ logDate }}
                 children="반려묘 건강 기록하기"
               />
-            </>
+            </View>
           ) : (
             <Link
               className="flex items-center w-full p-4 my-10 rounded-lg bg-wePeep"
               href={{ pathname: "/DailyLog/[logDate]", params: { logDate } }}
             >
-              <Text className="text-snow">건강 기록 추가하기</Text>
+              <Text className="text-snow">일일 건강 기록 추가하기</Text>
             </Link>
           )}
         </View>
