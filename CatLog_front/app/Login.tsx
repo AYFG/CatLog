@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [validate, setValidate] = useState("");
 
   const handleLogin = async (email: string, password: string) => {
     try {
@@ -24,6 +25,7 @@ export default function Login() {
         router.push("/");
       }
     } catch (err) {
+      setValidate(err.message);
       console.error("로그인 실패 : ", err);
     }
   };

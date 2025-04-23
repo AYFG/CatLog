@@ -5,9 +5,10 @@ import { getData } from "@/utils/storage";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, ImageBackground, Pressable, Text, View } from "react-native";
 import ReLogin from "../ReLogin";
 import Rive from "rive-react-native";
+import test from "@/assets/images/backgroundTest.jpg";
 
 export default function App() {
   const router = useRouter();
@@ -52,17 +53,18 @@ export default function App() {
   if (notLogin) {
     return <ReLogin />;
   }
-  console.log(data);
 
   return (
     <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">
-        {/* <Rive
-          resourceName="whitecat"
-          artboardName="WhiteCat 2"
-          stateMachineName="BasicMovement"
-          style={{ width: 300, height: 300, backgroundColor: "#ebebeb" }}
-        /> */}
+        <ImageBackground source={test} resizeMode="cover" style={{ width: 200, height: 200 }}>
+          <Rive
+            resourceName="whitecat"
+            artboardName="WhiteCat 2"
+            stateMachineName="BasicMovement"
+            // style={{ width: 100, height: 100 }}
+          />
+        </ImageBackground>
       </View>
     </View>
   );

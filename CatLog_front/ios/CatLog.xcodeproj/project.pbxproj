@@ -11,7 +11,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1EDE88D4CF26583780928D94 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9CB5C6037E76FE37DFED9127 /* PrivacyInfo.xcprivacy */; };
-		3DF6B1502D9A72EF00CBEEFC /* catlog.riv in Resources */ = {isa = PBXBuildFile; fileRef = 3DF6B14F2D9A72EF00CBEEFC /* catlog.riv */; };
+		3D45CF722DB8E3B6006FAF8E /* whitecat.riv in Resources */ = {isa = PBXBuildFile; fileRef = 3D45CF712DB8E3B6006FAF8E /* whitecat.riv */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		7C081E51574A494F8030E4B2 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459D4950A4404FE599207474 /* noop-file.swift */; };
 		96905EF65AED1B983A6B3ABC /* libPods-CatLog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-CatLog.a */; };
@@ -26,7 +26,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CatLog/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CatLog/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CatLog/main.m; sourceTree = "<group>"; };
-		3DF6B14F2D9A72EF00CBEEFC /* catlog.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = catlog.riv; sourceTree = SOURCE_ROOT; };
+		3D45CF712DB8E3B6006FAF8E /* whitecat.riv */ = {isa = PBXFileReference; lastKnownFileType = file; name = whitecat.riv; path = ../../../../whitecat.riv; sourceTree = "<group>"; };
 		459D4950A4404FE599207474 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "CatLog/noop-file.swift"; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-CatLog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CatLog.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-CatLog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CatLog.debug.xcconfig"; path = "Target Support Files/Pods-CatLog/Pods-CatLog.debug.xcconfig"; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		13B07FAE1A68108700A75B9A /* CatLog */ = {
 			isa = PBXGroup;
 			children = (
-				3DF6B14E2D9A72C200CBEEFC /* assets */,
+				3DF6B14E2D9A72C200CBEEFC /* Assets */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -78,12 +78,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3DF6B14E2D9A72C200CBEEFC /* assets */ = {
+		3DF6B14E2D9A72C200CBEEFC /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				3DF6B14F2D9A72EF00CBEEFC /* catlog.riv */,
+				3D45CF712DB8E3B6006FAF8E /* whitecat.riv */,
 			);
-			path = assets;
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -214,7 +214,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				3DF6B1502D9A72EF00CBEEFC /* catlog.riv in Resources */,
+				3D45CF722DB8E3B6006FAF8E /* whitecat.riv in Resources */,
 				1EDE88D4CF26583780928D94 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
