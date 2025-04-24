@@ -39,7 +39,7 @@ export default function CreateCat() {
       return apiRequest("cat", "POST", newCat, userData?.accessToken || "");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cats"] });
+      queryClient.invalidateQueries({ queryKey: ["cats"], refetchType: "all" });
       router.back();
     },
   });

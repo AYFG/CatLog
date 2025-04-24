@@ -143,7 +143,7 @@ export default function MyPage() {
               </View>
             ))
           ) : (
-            <View className="flex flex-col items-center bg-">
+            <View className="flex flex-col items-center gap-4">
               <Text>등록된 반려묘가 없습니다.</Text>
               <RouteButton children="반려묘를 등록해주세요" routeHref="/MyCat" />
             </View>

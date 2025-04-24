@@ -85,7 +85,7 @@ export default function DailyLog() {
       apiRequest(`dailyLog/${selectedCat.id}`, "POST", dailyLog, token),
     onSuccess: (data) => {
       console.log(data);
-      queryClient.invalidateQueries({ queryKey: ["dailyLog"] });
+      queryClient.invalidateQueries({ queryKey: ["dailyLog"], refetchType: "all" });
       router.back();
     },
   });

@@ -45,7 +45,7 @@ export default function ChangeCat() {
     },
     onSuccess: (data) => {
       console.log("고양이가 등록되었습니다:", data);
-      queryClient.invalidateQueries({ queryKey: ["cats"] });
+      queryClient.invalidateQueries({ queryKey: ["cats"], refetchType: "all" });
       router.back();
     },
     onError: (error) => {

@@ -26,7 +26,7 @@ export default function DeleteCatModal() {
     mutationFn: (catId: CatData["_id"]) =>
       apiRequest(`cat/${catId}`, "DELETE", undefined, userData?.accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cats"] });
+      queryClient.invalidateQueries({ queryKey: ["cats"], refetchType: "all" });
       router.push("/(tabs)/MyPage");
     },
   });
