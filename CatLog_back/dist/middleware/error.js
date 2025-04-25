@@ -6,6 +6,6 @@ export const errorHandler = (error, req, res, next) => {
         ok: 0,
         message: message,
         data: error.data,
-        errorName: errorName,
+        name: errorName,
     });
 };

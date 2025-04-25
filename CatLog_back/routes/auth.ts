@@ -22,7 +22,7 @@ router.post(
       .withMessage("올바른 이메일을 입력하세요")
       .custom((value: string, { req }) => {
         return UserModel.findOne({ email: value })
-          .then((userDoc: any) => {
+          .then((userDoc) => {
             if (userDoc) {
               return Promise.reject("이미 사용중인 이메일입니다.");
             }
@@ -30,7 +30,13 @@ router.post(
           .catch();
       })
       .normalizeEmail(),
-    body("password").trim().isLength({ min: 5 }),
+
+    body("name")
+      .trim()
+      .isLength({ min: 2, max: 8 })
+      .withMessage("닉네임은 2자 이상 8자 이하로 입력해주세요."),
+
+    body("password").trim().isLength({ min: 6 }).withMessage("비밀번호는 6자 이상이어야 합니다."),
   ],
   (req: CustomRequest, res: Response, next: NextFunction) => authController.signup(req, res, next),
 );

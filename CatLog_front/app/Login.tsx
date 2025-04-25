@@ -1,33 +1,44 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { Image } from "expo-image";
-import SocialButton from "@/components/socialButton";
-import { Link, router } from "expo-router";
+import { loginError } from "@/types/error";
 import { apiRequest } from "@/utils/fetchApi";
+import { setData } from "@/utils/storage";
+import { useMutation } from "@tanstack/react-query";
+import { Image } from "expo-image";
+import { Link, router } from "expo-router";
 import { useState } from "react";
-import { getData, setData } from "@/utils/storage";
-import logo from "../assets/images/splash-Image.png";
+import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import logo from "../assets/images/splash-Image.png";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [validate, setValidate] = useState("");
+  const [checkValidation, setCheckValidation] = useState<{ [key: string]: string }>({});
+  const newErrors: { [key: string]: string } = {};
 
-  const handleLogin = async (email: string, password: string) => {
-    try {
-      const res = await apiRequest("auth/login", "POST", { email, password });
-      console.log(res);
-      if (res) {
-        const userData = res.item;
-        await setData("userData", userData);
-        await getData("userData");
-        router.push("/");
+  const mutation = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      apiRequest("auth/login", "POST", { email, password }),
+    onSuccess: (data) => {
+      const userData = data.item;
+      setData("userData", userData);
+      router.push("/");
+    },
+    onError: (error: loginError) => {
+      if (error.name === "email") {
+        newErrors.email = error.message;
       }
-    } catch (err) {
-      setValidate(err.message);
-      console.error("로그인 실패 : ", err);
-    }
+      if (error.name === "password") {
+        newErrors.password = error.message;
+      }
+      setCheckValidation(newErrors);
+    },
+  });
+
+  const handleLogin = () => {
+    mutation.mutate({
+      email,
+      password,
+    });
   };
 
   return (
@@ -48,6 +59,7 @@ export default function Login() {
             value={email}
             onChangeText={setEmail}
           />
+          {checkValidation.email && <Text className="text-[#ff0000]">{checkValidation.email}</Text>}
         </View>
         <View className="">
           <Text className="mb-4 font-bold">비밀번호</Text>
@@ -58,11 +70,14 @@ export default function Login() {
             onChangeText={setPassword}
             secureTextEntry
           />
+          {checkValidation.password && (
+            <Text className="text-[#ff0000]">{checkValidation.password}</Text>
+          )}
         </View>
 
         <Pressable
           className="flex items-center p-4 mt-10 rounded-lg bg-wePeep"
-          onPress={() => handleLogin(email, password)}
+          onPress={handleLogin}
         >
           <Text className="text-lg text-snow">로그인</Text>
         </Pressable>

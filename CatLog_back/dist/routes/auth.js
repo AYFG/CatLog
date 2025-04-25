@@ -17,7 +17,11 @@ router.post("/signup", [
             .catch();
     })
         .normalizeEmail(),
-    body("password").trim().isLength({ min: 5 }),
+    body("name")
+        .trim()
+        .isLength({ min: 2, max: 8 })
+        .withMessage("닉네임은 2자 이상 8자 이하로 입력해주세요."),
+    body("password").trim().isLength({ min: 6 }).withMessage("비밀번호는 6자 이상이어야 합니다."),
 ], (req, res, next) => authController.signup(req, res, next));
 router.post("/login", authController.login);
 router.post("/refresh", authController.refresh);

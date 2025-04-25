@@ -14,6 +14,6 @@ export const errorHandler = (
     ok: 0,
     message: message,
     data: error.data,
-    errorName: errorName,
+    name: errorName,
   });
 };

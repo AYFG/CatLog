@@ -45,6 +45,7 @@ export const login = (req, res, next) => {
         if (!user) {
             const error = new Error("해당 이메일을 가진 사용자를 찾지 못했습니다.");
             error.statusCode = 401;
+            error.name = "email";
             throw error;
         }
         loadedUser = user;
@@ -54,6 +55,7 @@ export const login = (req, res, next) => {
         if (!isEqual) {
             const error = new Error("패스워드가 맞지 않습니다.");
             error.statusCode = 401;
+            error.name = "password";
             throw error;
         }
         const accessToken = jwt.sign({
@@ -64,9 +66,6 @@ export const login = (req, res, next) => {
             email: loadedUser.email,
             userId: loadedUser._id.toString(),
         }, `${AUTH_REFRESH_SECRET}`, { expiresIn: "14d" });
-        if (!AUTH_REFRESH_SECRET) {
-            throw new Error("AUTH_REFRESH_SECRET is not defined.");
-        }
         loadedUser.refreshToken = refreshToken;
         loadedUser.save();
         res.status(200).json({

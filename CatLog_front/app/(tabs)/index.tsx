@@ -58,12 +58,12 @@ export default function App() {
     <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">
         <ImageBackground source={test} resizeMode="cover" style={{ width: 200, height: 200 }}>
-          <Rive
+          {/* <Rive
             resourceName="whitecat"
             artboardName="WhiteCat 2"
             stateMachineName="BasicMovement"
             // style={{ width: 100, height: 100 }}
-          />
+          /> */}
         </ImageBackground>
       </View>
     </View>
