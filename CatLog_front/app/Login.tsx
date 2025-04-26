@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { Link, router } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../assets/images/splash-Image.png";
 
@@ -33,8 +33,22 @@ export default function Login() {
       setCheckValidation(newErrors);
     },
   });
+  const validate = () => {
+    if (email === "") {
+      newErrors.email = "이메일을 입력해주세요";
+    }
 
+    if (password === "") {
+      newErrors.password = "비밀번호를 입력해주세요";
+    }
+
+    setCheckValidation(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const handleLogin = () => {
+    if (!validate()) {
+      return;
+    }
     mutation.mutate({
       email,
       password,
@@ -54,7 +68,9 @@ export default function Login() {
         <View className="mb-2">
           <Text className="mb-4 font-bold">이메일</Text>
           <TextInput
-            className="p-4 border-2 border-[#ddd] rounded-xl"
+            className={`p-4 border-2 ${
+              checkValidation.email ? `border-[#ff0000]` : `border-[#ddd]`
+            } rounded-xl`}
             placeholder="이메일을 입력해주세요"
             value={email}
             onChangeText={setEmail}
@@ -64,7 +80,9 @@ export default function Login() {
         <View className="">
           <Text className="mb-4 font-bold">비밀번호</Text>
           <TextInput
-            className="p-4 border-2 border-[#ddd] rounded-xl"
+            className={`p-4 border-2 ${
+              checkValidation.password ? `border-[#ff0000]` : `border-[#ddd]`
+            } rounded-xl`}
             placeholder="비밀번호"
             value={password}
             onChangeText={setPassword}
@@ -78,8 +96,15 @@ export default function Login() {
         <Pressable
           className="flex items-center p-4 mt-10 rounded-lg bg-wePeep"
           onPress={handleLogin}
+          disabled={mutation.isPending}
         >
-          <Text className="text-lg text-snow">로그인</Text>
+          {mutation.isPending ? (
+            <View className="">
+              <ActivityIndicator size="large" color="#c9e6ee" />
+            </View>
+          ) : (
+            <Text className="text-lg text-snow">로그인</Text>
+          )}
         </Pressable>
 
         <View className="flex items-center w-full p-2 mt-4 rounded-lg ">

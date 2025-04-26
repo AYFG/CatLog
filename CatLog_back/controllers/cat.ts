@@ -10,9 +10,16 @@ export const createCat = async (req: Request, res: Response, next: NextFunction)
   try {
     const { name, birthDate, owner } = req.body;
 
-    if (!name || !birthDate) {
-      const error = new Error("필수 입력값이 누락되었습니다.") as CustomError;
+    if (!name) {
+      const error = new Error("이름을 입력해주세요.") as CustomError;
       error.statusCode = 400;
+      error.name = "emptyName";
+      throw error;
+    }
+    if (!birthDate) {
+      const error = new Error("생일을 입력해주세요.") as CustomError;
+      error.statusCode = 400;
+      error.name = "emptyBirthday";
       throw error;
     }
 
@@ -69,9 +76,16 @@ export const updateCat = async (req: Request, res: Response, next: NextFunction)
     const catId = req.params.catId;
     const { name, birthDate } = req.body;
 
-    if (!name || !birthDate) {
-      const error = new Error("필수 입력값이 누락되었습니다.") as CustomError;
+    if (!name) {
+      const error = new Error("이름을 입력해주세요.") as CustomError;
       error.statusCode = 400;
+      error.name = "emptyName";
+      throw error;
+    }
+    if (!birthDate) {
+      const error = new Error("생일을 입력해주세요.") as CustomError;
+      error.statusCode = 400;
+      error.name = "emptyBirthday";
       throw error;
     }
 

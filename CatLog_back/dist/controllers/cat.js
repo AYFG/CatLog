@@ -5,9 +5,16 @@ import medicalLog from "../models/medicalLog.js";
 export const createCat = async (req, res, next) => {
     try {
         const { name, birthDate, owner } = req.body;
-        if (!name || !birthDate) {
-            const error = new Error("필수 입력값이 누락되었습니다.");
+        if (!name) {
+            const error = new Error("이름을 입력해주세요.");
             error.statusCode = 400;
+            error.name = "emptyName";
+            throw error;
+        }
+        if (!birthDate) {
+            const error = new Error("생일을 입력해주세요.");
+            error.statusCode = 400;
+            error.name = "emptyBirthday";
             throw error;
         }
         const cat = new Cat({
@@ -58,9 +65,16 @@ export const updateCat = async (req, res, next) => {
     try {
         const catId = req.params.catId;
         const { name, birthDate } = req.body;
-        if (!name || !birthDate) {
-            const error = new Error("필수 입력값이 누락되었습니다.");
+        if (!name) {
+            const error = new Error("이름을 입력해주세요.");
             error.statusCode = 400;
+            error.name = "emptyName";
+            throw error;
+        }
+        if (!birthDate) {
+            const error = new Error("생일을 입력해주세요.");
+            error.statusCode = 400;
+            error.name = "emptyBirthday";
             throw error;
         }
         const cat = await Cat.findById(catId);

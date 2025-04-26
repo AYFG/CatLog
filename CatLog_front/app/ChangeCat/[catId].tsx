@@ -17,6 +17,9 @@ export default function ChangeCat() {
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>(null);
+  const [checkValidation, setCheckValidation] = useState<{ [key: string]: string }>({});
+  const newErrors: { [key: string]: string } = {};
+
   useEffect(() => {
     const fetchUserData = async () => {
       const data = await getData("userData");
@@ -53,7 +56,24 @@ export default function ChangeCat() {
     },
   });
 
+  const validate = () => {
+    if (catName === "") {
+      newErrors.name = "이름을 입력해주세요";
+    }
+
+    if (birthDate === "") {
+      newErrors.birthDate = "생일을 입력해주세요";
+    }
+
+    setCheckValidation(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
+    if (!validate()) {
+      return;
+    }
+
     const userData = await getData("userData");
     mutation.mutate({
       name: catName,
@@ -75,16 +95,21 @@ export default function ChangeCat() {
         <View className="mt-6 mb-2">
           <Text className="mb-4 font-bold">이름</Text>
           <TextInput
-            className="p-4 border-2 border-[#ddd] rounded-xl"
+            className={`p-4 border-2 ${
+              checkValidation.name ? `border-[#ff0000]` : `border-[#ddd]`
+            } rounded-xl`}
             placeholder="이름을 입력해주세요"
             onChangeText={(text) => setCatName(text)}
             value={catName}
           />
+          {checkValidation.name && <Text className="text-[#ff0000]">{checkValidation.name}</Text>}
         </View>
         <Text className="mb-4 font-bold">생일</Text>
 
         <TextInput
-          className="p-4 border-2 border-[#ddd] rounded-xl"
+          className={`p-4 border-2 ${
+            checkValidation.birthDate ? `border-[#ff0000]` : `border-[#ddd]`
+          } rounded-xl`}
           placeholder={formatDate(birthDate)}
           value={formatDate(birthDate)}
           onFocus={() => {
@@ -92,6 +117,9 @@ export default function ChangeCat() {
           }}
           onChangeText={() => {}}
         />
+        {checkValidation.birthDate && (
+          <Text className="text-[#ff0000]">{checkValidation.birthDate}</Text>
+        )}
 
         <View>
           {show && (
