@@ -35,7 +35,7 @@ export default function DailyLog() {
   const [token, setToken] = useState("");
   const [defecation, setDefecation] = useState<boolean>(defecationParams === "true" || true);
   const [vitaminTime, setVitaminTime] = useState<Date>(new Date());
-  const [weight, setWeight] = useState(weightParams || "0");
+  const [weight, setWeight] = useState(weightParams || "");
   const [etc, setEtc] = useState(etcParams || "");
   const [show, setShow] = useState(false);
   const [selectedCat, setSelectedCat] = useState({
@@ -43,6 +43,8 @@ export default function DailyLog() {
     id: catIdParams || "",
   });
   const pickerRef = useRef<Picker<{ name: string; id: string }>>(null);
+  const [checkValidation, setCheckValidation] = useState<{ [key: string]: string }>({});
+  const newErrors: { [key: string]: string } = {};
   const { cats } = useCatStore();
   const queryClient = useQueryClient();
 
@@ -95,13 +97,25 @@ export default function DailyLog() {
     if (parts.length > 2) return;
     setWeight(formatted);
   };
-  const handleSubmit = () => {
+  const validate = () => {
     if (selectedCat.name == "") {
-      return Alert.alert("", "기록할 반려묘를 선택해주세요");
+      newErrors.name = "기록할 반려묘를 선택해주세요.";
     }
-    if (weight == "0") {
-      return Alert.alert("", "반려묘의 체중을 기록해주세요");
+    if (!vitaminTime) {
+      newErrors.vitaminTime = "반려묘의 영양제 먹은 시간을 기록해주세요";
     }
+    if (!weight || weight === "0") {
+      newErrors.weight = "반려묘의 체중을 기록해주세요";
+    }
+
+    setCheckValidation(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  const handleSubmit = () => {
+    if (!validate()) {
+      return;
+    }
+
     mutation.mutate({
       cat: { catId: selectedCat.id, catName: selectedCat.name },
       defecation: defecation,
@@ -127,7 +141,11 @@ export default function DailyLog() {
 
         <View className="mb-2">
           <Text className="mb-4 font-bold">기록할 반려묘</Text>
-          <View className="flex flex-row items-center  justify-between p-4 border-2 border-[#ddd] rounded-xl">
+          <View
+            className={`flex flex-row items-center  justify-between p-4 border-2 ${
+              checkValidation.name ? `border-[#ff0000]` : ` border-[#ddd]`
+            } rounded-xl`}
+          >
             <TextInput
               className="w-full"
               placeholder="반려묘를 선택해주세요"
@@ -151,6 +169,7 @@ export default function DailyLog() {
               ))}
             </Picker>
           </View>
+          {checkValidation.name && <Text className="text-[#ff0000]">{checkValidation.name}</Text>}
         </View>
 
         <View className="mb-2">
@@ -181,7 +200,9 @@ export default function DailyLog() {
         <View className="mb-2">
           <Text className="mb-4 font-bold">영양제</Text>
           <TextInput
-            className="py-4 pl-6 border-2 border-[#ddd] rounded-xl"
+            className={`flex flex-row items-center  justify-between p-4 border-2 ${
+              checkValidation.vitaminTime ? `border-[#ff0000]` : ` border-[#ddd]`
+            } rounded-xl`}
             placeholder="이름을 입력해주세요"
             value={formattedTime}
             onFocus={() => {
@@ -199,17 +220,25 @@ export default function DailyLog() {
               />
             )}
           </View>
+          {checkValidation.vitaminTime && (
+            <Text className="text-[#ff0000]">{checkValidation.vitaminTime}</Text>
+          )}
         </View>
 
         <View className="mb-2">
           <Text className="mb-4 font-bold">체중</Text>
           <TextInput
-            className="py-4 pl-6 border-2 border-[#ddd] rounded-xl"
+            className={`flex flex-row items-center  justify-between p-4 border-2 ${
+              checkValidation.weight ? `border-[#ff0000]` : ` border-[#ddd]`
+            } rounded-xl`}
             placeholder={weight.toString()}
             value={weight.toString()}
             keyboardType="numeric"
             onChangeText={handleWeightInput}
           />
+          {checkValidation.weight && (
+            <Text className="text-[#ff0000]">{checkValidation.weight}</Text>
+          )}
         </View>
 
         <View className="mb-2">
