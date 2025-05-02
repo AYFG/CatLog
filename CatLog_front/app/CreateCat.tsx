@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CreateCat() {
@@ -123,7 +123,15 @@ export default function CreateCat() {
           </View>
           <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
             <Pressable onPress={handleSubmit} disabled={mutation.isPending}>
-              <Text className="text-snow">{mutation.isPending ? "처리 중..." : "확인"}</Text>
+              <Text className="text-snow">
+                {mutation.isPending ? (
+                  <View className="">
+                    <ActivityIndicator size="large" color="#c9e6ee" />
+                  </View>
+                ) : (
+                  "확인"
+                )}
+              </Text>
             </Pressable>
           </View>
         </View>

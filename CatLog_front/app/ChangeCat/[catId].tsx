@@ -47,7 +47,6 @@ export default function ChangeCat() {
       return apiRequest(`cat/${catId}`, "PUT", updateCat, token || "");
     },
     onSuccess: (data) => {
-      console.log("고양이가 등록되었습니다:", data);
       queryClient.invalidateQueries({ queryKey: ["cats"], refetchType: "all" });
       router.back();
     },

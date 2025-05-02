@@ -8,11 +8,12 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Button, Image, ScrollView, Text, View } from "react-native";
+import { Button, Image, ScrollView, Text, View, RefreshControl } from "react-native";
 
 export default function MyPage() {
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
   const { cats } = useCatStore();
 
   useEffect(() => {
@@ -26,9 +27,17 @@ export default function MyPage() {
     };
     getUserData();
   }, []);
-
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
   return (
-    <ScrollView className="bg-snow">
+    <ScrollView
+      className="bg-snow"
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    >
       <View className="m-4">
         <View className="flex flex-row justify-between p-4 ">
           <Text className="mb-5 text-xl font-medium ">{userData && userData.name}님의 반려묘</Text>

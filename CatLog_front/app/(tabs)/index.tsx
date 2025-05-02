@@ -78,17 +78,17 @@ export default function App() {
   return (
     <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">
-        {/* <ImageBackground source={test} resizeMode="cover" style={{ width: "100%", height: "50%" }}> */}
-        {/* <Rive
-          resourceName="whitecat"
-          artboardName="WhiteCat 2"
-          stateMachineName={riveState}
-          style={{ width: 300, height: 300 }}
-        /> */}
-        {/* </ImageBackground> */}
+        <View className="mt-6 w-[350] h-[350] bg-jaggedIce rounded-full">
+          {/* <Rive
+            resourceName="whitecat"
+            artboardName="WhiteCat 2"
+            stateMachineName={riveState}
+            // style={{ width: 300, height: 300 }}
+          /> */}
+        </View>
 
         <View className="mt-12">
-          {/* <CountdownCircleTimer
+          <CountdownCircleTimer
             key={huntingTime}
             isPlaying={timerStart}
             duration={huntingTime}
@@ -96,7 +96,6 @@ export default function App() {
             colors={["#EF798A", "#F7B801", "#A30000", "#A30000"]}
             colorsTime={[huntingTime / 2, huntingTime / 3, huntingTime / 4, huntingTime / 5]}
             onComplete={() => {
-              console.log("카운트 다운 종료");
               setTimeComplete(true);
               setTimerStart(false);
               setRiveState("BasicMovement");
@@ -121,9 +120,9 @@ export default function App() {
                 </Pressable>
               );
             }}
-          </CountdownCircleTimer> */}
+          </CountdownCircleTimer>
         </View>
-        <View>
+        <View className=" bg-wePeep">
           {timerPickerModalOpen && (
             <TimerPickerModal
               hideHours
@@ -158,10 +157,18 @@ export default function App() {
             />
           )}
         </View>
-        <SubmitButton
-          children={timerStart ? <Text>사냥 놀이 중지</Text> : <Text>사냥 놀이 시작하기</Text>}
-          handleSubmit={huntingStart}
-        ></SubmitButton>
+        <View className="p-8">
+          <SubmitButton
+            children={
+              timerStart ? (
+                <Text className="text-xl font-semibold color-[#EF798A] ">사냥 놀이 중지</Text>
+              ) : (
+                <Text className="text-xl font-semibold">사냥 놀이 시작하기</Text>
+              )
+            }
+            handleSubmit={huntingStart}
+          ></SubmitButton>
+        </View>
       </View>
     </View>
   );

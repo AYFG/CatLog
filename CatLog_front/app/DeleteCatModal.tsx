@@ -3,7 +3,7 @@ import { getData, removeData } from "@/utils/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";
 
 export default function DeleteCatModal() {
@@ -49,9 +49,15 @@ export default function DeleteCatModal() {
             </Pressable>
           </View>
           <View className="items-center flex-1 py-4 mr-4 rounded-lg bg-wePeep">
-            <Pressable onPress={() => deleteCatHandler(catId.toString())}>
-              <Text className="font-bold text-center text-snow">확인</Text>
-            </Pressable>
+            {mutation.isPending ? (
+              <View className="">
+                <ActivityIndicator size="large" color="#c9e6ee" />
+              </View>
+            ) : (
+              <Pressable onPress={() => deleteCatHandler(catId.toString())}>
+                <Text className="font-bold text-center text-snow">확인</Text>
+              </Pressable>
+            )}
           </View>
         </View>
       </Animated.View>

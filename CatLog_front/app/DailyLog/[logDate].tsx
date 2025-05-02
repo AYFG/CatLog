@@ -8,7 +8,15 @@ import { Picker } from "@react-native-picker/picker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DailyLog() {
@@ -251,7 +259,19 @@ export default function DailyLog() {
           />
         </View>
 
-        <SubmitButton children="저장하기" handleSubmit={handleSubmit} />
+        <Pressable
+          className="flex items-center p-4 mt-10 rounded-lg bg-wePeep"
+          onPress={handleSubmit}
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? (
+            <View className="">
+              <ActivityIndicator size="large" color="#c9e6ee" />
+            </View>
+          ) : (
+            <Text className="text-lg text-snow">저장하기</Text>
+          )}
+        </Pressable>
       </View>
     </ScrollView>
   );
