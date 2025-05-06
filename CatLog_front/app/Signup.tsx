@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import logo from "../assets/images/splash-Image.png";
+import logo from "../assets/images/adaptive-icon.png";
 
 export default function Signup() {
   const router = useRouter();
