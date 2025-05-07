@@ -6,7 +6,7 @@ interface DailyLogData {
   };
   defecation: boolean;
   weight: string;
-  vitamin: string;
+  vitamin: boolean;
   etc: string;
   logDate: string;
 }

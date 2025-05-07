@@ -1,23 +1,15 @@
-import SubmitButton from "@/components/SubmitButton";
 import { useCatStore } from "@/store/useCatStore";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { cssInterop } from "nativewind";
+cssInterop(Ionicons, { className: "style" });
 
 export default function DailyLog() {
   const router = useRouter();
@@ -39,13 +31,13 @@ export default function DailyLog() {
     etcParams: string;
   }>();
 
-  console.log(catNameParams, typeof defecationParams, vitaminParams, weightParams, etcParams);
   const [token, setToken] = useState("");
-  const [defecation, setDefecation] = useState<boolean>(defecationParams === "true" || true);
-  const [vitaminTime, setVitaminTime] = useState<Date>(new Date());
+  const [defecation, setDefecation] = useState<boolean>(
+    (defecationParams === "true" && true) || false,
+  );
+  const [vitamin, setVitamin] = useState<boolean>((vitaminParams === "true" && true) || false);
   const [weight, setWeight] = useState(weightParams || "");
   const [etc, setEtc] = useState(etcParams || "");
-  const [show, setShow] = useState(false);
   const [selectedCat, setSelectedCat] = useState({
     name: catNameParams || "",
     id: catIdParams || "",
@@ -56,12 +48,6 @@ export default function DailyLog() {
   const { cats } = useCatStore();
   const queryClient = useQueryClient();
 
-  const formattedTime = vitaminTime.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-
   useEffect(() => {
     const userData = getData("userData");
     userData.then((data) => {
@@ -70,13 +56,6 @@ export default function DailyLog() {
       }
     });
   }, []);
-
-  const handleTimeInput = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    setShow(false);
-    if (selectedDate) {
-      setVitaminTime(selectedDate);
-    }
-  };
 
   function open() {
     if (pickerRef.current) {
@@ -94,7 +73,6 @@ export default function DailyLog() {
     mutationFn: (dailyLog: DailyLogData) =>
       apiRequest(`dailyLog/${selectedCat.id}`, "POST", dailyLog, token),
     onSuccess: (data) => {
-      console.log(data);
       queryClient.invalidateQueries({ queryKey: ["dailyLog"], refetchType: "all" });
       router.back();
     },
@@ -109,9 +87,7 @@ export default function DailyLog() {
     if (selectedCat.name == "") {
       newErrors.name = "기록할 반려묘를 선택해주세요.";
     }
-    if (!vitaminTime) {
-      newErrors.vitaminTime = "반려묘의 영양제 먹은 시간을 기록해주세요";
-    }
+
     if (!weight || weight === "0") {
       newErrors.weight = "반려묘의 체중을 기록해주세요";
     }
@@ -127,7 +103,7 @@ export default function DailyLog() {
     mutation.mutate({
       cat: { catId: selectedCat.id, catName: selectedCat.name },
       defecation: defecation,
-      vitamin: formattedTime,
+      vitamin: vitamin,
       weight: weight,
       logDate: logDate,
       etc: etc,
@@ -182,78 +158,82 @@ export default function DailyLog() {
 
         <View className="mb-2">
           <Text className="mb-4 font-bold">대변 상태</Text>
-          <View className="flex flex-row items-center justify-center gap-24 p-4 border-2 border-[#ddd] rounded-xl">
-            <Pressable
-              className={`border-[#ddd] border-2 p-4 rounded-lg ${
-                defecation ? " bg-prelude " : ""
-              }`}
-              onPress={() => {
-                setDefecation(true);
-              }}
-            >
-              <Text className={`${defecation && "text-snow font-extrabold"}`}>좋았어요</Text>
-            </Pressable>
-            <Pressable
-              className={`border-[#ddd] border-2 p-4 rounded-lg ${
-                !defecation ? " bg-prelude " : ""
-              }`}
-              onPress={() => {
-                setDefecation(false);
-              }}
-            >
-              <Text className={`${!defecation && "text-snow font-extrabold"}`}>좋지 않았어요</Text>
-            </Pressable>
-          </View>
+
+          <Pressable
+            className={`border-[#ddd] border-2 p-4 rounded-lg ${
+              defecation ? "bg-[#62ca4d]" : "bg-[#ff0000]"
+            }`}
+            onPress={() => {
+              setDefecation(!defecation);
+            }}
+          >
+            <View>
+              {defecation ? (
+                <View className="flex flex-row items-center ">
+                  <Ionicons name="checkmark-circle-outline" size={24} className="text-snow" />
+                  <Text className="ml-2 font-bold text-snow">좋았어요</Text>
+                </View>
+              ) : (
+                <View className="flex flex-row items-center">
+                  <Ionicons name="close-circle-outline" size={24} className=" text-snow" />
+                  <Text className="ml-2 font-bold text-snow">좋지 않았어요</Text>
+                </View>
+              )}
+            </View>
+          </Pressable>
         </View>
         <View className="mb-2">
           <Text className="mb-4 font-bold">영양제</Text>
-          <TextInput
-            className={`flex flex-row items-center  justify-between p-4 border-2 ${
-              checkValidation.vitaminTime ? `border-[#ff0000]` : ` border-[#ddd]`
-            } rounded-xl`}
-            placeholder="이름을 입력해주세요"
-            value={formattedTime}
-            onFocus={() => {
-              setShow(true);
+          <Pressable
+            className={`border-[#ddd] border-2 p-4 rounded-lg ${
+              vitamin ? "bg-[#62ca4d]" : "bg-[#ff0000]"
+            }`}
+            onPress={() => {
+              setVitamin(!vitamin);
             }}
-            onChangeText={() => {}}
-          />
-          <View>
-            {show && (
-              <DateTimePicker
-                value={vitaminTime}
-                mode="time"
-                display="spinner"
-                onChange={handleTimeInput}
-              />
-            )}
-          </View>
-          {checkValidation.vitaminTime && (
-            <Text className="text-[#ff0000]">{checkValidation.vitaminTime}</Text>
-          )}
+          >
+            <View>
+              {vitamin ? (
+                <View className="flex flex-row items-center ">
+                  <Ionicons name="checkmark-circle-outline" size={24} className="text-snow" />
+                  <Text className="ml-2 font-bold text-snow">먹었어요</Text>
+                </View>
+              ) : (
+                <View className="flex flex-row items-center">
+                  <Ionicons name="close-circle-outline" size={24} className=" text-snow" />
+                  <Text className="ml-2 font-bold text-snow">안먹었어요</Text>
+                </View>
+              )}
+            </View>
+          </Pressable>
         </View>
 
-        <View className="mb-2">
-          <Text className="mb-4 font-bold">체중</Text>
-          <TextInput
-            className={`flex flex-row items-center  justify-between p-4 border-2 ${
-              checkValidation.weight ? `border-[#ff0000]` : ` border-[#ddd]`
-            } rounded-xl`}
-            placeholder={weight.toString()}
-            value={weight.toString()}
-            keyboardType="numeric"
-            onChangeText={handleWeightInput}
-          />
-          {checkValidation.weight && (
-            <Text className="text-[#ff0000]">{checkValidation.weight}</Text>
-          )}
+        <Text className="mb-4 font-bold ">체중</Text>
+        <View
+          className={` p-4 border-2 ${
+            checkValidation.weight ? `border-[#ff0000]` : ` border-[#ddd]`
+          } rounded-xl`}
+        >
+          <View className="flex flex-row w-full">
+            <TextInput
+              className="w-1/4 pl-2 text-xl border-b-2"
+              placeholder="예: 4.5"
+              value={weight.toString()}
+              keyboardType="numeric"
+              maxLength={4}
+              onChangeText={handleWeightInput}
+            />
+            <Text className="mt-2 ml-2 font-bold">kg</Text>
+          </View>
         </View>
+        {checkValidation.weight && <Text className="text-[#ff0000]">{checkValidation.weight}</Text>}
 
         <View className="mb-2">
           <Text className="mb-4 font-bold">기타 특이사항</Text>
           <TextInput
+            multiline
+            numberOfLines={4}
             className="py-4 pl-6 border-2 border-[#ddd] rounded-xl"
-            placeholder=""
             value={etc}
             onChangeText={setEtc}
           />

@@ -161,7 +161,7 @@ export default function CalendarScreen() {
                         catIdParams: dailyLog.cat.catId,
                         catNameParams: dailyLog.cat.catName,
                         defecationParams: dailyLog.defecation ? "true" : "false",
-                        vitaminParams: dailyLog.vitamin,
+                        vitaminParams: dailyLog.vitamin ? "true" : "false",
                         weightParams: dailyLog.weight,
                         etcParams: dailyLog.etc,
                         logDateIdParams: dailyLog._id,
@@ -176,7 +176,7 @@ export default function CalendarScreen() {
                       대변상태: {dailyLog.defecation ? "좋았어요" : "좋지 않았어요"}
                     </Text>
                     <Text className="w-full text-lg font-bold ">
-                      영양제 먹는 시간: {dailyLog.vitamin}
+                      영양제 : {dailyLog.vitamin ? "먹었어요" : "안먹었어요"}
                     </Text>
                     <Text className="w-full text-lg font-bold ">체중: {dailyLog.weight}kg</Text>
                     <Text className="w-full text-lg font-bold ">
