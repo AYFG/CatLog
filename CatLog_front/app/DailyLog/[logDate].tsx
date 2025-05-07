@@ -31,11 +31,12 @@ export default function DailyLog() {
     etcParams: string;
   }>();
 
+  console.log(vitaminParams === "false");
   const [token, setToken] = useState("");
   const [defecation, setDefecation] = useState<boolean>(
-    (defecationParams === "true" && true) || false,
+    defecationParams === "false" ? false : true,
   );
-  const [vitamin, setVitamin] = useState<boolean>((vitaminParams === "true" && true) || false);
+  const [vitamin, setVitamin] = useState<boolean>(vitaminParams === "false" ? false : true);
   const [weight, setWeight] = useState(weightParams || "");
   const [etc, setEtc] = useState(etcParams || "");
   const [selectedCat, setSelectedCat] = useState({
@@ -131,7 +132,7 @@ export default function DailyLog() {
             } rounded-xl`}
           >
             <TextInput
-              className="w-full"
+              className="w-full text-xl"
               placeholder="반려묘를 선택해주세요"
               value={catNameParams || selectedCat.name}
               onFocus={() => {
@@ -216,7 +217,7 @@ export default function DailyLog() {
         >
           <View className="flex flex-row w-full">
             <TextInput
-              className="w-1/4 pl-2 text-xl border-b-2"
+              className="w-1/4 pl-5 text-xl border-b-2"
               placeholder="예: 4.5"
               value={weight.toString()}
               keyboardType="numeric"
@@ -233,7 +234,8 @@ export default function DailyLog() {
           <TextInput
             multiline
             numberOfLines={4}
-            className="py-4 pl-6 border-2 border-[#ddd] rounded-xl"
+            placeholder="다른 특이사항을 적어보세요"
+            className="py-4 pl-6 border-2 border-[#ddd] rounded-xl text-lg"
             value={etc}
             onChangeText={setEtc}
           />

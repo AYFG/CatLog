@@ -105,16 +105,20 @@ export default function MyPage() {
                             : { color: "red" }
                         }
                       >
-                        다음 건강검진 : D -{" "}
+                        다음 건강검진 : <Text className="text-lg font-medium">D-</Text>
                         {calculateNextDate(
                           v.medicalLogs.healthCheckupDate,
                           v.medicalLogs.healthCycle,
-                        ) > 0
-                          ? calculateNextDate(
+                        ) > 0 ? (
+                          <Text className="text-lg font-medium">
+                            {calculateNextDate(
                               v.medicalLogs.healthCheckupDate,
                               v.medicalLogs.healthCycle,
-                            )
-                          : "예정일이 지났습니다"}
+                            )}
+                          </Text>
+                        ) : (
+                          "예정일이 지났습니다"
+                        )}
                       </Text>
                       <Text>심장사상충 약 바른 날 : {v.medicalLogs.heartWorm}</Text>
                       <Text
@@ -125,11 +129,19 @@ export default function MyPage() {
                             : { color: "red" }
                         }
                       >
-                        다음 심장사상충 : D -{" "}
+                        다음 심장사상충 : <Text className="text-xl font-medium"></Text>
                         {calculateNextDate(v.medicalLogs.heartWorm, v.medicalLogs.heartWormCycle) >
-                        0
-                          ? calculateNextDate(v.medicalLogs.heartWorm, v.medicalLogs.heartWormCycle)
-                          : "예정일이 지났습니다"}
+                        0 ? (
+                          <Text className="text-lg font-medium">
+                            D-
+                            {calculateNextDate(
+                              v.medicalLogs.heartWorm,
+                              v.medicalLogs.heartWormCycle,
+                            )}
+                          </Text>
+                        ) : (
+                          "예정일이 지났습니다"
+                        )}
                       </Text>
                     </View>
                   ) : (

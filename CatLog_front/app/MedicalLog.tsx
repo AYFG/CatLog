@@ -155,7 +155,7 @@ export default function MedicalLog() {
             } rounded-xl`}
           >
             <TextInput
-              className="w-full"
+              className="w-full text-xl"
               placeholder="반려묘를 선택해주세요"
               value={selectedCat.name.toString()}
               onFocus={() => {
@@ -187,7 +187,7 @@ export default function MedicalLog() {
             } rounded-xl`}
           >
             <TextInput
-              className=""
+              className="text-xl"
               placeholder={healthCheckupDate.toISOString().split("T")[0]}
               value={healthCheckupDate.toISOString().split("T")[0]}
               onFocus={() => {
@@ -216,8 +216,8 @@ export default function MedicalLog() {
             } rounded-xl`}
           >
             <TextInput
-              className="w-full"
-              placeholder={healthCycle.toString()}
+              className="w-1/4 pl-5 text-xl border-b-2"
+              placeholder="예: 120"
               keyboardType="number-pad"
               value={healthCycle.toString()}
               onChangeText={(cycle) => {
@@ -225,6 +225,7 @@ export default function MedicalLog() {
               }}
               maxLength={3}
             />
+            <Text className="mt-2 ml-2 font-bold">일 후에 건강검진 갈게요</Text>
           </View>
           {checkValidation.healthCycle && (
             <Text className="text-[#ff0000]">{checkValidation.healthCycle}</Text>
@@ -239,6 +240,7 @@ export default function MedicalLog() {
             } rounded-xl`}
           >
             <TextInput
+              className="text-xl"
               placeholder={heartWorm.toISOString().split("T")[0]}
               value={heartWorm.toISOString().split("T")[0]}
               onFocus={() => {
@@ -261,20 +263,21 @@ export default function MedicalLog() {
           )}
         </View>
         <View className="mb-2">
-          <Text className="mb-4 font-bold">심장사상충 약 주기</Text>
+          <Text className="mb-4 font-bold ">심장사상충 약 주기</Text>
           <View
             className={`flex flex-row items-center pl-4 py-4 border-2 ${
               checkValidation.heartWormCycle ? `border-[#ff0000]` : `border-[#ddd]`
             } rounded-xl`}
           >
             <TextInput
-              className="w-full"
+              className="w-1/4 pl-5 text-xl border-b-2"
               keyboardType="number-pad"
               value={heartWormCycle.toString()}
-              placeholder={heartWormCycle.toString()}
+              placeholder="예: 30"
               onChangeText={(cycle) => setHeartWormCycle(cycle || "")}
               maxLength={4}
             />
+            <Text className="mt-2 ml-2 font-bold">일 후에 심장사상충 약 바를게요</Text>
           </View>
           {checkValidation.heartWormCycle && (
             <Text className="text-[#ff0000]">{checkValidation.heartWormCycle}</Text>
@@ -283,7 +286,7 @@ export default function MedicalLog() {
 
         <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
           <Pressable onPress={handleSubmit} disabled={mutation.isPending}>
-            <Text className="text-snow">
+            <Text className="text-xl text-snow">
               {mutation.isPending ? (
                 <View className="">
                   <ActivityIndicator size="large" color="#c9e6ee" />
