@@ -26,7 +26,7 @@
 
 1. [개요](#-개요)
 2. [기능](#-기능)
-3. [프로젝트 구조](#-프로젝트 구조)
+3. [프로젝트 구조](#-프로젝트-구조)
 4. [🚀 Getting Started](#-getting-started)
   4.1. [☑️ Prerequisites](#-prerequisites)
   4.2. [⚙️ Installation](#-installation)
@@ -45,13 +45,13 @@
 
 ---
 
-## 👾 Features
+## 👾 기능
 
 <code>❯ REPLACE-ME</code>
 
 ---
 
-## 📁 Project Structure
+## 📁 프로젝트 구조
 
 ```sh
 └── CatLog/
