@@ -55,8 +55,9 @@
 
 | 반려묘 정보 수정 | 반려묘 정보 삭제 | 로그아웃 |
 |-----------|-----------|-----------|
-| <img src="https://github.com/user-attachments/assets/8ead7b13-e802-4459-90d4-3e437a8c3047" width="200" /> | <img src="https://github.com/user-attachments/assets/54072dc4-6bc3-46e6-a6aa-b9d5930efa8e" width="200" /> | <img src="https://github.com/user-attachments/assets/647d46fe-bf86-4655-bc2d-d4bd0d544b50" width="200" /> |
+| <img src="https://github.com/user-attachments/assets/8ead7b13-e802-4459-90d4-3e437a8c3047" width="200" /> | <img src="https://github.com/user-attachments/assets/54072dc4-6bc3-46e6-a6aa-b9d5930efa8e" width="200" /> | <img src="https://github.com/user-attachments/assets/44acab9e-7ab6-4fa4-8cc0-6636e55e05cb" width="200" /> |
 
+![13logout]()
 
 
 
