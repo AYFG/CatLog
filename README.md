@@ -30,18 +30,37 @@
 4. [🚀 Getting Started](#-getting-started)
   4.1. [☑️ Prerequisites](#-prerequisites)
   4.2. [⚙️ Installation](#-installation)
-  4.3. [🤖 Usage](#🤖-usage)
-  4.4. [🧪 Testing](#🧪-testing)
-5. [📌 Project Roadmap](#-project-roadmap)
-6. [🔰 Contributing](#-contributing)
-7. [🎗 License](#-license)
-8. [🙌 Acknowledgments](#-acknowledgments)
+
 
 ---
 
 ## 📍 개요
 
-<code>❯ REPLACE-ME</code>
+| 캣로그 앱 진입 | 회원가입 | 로그인 |
+|----------|----------|----------|
+| <img src="https://github.com/user-attachments/assets/8affecb2-c7ca-4acf-aa0c-59dbb815f010" width="200" /> | <img src="https://github.com/user-attachments/assets/fb9c7200-2918-46f4-9759-31197d79293a" width="200" /> | <img src="https://github.com/user-attachments/assets/33c3f8ba-d072-4a0c-835d-444c0b94304c" width="200" /> |
+
+
+
+
+| 반려묘 정보 생성 | 건강검진 기록 생성 | 건강검진 기록 수정 |
+|----------|----------|----------|
+| <img src="https://github.com/user-attachments/assets/cc29c1cc-797c-4750-9970-3fcceeaff3db" width="200" /> | <img src="https://github.com/user-attachments/assets/def98a64-4f7d-4e82-94b9-7bc7d61dee06" width="200" /> | <img src="https://github.com/user-attachments/assets/3b0c6e7e-030b-4589-a1f8-7a722671148a" width="200" /> |
+
+
+| 일일 건강 기록 생성 | 일일 건강 기록 수정 | 일일 건강 기록 삭제 |
+|----------|----------|----------|
+| <img src="https://github.com/user-attachments/assets/86f42fef-3574-4e65-a8a6-e0cd20d768ec" width="200" /> | <img src="https://github.com/user-attachments/assets/2bcb654a-ae18-44d5-8baa-b254dd67d8ff" width="200" /> | <img src="https://github.com/user-attachments/assets/d126fd75-e357-40d5-8b5e-2e37b45070ec" width="200" /> |
+
+
+| 반려묘 정보 수정 | 반려묘 정보 삭제 | 로그아웃 |
+|-----------|-----------|-----------|
+| <img src="https://github.com/user-attachments/assets/8ead7b13-e802-4459-90d4-3e437a8c3047" width="200" /> | <img src="https://github.com/user-attachments/assets/54072dc4-6bc3-46e6-a6aa-b9d5930efa8e" width="200" /> | <img src="https://github.com/user-attachments/assets/647d46fe-bf86-4655-bc2d-d4bd0d544b50" width="200" /> |
+
+
+
+
+
 
 ---
 
@@ -194,7 +213,7 @@ Install CatLog using one of the following methods:
 ```sh
 ❯ cd CatLog
 ```
-
+ 
 3. Install the project dependencies:
 
 
