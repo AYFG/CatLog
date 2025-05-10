@@ -3,6 +3,7 @@ import { body } from "express-validator";
 import UserModel from "../models/user.js";
 import * as authController from "../controllers/auth.js";
 import { Request, Response, NextFunction } from "express";
+import { authChecker } from "../middleware/authChecker.js";
 
 const router = express.Router();
 
@@ -43,6 +44,6 @@ router.post(
 
 router.post("/login", authController.login);
 router.post("/refresh", authController.refresh);
-router.delete("/deleteUser/:userId", authController.deleteUser);
+router.delete("/deleteUser/:userId", authChecker, authController.deleteUser);
 
 export default router;

@@ -23,7 +23,7 @@ export default function DeleteUserModal() {
   }, []);
   const mutation = useMutation({
     mutationFn: () =>
-      apiRequest(`deleteUser/${userData?.userId}`, "DELETE", undefined, userData?.accessToken),
+      apiRequest(`auth/deleteUser/${userData?.userId}`, "DELETE", undefined, userData?.accessToken),
     onSuccess: () => {
       router.push("/Login");
       removeData("userData");
