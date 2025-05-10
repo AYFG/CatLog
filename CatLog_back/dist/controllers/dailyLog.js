@@ -5,7 +5,7 @@ export const createDailyLog = async (req, res, next) => {
         const { catId } = req.params;
         const { defecation, vitamin, weight, etc, logDate, cat } = req.body;
         const { catName } = cat;
-        if (defecation === undefined || !vitamin || !weight || !logDate) {
+        if (defecation === undefined || vitamin === undefined || !weight || !logDate) {
             const error = new Error("필수 입력값이 누락되었습니다.");
             error.statusCode = 400;
             throw error;

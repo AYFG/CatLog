@@ -9,26 +9,31 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(modal)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
         <Stack.Screen name="Login" options={{ headerShown: false }} />
         <Stack.Screen
-          name="LogoutModal"
+          name="(modal)/LogoutModal"
           options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
         />
         <Stack.Screen
-          name="EditCatModal"
+          name="(modal)/EditCatModal"
           options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
         />
         <Stack.Screen
-          name="DeleteCatModal"
+          name="(modal)/DeleteCatModal"
           options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
         />
         <Stack.Screen
-          name="EditCalendarModal"
+          name="(modal)/EditCalendarModal"
           options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
         />
         <Stack.Screen
-          name="DeleteCalendarModal"
+          name="(modal)/DeleteCalendarModal"
+          options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
+        />
+        <Stack.Screen
+          name="(modal)/DeleteUserModal"
           options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
         />
         <Stack.Screen name="Signup" options={{ headerShown: false }} />
@@ -36,6 +41,7 @@ export default function RootLayout() {
         <Stack.Screen name="DailyLog/[logDate]" options={{ headerShown: false }} />
         <Stack.Screen name="ChangeCat/[catId]" options={{ headerShown: false }} />
         <Stack.Screen name="MedicalLog" options={{ headerShown: false }} />
+        <Stack.Screen name="Settings" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
     </QueryClientProvider>

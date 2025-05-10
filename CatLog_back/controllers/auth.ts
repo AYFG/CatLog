@@ -5,6 +5,9 @@ import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import User from "../models/user.js";
 import { CustomError } from "../types/error.js";
+import Cat from "../models/cat.js";
+import DailyLog from "../models/dailyLog.js";
+import MedicalLog from "../models/medicalLog.js";
 
 const AUTH_SECRET = process.env.AUTH_SECRET;
 const AUTH_REFRESH_SECRET = process.env.AUTH_REFRESH_SECRET;
@@ -171,6 +174,42 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
       error.name = "RefreshTokenExpired";
       next(error);
     }
+    error.statusCode = error.statusCode || 500;
+    next(error);
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.params.userId;
+
+    if (!userId) {
+      const error = new Error("사용자 ID가 필요합니다.") as CustomError;
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const user = await User.findByIdAndDelete(userId);
+
+    if (!user) {
+      const error = new Error("사용자를 찾을 수 없습니다.") as CustomError;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const cats = await Cat.find({ owner: userId });
+    for (const cat of cats) {
+      await DailyLog.deleteMany({ cat: cat._id });
+      await MedicalLog.deleteMany({ cat: cat._id });
+      await Cat.findByIdAndDelete(cat._id);
+    }
+
+    res.status(200).json({
+      ok: 1,
+      message: "사용자와 관련된 모든 데이터가 성공적으로 삭제되었습니다.",
+    });
+  } catch (err) {
+    const error = err as CustomError;
     error.statusCode = error.statusCode || 500;
     next(error);
   }

@@ -31,7 +31,6 @@ export default function DailyLog() {
     etcParams: string;
   }>();
 
-  console.log(vitaminParams === "false");
   const [token, setToken] = useState("");
   const [defecation, setDefecation] = useState<boolean>(
     defecationParams === "false" ? false : true,

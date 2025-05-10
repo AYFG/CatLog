@@ -6,7 +6,7 @@ const dailyLogSchema = new Schema({
         required: true,
     },
     vitamin: {
-        type: String,
+        type: Boolean,
         required: true,
     },
     weight: {

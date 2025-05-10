@@ -20,7 +20,6 @@ export default function EditCalendarModal() {
     etcParams,
     logDateIdParams,
   } = useLocalSearchParams();
-  console.log(logDateIdParams);
   return (
     <Animated.View className="items-center justify-end flex-1 bg-[#00000040]" entering={FadeIn}>
       <Pressable onPress={() => router.back()} style={StyleSheet.absoluteFill} />

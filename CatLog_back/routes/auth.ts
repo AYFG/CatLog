@@ -43,5 +43,6 @@ router.post(
 
 router.post("/login", authController.login);
 router.post("/refresh", authController.refresh);
+router.delete("/deleteUser/:userId", authController.deleteUser);
 
 export default router;

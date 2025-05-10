@@ -52,6 +52,11 @@ export default function RootLayout() {
               size={focused ? 27 : 24}
             />
           ),
+          headerLeft: () => (
+            <Link href="/Settings" className="ml-4">
+              <Ionicons name="settings-outline" size={24} color="white" />
+            </Link>
+          ),
           headerRight: () => (
             <>
               <Link href="/LogoutModal" className="ml-auto mr-4">

@@ -135,24 +135,7 @@ export default function CalendarScreen() {
                     <Text className="text-2xl font-bold ">{dailyLog.cat.catName}</Text>
                     <Text className="text-2xl font-medium">의 건강 기록</Text>
                   </View>
-                  {/* 
-                  <Link
-                    className="p-2 rounded-lg bg-prelude"
-                    href={{
-                      pathname: "/DailyLog/[logDate]",
-                      params: {
-                        logDate,
-                        catIdParams: dailyLog.cat.catId,
-                        catNameParams: dailyLog.cat.catName,
-                        defecationParams: dailyLog.defecation ? "true" : "false",
-                        vitaminParams: dailyLog.vitamin,
-                        weightParams: dailyLog.weight,
-                        etcParams: dailyLog.etc,
-                      },
-                    }}
-                  >
-                    <Text className="text-lg font-semiBold text-snow">수정하기</Text>
-                  </Link> */}
+
                   <Link
                     href={{
                       pathname: "/EditCalendarModal",

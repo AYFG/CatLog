@@ -2,13 +2,11 @@ import RouteButton from "@/components/RouteButton";
 import { useCatStore } from "@/store/useCatStore";
 import { calculateAge } from "@/utils/calculateAge";
 import { calculateNextDate } from "@/utils/calculateNextDate";
-import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Button, Image, ScrollView, Text, View, RefreshControl } from "react-native";
+import { Image, RefreshControl, ScrollView, Text, View } from "react-native";
 
 export default function MyPage() {
   const router = useRouter();

@@ -97,7 +97,6 @@ export default function MedicalLog() {
     mutationFn: (medicalLog: MedicalLogData) =>
       apiRequest(`medicalLog/${selectedCat.id}`, "POST", medicalLog, token),
     onSuccess: (data) => {
-      console.log(data);
       queryClient.invalidateQueries({ queryKey: ["cats"] });
       router.back();
     },
