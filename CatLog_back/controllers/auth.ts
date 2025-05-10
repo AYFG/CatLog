@@ -199,8 +199,8 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 
     const cats = await Cat.find({ owner: userId });
     for (const cat of cats) {
-      await DailyLog.deleteMany({ cat: cat._id });
-      await MedicalLog.deleteMany({ cat: cat._id });
+      await DailyLog.deleteMany({ "cat.catId": cat._id });
+      await MedicalLog.deleteMany({ "cat.catId": cat._id });
       await Cat.findByIdAndDelete(cat._id);
     }
 
