@@ -56,18 +56,6 @@ export default function MyPage() {
                   />
                 </View>
 
-                {/* <Button title="삭제" onPress={() => deleteCatHandler(v._id)} /> */}
-                {/* <View className="mb-3">
-                  <Link
-                    href={{
-                      pathname: "/ChangeCat/[catId]",
-                      params: { catId: v._id || "", name: v.name, birthDay: v.birthDate },
-                    }}
-                  >
-                    <Text>정보 수정</Text>
-                  </Link>
-                </View> */}
-
                 <View className="flex flex-col flex-1">
                   <View className="flex flex-row justify-between">
                     <View className="flex flex-row items-center gap-2">
@@ -166,7 +154,7 @@ export default function MyPage() {
           ) : (
             <View className="flex flex-col items-center gap-4">
               <Text>등록된 반려묘가 없습니다.</Text>
-              <RouteButton children="반려묘를 등록해주세요" routeHref="/MyCat" />
+              <RouteButton children="반려묘를 등록해주세요" routeHref="/CreateCat" />
             </View>
           )}
         </View>
