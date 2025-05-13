@@ -12,8 +12,9 @@
 
 1. [📱 앱 소개](#-앱-소개)
 2. [✨ 기능](#-기능)
-3. [📁 프로젝트 구조](#-프로젝트-구조)
-4. [🚀 시작하기](#-시작하기)
+3. [📁 폴더 구조](#-폴더-구조)
+4. [🔎 프로젝트 다이어그램](#-프로젝트-다이어그램)
+5. [🚀 시작하기](#-시작하기)
 ---
 
 ## 📱 앱 소개
@@ -23,6 +24,20 @@
 데이터 기반으로 케어가 가능합니다.<br/>
 또한, 여러 마리 고양이의 정보를 각각 등록 및 관리할 수 있어 다묘 가정에서도 효율적인 건강 관리가 가능하며, 각 고양이의 개별 상태를 장기적으로 추적하고 비교할 수 있는 맞춤형 반려묘 관리 도구로 활용할 수 있습니다.
 
+
+
+
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![React Native](https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
+![TanStack Query](https://img.shields.io/badge/TanStack%20Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-000000?style=for-the-badge&logo=zustand&logoColor=white)
+![Rive](https://img.shields.io/badge/Rive-000000?style=for-the-badge&logo=rive&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
 
 ---
 
@@ -164,12 +179,16 @@
             ├── fetchApi.ts
             └── storage.ts
 ```
+## 🔎 프로젝트 다이어그램
 
+![diagram](https://github.com/user-attachments/assets/f72a997c-fcdc-4697-977b-fdf892396691)
 
 ---
 ## 🚀 시작하기
 
-1. Google Play에서 '캣로그' 검색 후 다운로드 <br/>
+### 출시를 위한 Google Play 비공개 테스트 진행중입니다.
+
+~~1. Google Play에서 '캣로그' 검색 후 다운로드 <br/>~~
 2. 회원가입 후 로그인 <br/>
 3. 반려묘 정보 등록 (이름, 나이) <br/>
 4. 캘린더에서 기록을 시작하세요!
