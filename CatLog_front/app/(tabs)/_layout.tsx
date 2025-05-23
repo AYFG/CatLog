@@ -58,11 +58,9 @@ export default function RootLayout() {
             </Link>
           ),
           headerRight: () => (
-            <>
-              <Link href="/LogoutModal" className="ml-auto mr-4">
-                <Text className="text-xl color-white">로그아웃</Text>
-              </Link>
-            </>
+            <Link href="/LogoutModal" className="ml-auto mr-4 ">
+              <Text className="text-xl color-white">로그아웃</Text>
+            </Link>
           ),
         }}
       />

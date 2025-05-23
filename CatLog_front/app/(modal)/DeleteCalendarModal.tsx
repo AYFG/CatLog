@@ -46,21 +46,22 @@ export default function DeleteCalendarModal() {
 
         <View className="flex flex-row items-center justify-center my-4">
           <View className=" font-bold flex-1 ml-4 mr-2 py-4 rounded-lg bg-[#e9ecef]">
-            <Pressable onPress={() => router.back()}>
+            <Pressable onPress={() => router.back()} android_ripple={{ color: "#ddd" }}>
               <Text className="font-bold text-center">취소</Text>
             </Pressable>
           </View>
-          <View className="items-center flex-1 py-4 mr-4 rounded-lg bg-wePeep">
-            <Pressable onPress={() => deleteCatHandler(logDateIdParams.toString())}>
-              {mutation.isPending ? (
-                <View className="">
-                  <ActivityIndicator size="large" color="#c9e6ee" />
-                </View>
-              ) : (
-                <Text className="font-bold text-center text-snow">확인</Text>
-              )}
-            </Pressable>
-          </View>
+
+          <Pressable
+            onPress={() => deleteCatHandler(logDateIdParams.toString())}
+            className="items-center justify-center flex-1 py-4 mr-4 rounded-lg bg-wePeep h-14"
+            android_ripple={{ color: "#f5d4e0" }}
+          >
+            {mutation.isPending ? (
+              <ActivityIndicator size="large" color="#c9e6ee" />
+            ) : (
+              <Text className="font-bold text-center text-snow">확인</Text>
+            )}
+          </Pressable>
         </View>
       </Animated.View>
     </Animated.View>

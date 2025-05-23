@@ -26,51 +26,57 @@ export default function EditCatModal() {
         entering={SlideInDown}
         className="flex flex-col items-center w-full shadow-lg rounded-xl bg-snow "
       >
-        <Link
-          href={{
-            pathname: "/MedicalLog",
-            params: {
-              catId: catId,
-              nameParams: nameParams,
-              healthDateParams: healthDateParams,
-              healthCycleParams: healthCycleParams,
-              heartWormParams: heartWormParams,
-              heartWormCycleParams: heartWormCycleParams,
-            },
+        <Pressable
+          className="w-full p-6 border-b border-[#ddd]"
+          android_ripple={{ color: "#ddd" }}
+          onPress={() => {
+            router.push({
+              pathname: "/MedicalLog",
+              params: {
+                catId: catId,
+                nameParams: nameParams,
+                healthDateParams: healthDateParams,
+                healthCycleParams: healthCycleParams,
+                heartWormParams: heartWormParams,
+                heartWormCycleParams: heartWormCycleParams,
+              },
+            });
           }}
         >
-          <View className="w-full p-6 border-b border-[#ddd]">
-            <Text className="text-lg font-medium text-center">건강 기록 수정</Text>
-          </View>
-        </Link>
+          <Text className="text-lg font-medium text-center">건강 기록 수정</Text>
+        </Pressable>
 
-        <Link
-          href={{
-            pathname: "/ChangeCat/[catId]",
-            params: {
-              catId: catId.toString() || "",
-              nameParams: nameParams || "",
-              birthDay: birthDay,
-            },
+        <Pressable
+          className="w-full p-6 border-b border-[#ddd]"
+          android_ripple={{ color: "#ddd" }}
+          onPress={() => {
+            router.push({
+              pathname: "/ChangeCat/[catId]",
+              params: {
+                catId: catId.toString() || "",
+                nameParams: nameParams || "",
+                birthDay: birthDay,
+              },
+            });
           }}
         >
-          <View className="w-full p-6 border-b border-[#ddd]">
-            <Text className="text-lg font-medium text-center">반려묘 정보 수정</Text>
-          </View>
-        </Link>
+          <Text className="text-lg font-medium text-center">반려묘 정보 수정</Text>
+        </Pressable>
 
-        <Link
-          href={{
-            pathname: "/DeleteCatModal",
-            params: {
-              catId: catId,
-            },
+        <Pressable
+          className="w-full p-6 border-b"
+          android_ripple={{ color: "#ddd" }}
+          onPress={() => {
+            router.push({
+              pathname: "/DeleteCatModal",
+              params: {
+                catId: catId,
+              },
+            });
           }}
         >
-          <View className="w-full p-6 border-b">
-            <Text className="font-medium text-lg text-center text-[#ff0000]">삭제</Text>
-          </View>
-        </Link>
+          <Text className="font-medium text-lg text-center text-[#ff0000]">삭제</Text>
+        </Pressable>
       </Animated.View>
     </Animated.View>
   );

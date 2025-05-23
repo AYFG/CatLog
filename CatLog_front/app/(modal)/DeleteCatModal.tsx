@@ -43,18 +43,19 @@ export default function DeleteCatModal() {
         <Text className="ml-5">삭제하면 기록들도 함께 사라지고</Text>
         <Text className="ml-5">복구 할 수 없어요.</Text>
         <View className="flex flex-row items-center justify-center my-4">
-          <View className=" font-bold flex-1 ml-4 mr-2 py-4 rounded-lg bg-[#e9ecef]">
-            <Pressable onPress={() => router.back()}>
+          <View className=" font-bold flex-1 ml-4 mr-2 py-4 rounded-lg h-14 bg-[#e9ecef]">
+            <Pressable onPress={() => router.back()} android_ripple={{ color: "#ddd" }}>
               <Text className="font-bold text-center">취소</Text>
             </Pressable>
           </View>
-          <View className="items-center flex-1 py-4 mr-4 rounded-lg bg-wePeep">
+          <View className="items-center justify-center flex-1 py-4 mr-4 rounded-lg h-14 bg-wePeep">
             {mutation.isPending ? (
-              <View className="">
-                <ActivityIndicator size="large" color="#c9e6ee" />
-              </View>
+              <ActivityIndicator size="large" color="#c9e6ee" />
             ) : (
-              <Pressable onPress={() => deleteCatHandler(catId.toString())}>
+              <Pressable
+                onPress={() => deleteCatHandler(catId.toString())}
+                android_ripple={{ color: "#f5d4e0" }}
+              >
                 <Text className="font-bold text-center text-snow">확인</Text>
               </Pressable>
             )}

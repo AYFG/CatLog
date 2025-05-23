@@ -283,19 +283,16 @@ export default function MedicalLog() {
           )}
         </View>
 
-        <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-          <Pressable onPress={handleSubmit} disabled={mutation.isPending}>
-            <Text className="text-xl text-snow">
-              {mutation.isPending ? (
-                <View className="">
-                  <ActivityIndicator size="large" color="#c9e6ee" />
-                </View>
-              ) : (
-                "저장하기"
-              )}
-            </Text>
-          </Pressable>
-        </View>
+        <Pressable
+          onPress={handleSubmit}
+          disabled={mutation.isPending}
+          className="flex items-center justify-center p-4 mt-10 rounded-lg bg-wePeep h-14"
+          android_ripple={{ color: "#f5d4e0" }}
+        >
+          <Text className="text-xl text-snow">
+            {mutation.isPending ? <ActivityIndicator size="large" color="#c9e6ee" /> : "저장하기"}
+          </Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

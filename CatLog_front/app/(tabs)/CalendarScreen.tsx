@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useQueries } from "@tanstack/react-query";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
 export default function CalendarScreen() {
@@ -179,12 +179,14 @@ export default function CalendarScreen() {
               />
             </View>
           ) : (
-            <Link
-              className="flex items-center w-full p-4 my-10 rounded-lg bg-wePeep"
-              href={{ pathname: "/DailyLog/[logDate]", params: { logDate } }}
-            >
-              <Text className="text-snow">일일 건강 기록 추가하기</Text>
-            </Link>
+            <Pressable android_ripple={{ color: "#f5d4e0" }}>
+              <Link
+                className="flex items-center w-full p-4 my-10 rounded-lg bg-wePeep"
+                href={{ pathname: "/DailyLog/[logDate]", params: { logDate } }}
+              >
+                <Text className="text-snow">일일 건강 기록 추가하기</Text>
+              </Link>
+            </Pressable>
           )}
         </View>
 

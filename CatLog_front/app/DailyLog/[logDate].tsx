@@ -241,14 +241,13 @@ export default function DailyLog() {
         </View>
 
         <Pressable
-          className="flex items-center p-4 mt-10 rounded-lg bg-wePeep"
+          android_ripple={{ color: "#f5d4e0" }}
+          className="flex items-center justify-center p-4 mt-10 rounded-lg h-14 bg-wePeep"
           onPress={handleSubmit}
           disabled={mutation.isPending}
         >
           {mutation.isPending ? (
-            <View className="">
-              <ActivityIndicator size="large" color="#c9e6ee" />
-            </View>
+            <ActivityIndicator size="large" color="#c9e6ee" />
           ) : (
             <Text className="text-lg text-snow">저장하기</Text>
           )}

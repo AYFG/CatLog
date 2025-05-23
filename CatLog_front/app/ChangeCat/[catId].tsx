@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ChangeCat() {
@@ -130,11 +130,17 @@ export default function ChangeCat() {
             />
           )}
         </View>
-        <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-          <Pressable onPress={handleSubmit} disabled={mutation.isPending}>
-            <Text className="text-snow">{mutation.isPending ? "처리 중..." : "확인"}</Text>
-          </Pressable>
-        </View>
+
+        <Pressable
+          onPress={handleSubmit}
+          disabled={mutation.isPending}
+          android_ripple={{ color: "#f5d4e0" }}
+          className="flex items-center justify-center p-4 mt-10 rounded-lg bg-wePeep h-14"
+        >
+          <Text className="text-snow">
+            {mutation.isPending ? <ActivityIndicator size="large" color="#c9e6ee" /> : "확인"}
+          </Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );

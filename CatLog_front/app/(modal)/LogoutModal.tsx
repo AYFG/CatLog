@@ -21,16 +21,20 @@ export default function LogoutModal() {
         <Text className="mt-5 mb-3 ml-5 font-bold">로그아웃</Text>
         <Text className="ml-5">정말 로그아웃할까요?</Text>
         <View className="flex flex-row items-center justify-center my-4">
-          <View className=" font-bold flex-1 ml-4 mr-2 py-4 rounded-lg bg-[#e9ecef]">
-            <Pressable onPress={() => router.back()}>
-              <Text className="font-bold text-center">취소</Text>
-            </Pressable>
-          </View>
-          <View className="items-center flex-1 py-4 mr-4 rounded-lg bg-wePeep">
-            <Pressable onPress={handleLogout}>
-              <Text className="font-bold text-center text-snow">확인</Text>
-            </Pressable>
-          </View>
+          <Pressable
+            onPress={() => router.back()}
+            android_ripple={{ color: "#ddd" }}
+            className="font-bold flex-1 ml-4 mr-2 py-4 rounded-lg bg-[#e9ecef]"
+          >
+            <Text className="font-bold text-center">취소</Text>
+          </Pressable>
+          <Pressable
+            onPress={handleLogout}
+            android_ripple={{ color: "#f5d4e0" }}
+            className="items-center flex-1 py-4 mr-4 rounded-lg bg-wePeep"
+          >
+            <Text className="font-bold text-center text-snow">확인</Text>
+          </Pressable>
         </View>
       </Animated.View>
     </Animated.View>

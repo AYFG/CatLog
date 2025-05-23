@@ -19,11 +19,13 @@ export default function Settings() {
           </View>
         </View>
 
-        <Pressable onPress={() => router.push("/DeleteUserModal")}>
-          <View className="flex flex-row items-center justify-between w-full mt-6 mb-2">
-            <Text className="text-lg font-medium">회원탈퇴</Text>
-            <Ionicons name="chevron-forward-outline" size={24} />
-          </View>
+        <Pressable
+          onPress={() => router.push("/DeleteUserModal")}
+          android_ripple={{ color: "#ddd" }}
+          className="flex flex-row items-center justify-between p-4 mt-6 border-b-2 border-[#ddd] rounded-lg"
+        >
+          <Text className="text-lg font-medium">회원탈퇴</Text>
+          <Ionicons name="chevron-forward-outline" size={24} />
         </Pressable>
       </View>
     </SafeAreaView>

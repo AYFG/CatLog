@@ -42,22 +42,25 @@ export default function DeleteUserModal() {
         <Text className="ml-5">탈퇴하면 기록들도 함께 사라지고</Text>
         <Text className="ml-5">복구 할 수 없어요.</Text>
         <View className="flex flex-row items-center justify-center my-4">
-          <View className=" font-bold flex-1 ml-4 mr-2 py-4 rounded-lg bg-[#e9ecef]">
-            <Pressable onPress={() => router.back()}>
-              <Text className="font-bold text-center">취소</Text>
-            </Pressable>
-          </View>
-          <View className="items-center flex-1 py-4 mr-4 rounded-lg bg-wePeep">
+          <Pressable
+            onPress={() => router.back()}
+            android_ripple={{ color: "#ddd" }}
+            className=" flex-1 ml-4 mr-2 py-4 rounded-lg bg-[#e9ecef] h-14"
+          >
+            <Text className="font-bold text-center">취소</Text>
+          </Pressable>
+
+          <Pressable
+            className="items-center flex-1 py-4 mr-4 rounded-lg h-14 bg-wePeep"
+            onPress={deleteUserHandler}
+            android_ripple={{ color: "#f5d4e0" }}
+          >
             {mutation.isPending ? (
-              <View className="">
-                <ActivityIndicator size="large" color="#c9e6ee" />
-              </View>
+              <ActivityIndicator size="large" color="#c9e6ee" />
             ) : (
-              <Pressable onPress={deleteUserHandler}>
-                <Text className="font-bold text-center text-snow">확인</Text>
-              </Pressable>
+              <Text className="font-bold text-center text-snow">확인</Text>
             )}
-          </View>
+          </Pressable>
         </View>
       </Animated.View>
     </Animated.View>

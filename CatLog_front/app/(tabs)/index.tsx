@@ -60,7 +60,13 @@ export default function App() {
     );
   }
 
-  if (isError || notLogin) {
+  if (isError) {
+    console.log("에러");
+    console.log(isError);
+    return <ReLogin />;
+  }
+  if (notLogin) {
+    console.log("notLogin");
     return <ReLogin />;
   }
 

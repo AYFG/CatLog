@@ -121,19 +121,17 @@ export default function CreateCat() {
               />
             )}
           </View>
-          <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-            <Pressable onPress={handleSubmit} disabled={mutation.isPending}>
-              <Text className="text-snow">
-                {mutation.isPending ? (
-                  <View className="">
-                    <ActivityIndicator size="large" color="#c9e6ee" />
-                  </View>
-                ) : (
-                  "확인"
-                )}
-              </Text>
-            </Pressable>
-          </View>
+
+          <Pressable
+            android_ripple={{ color: "#f5d4e0" }}
+            onPress={handleSubmit}
+            disabled={mutation.isPending}
+            className="flex items-center justify-center p-4 mt-10 rounded-lg h-14 bg-wePeep"
+          >
+            <Text className="text-snow">
+              {mutation.isPending ? <ActivityIndicator size="large" color="#c9e6ee" /> : "확인"}
+            </Text>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>

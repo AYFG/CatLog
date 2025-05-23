@@ -17,11 +17,9 @@ export async function apiRequest(endpoint: string, method: string, body?: object
       if (response.status === 401 && errorResponse.errorName === "TokenExpiredError") {
         const refreshTokenResponse = await refreshTokenRequest();
         if (refreshTokenResponse.accessToken) {
-          console.log("재요청");
           return await apiRequest(endpoint, method, body, refreshTokenResponse.accessToken);
         }
       }
-
       throw errorResponse;
     }
 
@@ -30,10 +28,20 @@ export async function apiRequest(endpoint: string, method: string, body?: object
     return data;
   } catch (error) {
     console.error(error);
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "name" in error &&
+      error.name === "TokenExpiredError"
+    ) {
+      const refreshTokenResponse = await refreshTokenRequest();
+      if (refreshTokenResponse.accessToken) {
+        return await apiRequest(endpoint, method, body, refreshTokenResponse.accessToken);
+      }
+    }
     throw error;
   }
 }
-
 export async function refreshTokenRequest() {
   try {
     const userData = await getData("userData");
@@ -51,7 +59,6 @@ export async function refreshTokenRequest() {
       const errorResponse = await response.json();
       if (response.status === 401 && errorResponse.errorName === "RefreshTokenExpired") {
         console.log(errorResponse);
-        console.log("리프레쉬토큰만료");
 
         throw new Error(`${response.status}`);
       }

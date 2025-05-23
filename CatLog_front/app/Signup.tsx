@@ -142,17 +142,21 @@ export default function Signup() {
         {checkValidation.confirmPassword && (
           <Text className="text-[#ff0000]">{checkValidation.confirmPassword}</Text>
         )}
-        <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-          <Pressable onPress={handleSignup} disabled={mutation.isPending}>
-            {mutation.isPending ? (
-              <View className="">
-                <ActivityIndicator size="large" color="#c9e6ee" />
-              </View>
-            ) : (
-              <Text className="text-snow">회원가입</Text>
-            )}
-          </Pressable>
-        </View>
+
+        <Pressable
+          android_ripple={{ color: "#f5d4e0" }}
+          onPress={handleSignup}
+          disabled={mutation.isPending}
+          className="flex items-center justify-center p-4 mt-10 rounded-lg bg-wePeep h-14"
+        >
+          {mutation.isPending ? (
+            <View className="">
+              <ActivityIndicator size="large" color="#c9e6ee" />
+            </View>
+          ) : (
+            <Text className="text-snow">회원가입</Text>
+          )}
+        </Pressable>
       </View>
     </View>
   );

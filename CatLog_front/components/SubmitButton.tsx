@@ -7,10 +7,12 @@ interface SubmitButtonProps {
 
 export default function SubmitButton({ children, handleSubmit }: SubmitButtonProps) {
   return (
-    <View className="flex items-center p-4 mt-10 rounded-lg bg-wePeep">
-      <Pressable onPress={handleSubmit}>
-        <Text className="text-snow">{children}</Text>
-      </Pressable>
-    </View>
+    <Pressable
+      android_ripple={{ color: "#f5d4e0" }}
+      onPress={handleSubmit}
+      className="flex items-center p-4 mt-10 rounded-lg bg-wePeep"
+    >
+      <Text className="text-snow">{children}</Text>
+    </Pressable>
   );
 }

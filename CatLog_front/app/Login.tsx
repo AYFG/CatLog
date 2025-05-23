@@ -94,14 +94,13 @@ export default function Login() {
         </View>
 
         <Pressable
-          className="flex items-center p-4 mt-10 rounded-lg bg-wePeep"
+          android_ripple={{ color: "#f5d4e0" }}
+          className="flex items-center justify-center p-4 mt-10 rounded-lg h-14 bg-wePeep"
           onPress={handleLogin}
           disabled={mutation.isPending}
         >
           {mutation.isPending ? (
-            <View className="">
-              <ActivityIndicator size="large" color="#c9e6ee" />
-            </View>
+            <ActivityIndicator size="large" color="#c9e6ee" />
           ) : (
             <Text className="text-lg text-snow">로그인</Text>
           )}
