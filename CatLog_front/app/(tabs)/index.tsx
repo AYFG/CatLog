@@ -85,12 +85,12 @@ export default function App() {
     <View className="flex-1 bg-snow">
       <View className="flex items-center justify-center">
         <View className="mt-6 w-[350] h-[350] bg-jaggedIce rounded-full">
-          {/* <Rive
+          <Rive
             resourceName="whitecat"
             artboardName="WhiteCat 2"
             stateMachineName={riveState}
             // style={{ width: 300, height: 300 }}
-          /> */}
+          />
         </View>
 
         <View className="mt-12">
