@@ -2,7 +2,7 @@
   "expo": {
     "name": "CatLog",
     "slug": "CatLog",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -48,7 +48,7 @@
         "projectId": "9a9d3674-10a5-4fe1-8e4c-a03787fd5258"
       }
     },
-    "runtimeVersion": "1.0.0",
+    "runtimeVersion": "1.0.4",
     "updates": {
       "url": "https://u.expo.dev/9a9d3674-10a5-4fe1-8e4c-a03787fd5258"
     }

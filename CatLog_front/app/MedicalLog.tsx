@@ -286,7 +286,7 @@ export default function MedicalLog() {
         <Pressable
           onPress={handleSubmit}
           disabled={mutation.isPending}
-          className="flex items-center justify-center p-4 mt-10 rounded-lg bg-wePeep h-14"
+          className="flex items-center justify-center h-16 p-4 mt-10 rounded-lg bg-wePeep"
           android_ripple={{ color: "#f5d4e0" }}
         >
           <Text className="text-xl text-snow">
