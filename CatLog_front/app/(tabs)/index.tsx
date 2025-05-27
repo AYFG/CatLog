@@ -16,6 +16,7 @@ import { TimerPickerModal } from "react-native-timer-picker";
 import { LinearGradient } from "react-native-linear-gradient";
 import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
+import * as Updates from "expo-updates";
 
 export default function App() {
   const router = useRouter();
@@ -28,6 +29,20 @@ export default function App() {
   const [timerPickerModalOpen, setTimerPickerModalOpen] = useState(false);
   const [huntingTime, setHuntingTime] = useState(60 * 20);
   const [ownerPickTime, setOwnerPickTime] = useState<number | null>(null);
+
+  async function onFetchUpdateAsync() {
+    try {
+      const update = await Updates.checkForUpdateAsync();
+
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    } catch (error) {
+      alert(`Error fetching latest Expo update: ${error}`);
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const storedUserData = await getData("userData");
@@ -39,6 +54,7 @@ export default function App() {
       }
     };
     fetchData();
+    onFetchUpdateAsync();
   }, []);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
