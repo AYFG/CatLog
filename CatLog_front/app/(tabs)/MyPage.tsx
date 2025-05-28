@@ -1,5 +1,7 @@
 import RouteButton from "@/components/RouteButton";
 import { useCatStore } from "@/store/useCatStore";
+import { UserData } from "@/types/auth";
+import { CatData } from "@/types/cat";
 import { calculateAge } from "@/utils/calculateAge";
 import { calculateNextDate } from "@/utils/calculateNextDate";
 import { apiRequest } from "@/utils/fetchApi";

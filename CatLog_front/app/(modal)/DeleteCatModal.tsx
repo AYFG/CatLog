@@ -1,3 +1,5 @@
+import { UserData } from "@/types/auth";
+import { CatData } from "@/types/cat";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData, removeData } from "@/utils/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

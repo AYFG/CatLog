@@ -22,7 +22,7 @@ export default function Signup() {
     mutationFn: ({ email, password, name }: { email: string; password: string; name: string }) =>
       apiRequest("auth/signup", "POST", { email, password, name }),
     onSuccess: () => {
-      router.push("/Login");
+      router.push("/Welcome");
     },
     onError: (error: signupError) => {
       if (error.data[0].path === "email") {

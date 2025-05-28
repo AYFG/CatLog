@@ -1,4 +1,4 @@
-interface DailyLogData {
+export interface DailyLogData {
   _id?: string;
   cat: {
     catId: string;

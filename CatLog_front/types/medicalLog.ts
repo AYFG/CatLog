@@ -1,4 +1,4 @@
-interface MedicalLogData {
+export interface MedicalLogData {
   _id?: string;
   healthCheckupDate: string;
   healthCycle: string;

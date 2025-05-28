@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CatData } from "@/types/cat";
 
 export default function CreateCat() {
   const queryClient = useQueryClient();

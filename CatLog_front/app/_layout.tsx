@@ -1,10 +1,10 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useReactQueryDevTools } from "@dev-plugins/react-query";
+
 export default function RootLayout() {
   const queryClient = new QueryClient();
-  useReactQueryDevTools(queryClient);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Stack>
@@ -37,13 +37,14 @@ export default function RootLayout() {
           options={{ headerShown: false, presentation: "transparentModal", animation: "fade" }}
         />
         <Stack.Screen name="Signup" options={{ headerShown: false }} />
+        <Stack.Screen name="Welcome" options={{ headerShown: false }} />
         <Stack.Screen name="CreateCat" options={{ headerShown: false }} />
         <Stack.Screen name="DailyLog/[logDate]" options={{ headerShown: false }} />
         <Stack.Screen name="ChangeCat/[catId]" options={{ headerShown: false }} />
         <Stack.Screen name="MedicalLog" options={{ headerShown: false }} />
         <Stack.Screen name="Settings" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
     </QueryClientProvider>
   );
 }

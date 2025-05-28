@@ -9,6 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { cssInterop } from "nativewind";
+import { DailyLogData } from "@/types/dailyLog";
+import { CatData } from "@/types/cat";
 cssInterop(Ionicons, { className: "style" });
 
 export default function DailyLog() {

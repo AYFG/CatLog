@@ -1,4 +1,6 @@
 import { useCatStore } from "@/store/useCatStore";
+import { CatData } from "@/types/cat";
+import { MedicalLogData } from "@/types/medicalLog";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";

@@ -1,4 +1,4 @@
-interface UserData {
+export interface UserData {
   name: string;
   accessToken: string;
   refreshToken: string;

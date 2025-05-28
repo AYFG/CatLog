@@ -1,4 +1,6 @@
 import RouteButton from "@/components/RouteButton";
+import { UserData } from "@/types/auth";
+import { DailyLogData } from "@/types/dailyLog";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
