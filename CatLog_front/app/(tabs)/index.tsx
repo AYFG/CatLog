@@ -112,7 +112,8 @@ export default function App() {
               resourceName="whitecat"
               artboardName="WhiteCat 2"
               stateMachineName={riveState}
-              // style={{ width: 300, height: 300 }}
+              autoplay={true}
+              style={{}}
             />
           </View>
 
