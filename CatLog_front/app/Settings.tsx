@@ -24,7 +24,7 @@ export default function Settings() {
           android_ripple={{ color: "#ddd" }}
           className="flex flex-row items-center justify-between p-4 mt-6 border-b-2 border-[#ddd] rounded-lg"
         >
-          <Text className="text-lg font-medium">회원탈퇴.</Text>
+          <Text className="text-lg font-medium">회원탈퇴</Text>
           <Ionicons name="chevron-forward-outline" size={24} />
         </Pressable>
       </View>
