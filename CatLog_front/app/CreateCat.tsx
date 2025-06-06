@@ -89,6 +89,7 @@ export default function CreateCat() {
                 checkValidation.catName ? `border-[#ff0000]` : `border-[#ddd]`
               } rounded-xl`}
               placeholder="이름을 입력해주세요"
+              placeholderTextColor="#777777"
               onChangeText={(text) => setCatName(text)}
               value={catName}
             />
@@ -103,6 +104,7 @@ export default function CreateCat() {
               checkValidation.birthDate ? `border-[#ff0000]` : `border-[#ddd]`
             } rounded-xl`}
             placeholder={formatDate(birthDate)}
+            placeholderTextColor="#777777"
             value={formatDate(birthDate)}
             onFocus={() => {
               setShow(true);

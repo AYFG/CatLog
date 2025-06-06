@@ -135,6 +135,7 @@ export default function DailyLog() {
             <TextInput
               className="w-full text-xl"
               placeholder="반려묘를 선택해주세요"
+              placeholderTextColor="#777777"
               value={catNameParams || selectedCat.name}
               onFocus={() => {
                 open();
@@ -220,6 +221,7 @@ export default function DailyLog() {
             <TextInput
               className="w-1/4 pl-5 text-xl border-b-2"
               placeholder="예: 4.5"
+              placeholderTextColor="#777777"
               value={weight.toString()}
               keyboardType="numeric"
               maxLength={4}
@@ -236,6 +238,7 @@ export default function DailyLog() {
             multiline
             numberOfLines={4}
             placeholder="다른 특이사항을 적어보세요"
+            placeholderTextColor="#777777"
             className="py-4 pl-6 border-2 border-[#ddd] rounded-xl text-lg"
             value={etc}
             onChangeText={setEtc}

@@ -72,6 +72,7 @@ export default function Login() {
               checkValidation.email ? `border-[#ff0000]` : `border-[#ddd]`
             } rounded-xl`}
             placeholder="이메일을 입력해주세요"
+            placeholderTextColor="#777777"
             value={email}
             onChangeText={setEmail}
           />
@@ -80,10 +81,11 @@ export default function Login() {
         <View className="">
           <Text className="mb-4 font-bold">비밀번호</Text>
           <TextInput
-            className={`p-4 border-2 ${
+            className={`text-[#777777] p-4 border-2 ${
               checkValidation.password ? `border-[#ff0000]` : `border-[#ddd]`
             } rounded-xl`}
             placeholder="비밀번호"
+            placeholderTextColor="#777777"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -95,7 +97,7 @@ export default function Login() {
 
         <Pressable
           android_ripple={{ color: "#f5d4e0" }}
-          className="flex items-center justify-center p-4 mt-10 rounded-lg h-14 bg-wePeep"
+          className="flex items-center justify-center h-16 p-4 mt-10 rounded-lg bg-wePeep "
           onPress={handleLogin}
           disabled={mutation.isPending}
         >

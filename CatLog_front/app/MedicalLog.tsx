@@ -158,6 +158,7 @@ export default function MedicalLog() {
             <TextInput
               className="w-full text-xl"
               placeholder="반려묘를 선택해주세요"
+              placeholderTextColor="#777777"
               value={selectedCat.name.toString()}
               onFocus={() => {
                 open();
@@ -190,6 +191,7 @@ export default function MedicalLog() {
             <TextInput
               className="text-xl"
               placeholder={healthCheckupDate.toISOString().split("T")[0]}
+              placeholderTextColor="#777777"
               value={healthCheckupDate.toISOString().split("T")[0]}
               onFocus={() => {
                 setHealthDatePickerOpen(true);
@@ -219,6 +221,7 @@ export default function MedicalLog() {
             <TextInput
               className="w-1/4 pl-5 text-xl border-b-2"
               placeholder="예: 120"
+              placeholderTextColor="#777777"
               keyboardType="number-pad"
               value={healthCycle.toString()}
               onChangeText={(cycle) => {
@@ -243,6 +246,7 @@ export default function MedicalLog() {
             <TextInput
               className="text-xl"
               placeholder={heartWorm.toISOString().split("T")[0]}
+              placeholderTextColor="#777777"
               value={heartWorm.toISOString().split("T")[0]}
               onFocus={() => {
                 setHeartWormDatePickerOpen(true);
@@ -275,6 +279,7 @@ export default function MedicalLog() {
               keyboardType="number-pad"
               value={heartWormCycle.toString()}
               placeholder="예: 30"
+              placeholderTextColor="#777777"
               onChangeText={(cycle) => setHeartWormCycle(cycle || "")}
               maxLength={4}
             />

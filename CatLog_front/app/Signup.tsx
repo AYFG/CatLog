@@ -93,6 +93,7 @@ export default function Signup() {
               checkValidation.email ? `border-[#ff0000]` : `border-[#ddd]`
             } rounded-xl`}
             placeholder="이메일을 입력해주세요"
+            placeholderTextColor="#777777"
             value={email}
             onChangeText={setEmail}
           />
@@ -105,6 +106,7 @@ export default function Signup() {
               checkValidation.name ? `border-[#ff0000]` : `border-[#ddd]`
             } rounded-xl`}
             placeholder="닉네임을 입력해주세요"
+            placeholderTextColor="#777777"
             value={name}
             onChangeText={setName}
           />
@@ -114,10 +116,11 @@ export default function Signup() {
         <View className="mb-2">
           <Text className="mb-4 font-bold">비밀번호</Text>
           <TextInput
-            className={`p-4 border-2 ${
+            className={`text-[#777777] p-4 border-2 ${
               checkValidation.password ? `border-[#ff0000]` : `border-[#ddd]`
             } rounded-xl`}
             placeholder="비밀번호"
+            placeholderTextColor="#777777"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -130,10 +133,11 @@ export default function Signup() {
         <View className="mb-2">
           <Text className="mb-4 font-bold">비밀번호 확인</Text>
           <TextInput
-            className={`p-4 border-2 ${
+            className={`text-[#777777] p-4 border-2 ${
               checkValidation.confirmPassword ? `border-[#ff0000]` : `border-[#ddd]`
             } rounded-xl`}
             placeholder="비밀번호 확인"
+            placeholderTextColor="#777777"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
