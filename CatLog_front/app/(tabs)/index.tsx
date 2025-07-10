@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -22,7 +23,19 @@ import { TimerPickerModal } from "react-native-timer-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
+import * as Notifications from "expo-notifications";
 import { UserData } from "@/types/auth";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    };
+  },
+});
 
 export default function App() {
   const router = useRouter();
@@ -36,6 +49,15 @@ export default function App() {
   const [huntingTime, setHuntingTime] = useState(60 * 20);
   const [ownerPickTime, setOwnerPickTime] = useState<number | null>(null);
 
+  useEffect(() => {
+    (async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== "granted") {
+        alert("알림 권한이 필요합니다.");
+      }
+    })();
+  }, []);
+
   async function onFetchUpdateAsync() {
     try {
       const update = await Updates.checkForUpdateAsync();
@@ -45,9 +67,27 @@ export default function App() {
         await Updates.reloadAsync();
       }
     } catch (error) {
-      alert(`Error fetching latest Expo update: ${error}`);
+      alert(`${error}`);
     }
   }
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener((notification) => {
+      console.log("NOTIFICATION RECEIVED");
+      console.log(notification);
+      const userName = notification.request.content.data.userName;
+      console.log(userName);
+    });
+    const subscription2 = Notifications.addNotificationResponseReceivedListener((response) => {
+      console.log("NOTIFICATION RESPONSE RECEIVED");
+      console.log(response);
+      const userName = response.notification.request.content.data.userName;
+      console.log(userName);
+    });
+    return () => {
+      subscription.remove();
+      subscription2.remove();
+    };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,20 +143,31 @@ export default function App() {
     }
   };
 
+  function notificationHandler() {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "test local notification",
+        body: "This is the body of the notification.",
+        data: { userName: "Max" },
+      },
+      trigger: {
+        seconds: 2,
+      },
+    });
+  }
   return (
     <SafeAreaView className="flex-1 bg-snow">
       <ScrollView className="flex">
         <View className="items-center justify-center">
           <View className="mt-6 w-[350] h-[350] bg-jaggedIce rounded-full">
-            <Rive
+            {/* <Rive
               resourceName="whitecat"
               artboardName="WhiteCat 2"
               stateMachineName={riveState}
               autoplay={true}
               style={{}}
-            />
+            /> */}
           </View>
-
           <View className="mt-12">
             <CountdownCircleTimer
               key={huntingTime}
@@ -152,6 +203,7 @@ export default function App() {
               }}
             </CountdownCircleTimer>
           </View>
+
           <View className=" bg-wePeep">
             {timerPickerModalOpen && (
               <TimerPickerModal
@@ -196,7 +248,8 @@ export default function App() {
                 )
               }
               handleSubmit={huntingStart}
-            ></SubmitButton>
+            />
+            <SubmitButton children="test" handleSubmit={notificationHandler}></SubmitButton>
           </View>
         </View>
       </ScrollView>
