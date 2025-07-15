@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Platform,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -48,6 +49,33 @@ export default function App() {
   const [timerPickerModalOpen, setTimerPickerModalOpen] = useState(false);
   const [huntingTime, setHuntingTime] = useState(60 * 20);
   const [ownerPickTime, setOwnerPickTime] = useState<number | null>(null);
+  const [pushToken, setPushToken] = useState<string | null>(null);
+  // push 알림 토큰
+  useEffect(() => {
+    async function configurePushNotifications() {
+      const { status } = await Notifications.getPermissionsAsync();
+      let finalStatus = status;
+
+      if (finalStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        Alert.alert("권한이 없습니다.", "푸시 알림 권한이 없습니다.");
+        return;
+      }
+      const pushTokenData = await Notifications.getExpoPushTokenAsync();
+      console.log(pushTokenData);
+      setPushToken(pushTokenData.data);
+    }
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.DEFAULT,
+      });
+    }
+    configurePushNotifications();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -142,7 +170,7 @@ export default function App() {
       setRiveState("HuntingMovement");
     }
   };
-
+  // local 알림
   function notificationHandler() {
     Notifications.scheduleNotificationAsync({
       content: {
@@ -152,7 +180,22 @@ export default function App() {
       },
       trigger: {
         seconds: 2,
+        type: "timeInterval",
+      } as Notifications.TimeIntervalTriggerInput,
+    });
+  }
+  //  push 알림 보내기
+  function sendPushNotificationHandler() {
+    fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        to: pushToken,
+        title: "Test - sent from a device.",
+        body: "push notification test",
+      }),
     });
   }
   return (
@@ -249,7 +292,11 @@ export default function App() {
               }
               handleSubmit={huntingStart}
             />
-            <SubmitButton children="test" handleSubmit={notificationHandler}></SubmitButton>
+            <SubmitButton children="local 알림" handleSubmit={notificationHandler}></SubmitButton>
+            <SubmitButton
+              children="psuh 알림"
+              handleSubmit={sendPushNotificationHandler}
+            ></SubmitButton>
           </View>
         </View>
       </ScrollView>
