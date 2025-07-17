@@ -26,6 +26,7 @@ import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
 import * as Notifications from "expo-notifications";
 import { UserData } from "@/types/auth";
+import { notificationHandler, sendPushNotificationHandler } from "@/utils/notifications";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -50,7 +51,9 @@ export default function App() {
   const [huntingTime, setHuntingTime] = useState(60 * 20);
   const [ownerPickTime, setOwnerPickTime] = useState<number | null>(null);
   const [pushToken, setPushToken] = useState<string | null>(null);
+
   // push 알림 토큰
+
   useEffect(() => {
     async function configurePushNotifications() {
       const { status } = await Notifications.getPermissionsAsync();
@@ -170,34 +173,7 @@ export default function App() {
       setRiveState("HuntingMovement");
     }
   };
-  // local 알림
-  function notificationHandler() {
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: "test local notification",
-        body: "This is the body of the notification.",
-        data: { userName: "Max" },
-      },
-      trigger: {
-        seconds: 2,
-        type: "timeInterval",
-      } as Notifications.TimeIntervalTriggerInput,
-    });
-  }
-  //  push 알림 보내기
-  function sendPushNotificationHandler() {
-    fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        to: pushToken,
-        title: "Test - sent from a device.",
-        body: "push notification test",
-      }),
-    });
-  }
+
   return (
     <SafeAreaView className="flex-1 bg-snow">
       <ScrollView className="flex">
@@ -224,6 +200,7 @@ export default function App() {
                 setTimerStart(false);
                 setRiveState("BasicMovement");
                 setHuntingTime(60 * 20);
+                notificationHandler();
                 Vibration.vibrate([500, 1000, 500, 1000]);
               }}
             >
@@ -293,10 +270,6 @@ export default function App() {
               handleSubmit={huntingStart}
             />
             <SubmitButton children="local 알림" handleSubmit={notificationHandler}></SubmitButton>
-            <SubmitButton
-              children="psuh 알림"
-              handleSubmit={sendPushNotificationHandler}
-            ></SubmitButton>
           </View>
         </View>
       </ScrollView>
