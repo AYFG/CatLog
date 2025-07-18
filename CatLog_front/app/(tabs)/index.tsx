@@ -179,13 +179,13 @@ export default function App() {
       <ScrollView className="flex">
         <View className="items-center justify-center">
           <View className="mt-6 w-[350] h-[350] bg-jaggedIce rounded-full">
-            {/* <Rive
+            <Rive
               resourceName="whitecat"
               artboardName="WhiteCat 2"
               stateMachineName={riveState}
               autoplay={true}
               style={{}}
-            /> */}
+            />
           </View>
           <View className="mt-12">
             <CountdownCircleTimer
@@ -269,7 +269,6 @@ export default function App() {
               }
               handleSubmit={huntingStart}
             />
-            <SubmitButton children="local 알림" handleSubmit={notificationHandler}></SubmitButton>
           </View>
         </View>
       </ScrollView>

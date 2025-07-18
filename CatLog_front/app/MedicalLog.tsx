@@ -1,3 +1,4 @@
+import BackButton from "@/components/BackButton";
 import { useCatStore } from "@/store/useCatStore";
 import { CatData } from "@/types/cat";
 import { MedicalLogData } from "@/types/medicalLog";
@@ -140,9 +141,7 @@ export default function MedicalLog() {
     <ScrollView className="flex-1 bg-snow">
       <View className="mx-6">
         <SafeAreaView className="flex flex-row items-center mt-8 mb-6">
-          <Pressable onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={24} color="black" />
-          </Pressable>
+          <BackButton />
           <View className="items-center flex-1 mr-7">
             <Text className="mb-4 text-xl font-bold">메디컬 로그</Text>
           </View>

@@ -10,7 +10,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Image, RefreshControl, ScrollView, Text, View } from "react-native";
+import { Image, Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
 
 export default function MyPage() {
   const router = useRouter();
@@ -51,10 +51,12 @@ export default function MyPage() {
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <View className="m-4">
-        <View className="flex flex-row justify-between p-4 ">
-          <Text className="mb-5 text-xl font-medium ">{userData && userData.name}님의 반려묘</Text>
-          <Link href="/CreateCat">
-            <Ionicons name="add" size={24} />
+        <View className="flex flex-row justify-between p-4 mb-5 ">
+          <Text className="text-xl font-medium ">{userData && userData.name}님의 반려묘</Text>
+          <Link href="/CreateCat" asChild>
+            <Pressable android_ripple={{ color: "lightgray", borderless: true }}>
+              <Ionicons name="add" size={24} />
+            </Pressable>
           </Link>
         </View>
         <View className="flex flex-col gap-6 ">
@@ -88,8 +90,11 @@ export default function MyPage() {
                           heartWormCycleParams: v.medicalLogs?.heartWormCycle,
                         },
                       }}
+                      asChild
                     >
-                      <Ionicons name={"ellipsis-vertical"} size={24} color="black" />
+                      <Pressable android_ripple={{ color: "lightgray", borderless: true }}>
+                        <Ionicons name={"ellipsis-vertical"} size={24} color="black" />
+                      </Pressable>
                     </Link>
                   </View>
                   {v.medicalLogs ? (
@@ -105,12 +110,14 @@ export default function MyPage() {
                             : { color: "red" }
                         }
                       >
-                        다음 건강검진 : <Text className="text-lg font-medium">D-</Text>
+                        다음 건강검진 :
                         {calculateNextDate(
                           v.medicalLogs.healthCheckupDate,
                           v.medicalLogs.healthCycle,
                         ) > 0 ? (
-                          <Text className="text-lg font-medium">
+                          <Text className="">
+                            {" "}
+                            D-
                             {calculateNextDate(
                               v.medicalLogs.healthCheckupDate,
                               v.medicalLogs.healthCycle,
@@ -129,10 +136,10 @@ export default function MyPage() {
                             : { color: "red" }
                         }
                       >
-                        다음 심장사상충 : <Text className="text-xl font-medium"></Text>
+                        다음 심장사상충 :
                         {calculateNextDate(v.medicalLogs.heartWorm, v.medicalLogs.heartWormCycle) >
                         0 ? (
-                          <Text className="text-lg font-medium">
+                          <Text className="">
                             D-
                             {calculateNextDate(
                               v.medicalLogs.heartWorm,

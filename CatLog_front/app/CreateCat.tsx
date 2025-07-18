@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CatData } from "@/types/cat";
+import BackButton from "@/components/BackButton";
 
 export default function CreateCat() {
   const queryClient = useQueryClient();
@@ -74,9 +75,7 @@ export default function CreateCat() {
     <SafeAreaView className="flex-1 bg-snow">
       <View className="mx-6 ">
         <View className="flex flex-row items-center mt-8 mb-6">
-          <Pressable onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={24} color="black" />
-          </Pressable>
+          <BackButton />
           <View className="items-center flex-1 mr-7">
             <Text className="text-xl font-semibold ">반려묘 정보 저장</Text>
           </View>

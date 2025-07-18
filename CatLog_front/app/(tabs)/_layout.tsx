@@ -1,4 +1,4 @@
-import { Link, Tabs } from "expo-router";
+import { Link, router, Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Pressable, Text } from "react-native";
@@ -53,14 +53,22 @@ export default function TabsLayout() {
             />
           ),
           headerLeft: () => (
-            <Link href="/Settings" className="ml-4">
+            <Pressable
+              onPress={() => router.push("/Settings")}
+              android_ripple={{ color: "lightgray", radius: 25 }}
+              className="p-4 "
+            >
               <Ionicons name="settings-outline" size={24} color="white" />
-            </Link>
+            </Pressable>
           ),
           headerRight: () => (
-            <Link href="/LogoutModal" className="ml-auto mr-4 ">
-              <Text className="text-xl color-white">로그아웃</Text>
-            </Link>
+            <Pressable
+              onPress={() => router.push("/LogoutModal")}
+              android_ripple={{ color: "lightgray", radius: 30 }}
+              className="p-4"
+            >
+              <Text style={{ fontSize: 18, color: "white" }}>로그아웃</Text>
+            </Pressable>
           ),
         }}
       />

@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { cssInterop } from "nativewind";
 import { DailyLogData } from "@/types/dailyLog";
 import { CatData } from "@/types/cat";
+import BackButton from "@/components/BackButton";
 cssInterop(Ionicons, { className: "style" });
 
 export default function DailyLog() {
@@ -116,9 +117,7 @@ export default function DailyLog() {
     <ScrollView className="flex-1 bg-snow">
       <View className="mx-6 mt-2 ">
         <SafeAreaView className="flex flex-row items-center mt-8 mb-6">
-          <Pressable onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={24} color="black" />
-          </Pressable>
+          <BackButton />
           <View className="items-center flex-1 mr-7">
             <Text className="text-xl font-bold ">{logDate}</Text>
             <Text className="text-xl font-bold "> 건강 기록</Text>

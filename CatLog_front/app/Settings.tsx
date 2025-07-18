@@ -1,3 +1,4 @@
+import BackButton from "@/components/BackButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link, useRouter } from "expo-router";
 import { Pressable, Text, TextInput, View } from "react-native";
@@ -11,9 +12,7 @@ export default function Settings() {
     <SafeAreaView className="flex-1 bg-snow">
       <View className="mx-6 ">
         <View className="flex flex-row items-center mt-8 mb-6">
-          <Pressable onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={24} color="black" />
-          </Pressable>
+          <BackButton />
           <View className="items-center flex-1 mr-7">
             <Text className="text-xl font-semibold ">설정</Text>
           </View>
