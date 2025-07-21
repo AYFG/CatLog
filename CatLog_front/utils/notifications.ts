@@ -12,15 +12,16 @@ Notifications.setNotificationHandler({
 });
 
 // local 알림
-export function notificationHandler() {
+export function notificationHandler(countdown: number) {
   Notifications.scheduleNotificationAsync({
     content: {
       title: "사냥놀이 종료",
       body: "설정한 사냥놀이 시간이 종료되었습니다.",
+      sound: true,
       data: { userName: "Max" },
     },
     trigger: {
-      //   seconds: 1,
+      seconds: countdown,
       type: "timeInterval",
     } as Notifications.TimeIntervalTriggerInput,
   });

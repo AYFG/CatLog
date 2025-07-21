@@ -1,7 +1,7 @@
 import "@/global.css";
 import { useCatStore } from "@/store/useCatStore";
 import { apiRequest } from "@/utils/fetchApi";
-import { getData } from "@/utils/storage";
+import { getData, setData } from "@/utils/storage";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -31,7 +31,7 @@ import { notificationHandler, sendPushNotificationHandler } from "@/utils/notifi
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return {
-      shouldPlaySound: false,
+      shouldPlaySound: true,
       shouldSetBadge: false,
       shouldShowBanner: true,
       shouldShowList: true,
@@ -53,7 +53,6 @@ export default function App() {
   const [pushToken, setPushToken] = useState<string | null>(null);
 
   // push 알림 토큰
-
   useEffect(() => {
     async function configurePushNotifications() {
       const { status } = await Notifications.getPermissionsAsync();
@@ -101,24 +100,6 @@ export default function App() {
       alert(`${error}`);
     }
   }
-  useEffect(() => {
-    const subscription = Notifications.addNotificationReceivedListener((notification) => {
-      console.log("NOTIFICATION RECEIVED");
-      console.log(notification);
-      const userName = notification.request.content.data.userName;
-      console.log(userName);
-    });
-    const subscription2 = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log("NOTIFICATION RESPONSE RECEIVED");
-      console.log(response);
-      const userName = response.notification.request.content.data.userName;
-      console.log(userName);
-    });
-    return () => {
-      subscription.remove();
-      subscription2.remove();
-    };
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -171,6 +152,10 @@ export default function App() {
     } else {
       setTimerStart(true);
       setRiveState("HuntingMovement");
+      // const now = Date.now();
+      // const end = now + huntingTime * 1000;
+      // setData("TIMER_END", String(end));
+      notificationHandler(huntingTime);
     }
   };
 
@@ -179,13 +164,13 @@ export default function App() {
       <ScrollView className="flex">
         <View className="items-center justify-center">
           <View className="mt-6 w-[350] h-[350] bg-jaggedIce rounded-full">
-            <Rive
+            {/* <Rive
               resourceName="whitecat"
               artboardName="WhiteCat 2"
               stateMachineName={riveState}
               autoplay={true}
               style={{}}
-            />
+            /> */}
           </View>
           <View className="mt-12">
             <CountdownCircleTimer
@@ -200,7 +185,6 @@ export default function App() {
                 setTimerStart(false);
                 setRiveState("BasicMovement");
                 setHuntingTime(60 * 20);
-                notificationHandler();
                 Vibration.vibrate([500, 1000, 500, 1000]);
               }}
             >
