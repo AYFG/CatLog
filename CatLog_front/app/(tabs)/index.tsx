@@ -23,10 +23,18 @@ import SubmitButton from "@/components/SubmitButton";
 import { TimerPickerModal } from "react-native-timer-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
-import * as Updates from "expo-updates";
+
 import * as Notifications from "expo-notifications";
 import { UserData } from "@/types/auth";
-import { notificationHandler, sendPushNotificationHandler } from "@/utils/notifications";
+import {
+  getExpoPushToken,
+  notificationHandler,
+  sendPushNotificationHandler,
+} from "@/utils/notifications";
+import { onFetchUpdateAsync } from "@/utils/easUpdate";
+import LargeIndicator from "@/components/LargeIndicator";
+import RiveCatAnimation from "@/components/RiveCatAnimation";
+import { clearTimerEndTime, loadRemainingTime, saveTimerEndTime } from "@/utils/timer";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -52,67 +60,40 @@ export default function App() {
   const [ownerPickTime, setOwnerPickTime] = useState<number | null>(null);
   const [pushToken, setPushToken] = useState<string | null>(null);
 
-  // push 알림 토큰
   useEffect(() => {
-    async function configurePushNotifications() {
-      const { status } = await Notifications.getPermissionsAsync();
-      let finalStatus = status;
-
-      if (finalStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-        Alert.alert("권한이 없습니다.", "푸시 알림 권한이 없습니다.");
+    const initApp = async () => {
+      // 로그인 확인
+      const storedUserData = await getData("userData");
+      if (!storedUserData) {
+        router.replace("/Login");
         return;
       }
-      const pushTokenData = await Notifications.getExpoPushTokenAsync();
-      console.log(pushTokenData);
-      setPushToken(pushTokenData.data);
-    }
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.DEFAULT,
-      });
-    }
-    configurePushNotifications();
-  }, []);
+      setUserData(storedUserData);
+      setNotLogin(false);
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== "granted") {
-        alert("알림 권한이 필요합니다.");
+      // 알림 토큰 받기
+      const token = await getExpoPushToken();
+      if (token) {
+        setPushToken(token);
+        console.log("Push Token:", token);
       }
-    })();
-  }, []);
 
-  async function onFetchUpdateAsync() {
-    try {
-      const update = await Updates.checkForUpdateAsync();
+      // EAS 업데이트 확인
+      onFetchUpdateAsync();
+    };
 
-      if (update.isAvailable) {
-        await Updates.fetchUpdateAsync();
-        await Updates.reloadAsync();
-      }
-    } catch (error) {
-      alert(`${error}`);
-    }
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const storedUserData = await getData("userData");
-      if (storedUserData == null) {
-        router.replace("/Login");
-      } else {
-        setUserData(storedUserData);
-        setNotLogin(false);
+    // 타이머 동기화
+    const restoreTimer = async () => {
+      const remaining = await loadRemainingTime();
+      if (remaining) {
+        setTimerStart(true);
+        setRiveState("HuntingMovement");
+        setHuntingTime(remaining);
       }
     };
-    fetchData();
-    onFetchUpdateAsync();
+    restoreTimer();
+
+    initApp();
   }, []);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
@@ -126,12 +107,9 @@ export default function App() {
       setCats(data.cats);
     }
   }, [data]);
+
   if (isLoading) {
-    return (
-      <View className="items-center justify-center flex-1">
-        <ActivityIndicator size="large" color="#dbc0e7" />
-      </View>
-    );
+    return <LargeIndicator />;
   }
 
   if (isError) {
@@ -144,17 +122,20 @@ export default function App() {
     return <ReLogin />;
   }
 
-  const huntingStart = () => {
+  const huntingStart = async () => {
     if (timerStart) {
       setTimerStart(false);
       setRiveState("BasicMovement");
       setHuntingTime(ownerPickTime ? ownerPickTime : 60 * 20);
+      Notifications.cancelAllScheduledNotificationsAsync();
+      await clearTimerEndTime();
     } else {
       setTimerStart(true);
       setRiveState("HuntingMovement");
-      // const now = Date.now();
-      // const end = now + huntingTime * 1000;
-      // setData("TIMER_END", String(end));
+      const now = Date.now();
+      const end = now + huntingTime * 1000;
+      console.log(huntingTime);
+      await saveTimerEndTime(end);
       notificationHandler(huntingTime);
     }
   };
@@ -162,15 +143,10 @@ export default function App() {
   return (
     <SafeAreaView className="flex-1 bg-snow">
       <ScrollView className="flex">
+        <Text className="text-3xl">Test4</Text>
         <View className="items-center justify-center">
           <View className="mt-6 w-[350] h-[350] bg-jaggedIce rounded-full">
-            {/* <Rive
-              resourceName="whitecat"
-              artboardName="WhiteCat 2"
-              stateMachineName={riveState}
-              autoplay={true}
-              style={{}}
-            /> */}
+            <RiveCatAnimation riveState={riveState} />
           </View>
           <View className="mt-12">
             <CountdownCircleTimer
@@ -185,7 +161,8 @@ export default function App() {
                 setTimerStart(false);
                 setRiveState("BasicMovement");
                 setHuntingTime(60 * 20);
-                Vibration.vibrate([500, 1000, 500, 1000]);
+                clearTimerEndTime();
+                // Vibration.vibrate([500, 1000, 500, 1000]);
               }}
             >
               {({ remainingTime }) => {

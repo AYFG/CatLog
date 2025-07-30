@@ -1,4 +1,6 @@
 import * as Notifications from "expo-notifications";
+import { Platform, Alert } from "react-native";
+import { SchedulableTriggerInputTypes } from "expo-notifications"; // Add this import
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -12,20 +14,59 @@ Notifications.setNotificationHandler({
 });
 
 // local 알림
-export function notificationHandler(countdown: number) {
+export async function notificationHandler(seconds: number) {
+  // const trigger: Notifications.DateTriggerInput = {
+  //   type: SchedulableTriggerInputTypes.DATE,
+  //   date: new Date(Date.now() + seconds * 1000),
+  // };
+  // console.log(trigger.date);
+
   Notifications.scheduleNotificationAsync({
     content: {
       title: "사냥놀이 종료",
       body: "설정한 사냥놀이 시간이 종료되었습니다.",
       sound: true,
-      data: { userName: "Max" },
+      priority: Notifications.AndroidNotificationPriority.HIGH,
     },
     trigger: {
-      seconds: countdown,
+      seconds: seconds,
       type: "timeInterval",
     } as Notifications.TimeIntervalTriggerInput,
   });
 }
+
+// 푸시 알림 권한
+
+export async function getExpoPushToken(): Promise<string | null> {
+  try {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+
+    if (finalStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+
+    if (finalStatus !== "granted") {
+      Alert.alert("푸시 알림 권한이 없습니다", "알림을 받으시려면 알림 허용을 해주세요.");
+      return null;
+    }
+
+    if (Platform.OS === "android") {
+      await Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.DEFAULT,
+      });
+    }
+
+    const pushTokenData = await Notifications.getExpoPushTokenAsync();
+    return pushTokenData.data;
+  } catch (error) {
+    console.error("푸시 알림 토큰 요청 실패:", error);
+    return null;
+  }
+}
+
 //  push 알림 보내기
 export function sendPushNotificationHandler({ pushToken }: { pushToken: string }) {
   fetch("https://exp.host/--/api/v2/push/send", {

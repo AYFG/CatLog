@@ -124,7 +124,7 @@ export default function MyPage() {
                             )}
                           </Text>
                         ) : (
-                          "예정일이 지났습니다"
+                          " 예정일이 지났습니다"
                         )}
                       </Text>
                       <Text>심장사상충 약 바른 날 : {v.medicalLogs.heartWorm}</Text>
@@ -147,7 +147,7 @@ export default function MyPage() {
                             )}
                           </Text>
                         ) : (
-                          "예정일이 지났습니다"
+                          " 예정일이 지났습니다"
                         )}
                       </Text>
                     </View>
