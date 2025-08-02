@@ -143,7 +143,6 @@ export default function App() {
   return (
     <SafeAreaView className="flex-1 bg-snow">
       <ScrollView className="flex">
-        <Text className="text-3xl">Test4</Text>
         <View className="items-center justify-center">
           <View className="mt-6 w-[350] h-[350] bg-jaggedIce rounded-full">
             <RiveCatAnimation riveState={riveState} />

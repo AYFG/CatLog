@@ -15,23 +15,25 @@ Notifications.setNotificationHandler({
 
 // local 알림
 export async function notificationHandler(seconds: number) {
-  // const trigger: Notifications.DateTriggerInput = {
-  //   type: SchedulableTriggerInputTypes.DATE,
-  //   date: new Date(Date.now() + seconds * 1000),
-  // };
-  // console.log(trigger.date);
+  const now = Date.now();
+  const alarm = new Date(now + seconds * 1000);
 
+  console.log(alarm);
   Notifications.scheduleNotificationAsync({
     content: {
       title: "사냥놀이 종료",
       body: "설정한 사냥놀이 시간이 종료되었습니다.",
       sound: true,
-      priority: Notifications.AndroidNotificationPriority.HIGH,
+      priority: Notifications.AndroidNotificationPriority.MAX,
     },
     trigger: {
-      seconds: seconds,
-      type: "timeInterval",
-    } as Notifications.TimeIntervalTriggerInput,
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: alarm,
+    },
+    // trigger: {
+    //   seconds: seconds,
+    //   type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+    // } as Notifications.TimeIntervalTriggerInput,
   });
 }
 
