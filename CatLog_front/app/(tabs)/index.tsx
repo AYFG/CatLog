@@ -26,11 +26,7 @@ import * as Haptics from "expo-haptics";
 
 import * as Notifications from "expo-notifications";
 import { UserData } from "@/types/auth";
-import {
-  getExpoPushToken,
-  notificationHandler,
-  sendPushNotificationHandler,
-} from "@/utils/notifications";
+import { getExpoPushToken, huntNotificationHandler } from "@/utils/notifications";
 import { onFetchUpdateAsync } from "@/utils/easUpdate";
 import LargeIndicator from "@/components/LargeIndicator";
 import RiveCatAnimation from "@/components/RiveCatAnimation";
@@ -59,6 +55,7 @@ export default function App() {
   const [huntingTime, setHuntingTime] = useState(60 * 20);
   const [ownerPickTime, setOwnerPickTime] = useState<number | null>(null);
   const [pushToken, setPushToken] = useState<string | null>(null);
+  const [scheduledNotifications, setScheduledNotifications] = useState([]);
 
   useEffect(() => {
     const initApp = async () => {
@@ -91,10 +88,19 @@ export default function App() {
         setHuntingTime(remaining);
       }
     };
-    restoreTimer();
 
+    restoreTimer();
     initApp();
   }, []);
+  useEffect(() => {
+    const checkScheduledNotifications = async () => {
+      // 예약된 알림들을 가져옵니다.
+      const newScheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
+      // 콘솔에 예약된 알림들을 출력합니다.
+      console.log("Scheduled notifications:", newScheduledNotifications);
+    };
+    checkScheduledNotifications();
+  }, [scheduledNotifications]);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["cats"],
@@ -136,7 +142,7 @@ export default function App() {
       const end = now + huntingTime * 1000;
       console.log(huntingTime);
       await saveTimerEndTime(end);
-      notificationHandler(huntingTime);
+      huntNotificationHandler(huntingTime);
     }
   };
 

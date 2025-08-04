@@ -5,12 +5,13 @@ import { CatData } from "@/types/cat";
 import { calculateAge } from "@/utils/calculateAge";
 import { calculateNextDate } from "@/utils/calculateNextDate";
 import { apiRequest } from "@/utils/fetchApi";
+import { heartwormNotificationHandler } from "@/utils/notifications";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
+import { Button, Image, Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
 
 export default function MyPage() {
   const router = useRouter();
@@ -45,6 +46,7 @@ export default function MyPage() {
     await refetch();
     setRefreshing(false);
   };
+
   return (
     <ScrollView
       className="bg-snow"
@@ -52,6 +54,10 @@ export default function MyPage() {
     >
       <View className="m-4">
         <View className="flex flex-row justify-between p-4 mb-5 ">
+          <Button
+            title="test"
+            onPress={() => heartwormNotificationHandler(new Date("2025-06-26"), "40", "test")}
+          ></Button>
           <Text className="text-xl font-medium ">{userData && userData.name}님의 반려묘</Text>
           <Link href="/CreateCat" asChild>
             <Pressable android_ripple={{ color: "lightgray", borderless: true }}>
@@ -136,7 +142,7 @@ export default function MyPage() {
                             : { color: "red" }
                         }
                       >
-                        다음 심장사상충 :
+                        다음 심장사상충 :{" "}
                         {calculateNextDate(v.medicalLogs.heartWorm, v.medicalLogs.heartWormCycle) >
                         0 ? (
                           <Text className="">

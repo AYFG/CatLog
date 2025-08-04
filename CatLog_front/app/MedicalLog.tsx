@@ -3,6 +3,10 @@ import { useCatStore } from "@/store/useCatStore";
 import { CatData } from "@/types/cat";
 import { MedicalLogData } from "@/types/medicalLog";
 import { apiRequest } from "@/utils/fetchApi";
+import {
+  healthCheckupNotificationHandler,
+  heartwormNotificationHandler,
+} from "@/utils/notifications";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
@@ -135,6 +139,8 @@ export default function MedicalLog() {
       heartWorm: heartWorm.toISOString().split("T")[0],
       heartWormCycle: heartWormCycle,
     });
+    healthCheckupNotificationHandler(healthCheckupDate, healthCycle, selectedCat.name);
+    heartwormNotificationHandler(heartWorm, heartWormCycle, selectedCat.name.toString());
   };
 
   return (

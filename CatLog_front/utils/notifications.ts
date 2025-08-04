@@ -13,8 +13,107 @@ Notifications.setNotificationHandler({
   },
 });
 
-// local 알림
-export async function notificationHandler(seconds: number) {
+// local 건강검진 가는 날 알림
+export async function healthCheckupNotificationHandler(day: Date, cycle: string, catName: string) {
+  const medicationDate = new Date(day); // 예: "2025-05-15"
+  const medicationCycleDays = parseInt(cycle); // 예: 40
+
+  // 다음 건강검진 계산
+  const nextMedicationDate = new Date(medicationDate);
+  nextMedicationDate.setDate(medicationDate.getDate() + medicationCycleDays);
+
+  // 전날 알림
+  const dayBeforeNotification = new Date(nextMedicationDate);
+  dayBeforeNotification.setDate(nextMedicationDate.getDate() - 1);
+  dayBeforeNotification.setHours(17, 34, 0, 0); // 오후 5:00
+
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: `${catName}의 건강검진 알림`,
+      body: `내일은 ${catName}의 건강검진 가는 날이에요.`,
+      sound: true,
+      priority: Notifications.AndroidNotificationPriority.MAX,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: dayBeforeNotification,
+    },
+  });
+
+  // 당일 알림
+  const onDayNotification = new Date(nextMedicationDate);
+  onDayNotification.setHours(17, 34, 0, 0); // 오후 5:00
+
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: `${catName}의 건강검진 알림`,
+      body: `오늘은 ${catName}의 건강검진 가는 날이에요.`,
+      sound: true,
+      priority: Notifications.AndroidNotificationPriority.MAX,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: onDayNotification,
+    },
+  });
+
+  // 확인용 로그
+  console.log("사상충 알림 예약:");
+  console.log("- 전날:", dayBeforeNotification.toString());
+  console.log("- 당일:", onDayNotification.toString());
+}
+// local 심장사상충 약 알림
+export async function heartwormNotificationHandler(day: Date, cycle: string, catName: string) {
+  const medicationDate = new Date(day); // 예: "2025-05-15"
+  const medicationCycleDays = parseInt(cycle); // 예: 40
+
+  // 다음 복용일 계산
+  const nextMedicationDate = new Date(medicationDate);
+  nextMedicationDate.setDate(medicationDate.getDate() + medicationCycleDays);
+
+  // 전날 알림
+  const dayBeforeNotification = new Date(nextMedicationDate);
+  dayBeforeNotification.setDate(nextMedicationDate.getDate() - 1);
+  dayBeforeNotification.setHours(17, 34, 0, 0); // 오후 5:00
+
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: `${catName}의 심장사상충 약 알림`,
+      body: `내일은 ${catName}의 심장사상충 약 투여하는 날이에요.`,
+      sound: true,
+      priority: Notifications.AndroidNotificationPriority.MAX,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: dayBeforeNotification,
+    },
+  });
+
+  // 당일 알림
+  const onDayNotification = new Date(nextMedicationDate);
+  onDayNotification.setHours(17, 34, 0, 0); // 오후 5:00
+
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: `${catName}의 심장사상충 약 알림`,
+      body: `오늘은 ${catName}의 심장사상충 약 투여하는 날이에요.`,
+      sound: true,
+      priority: Notifications.AndroidNotificationPriority.MAX,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: onDayNotification,
+    },
+  });
+
+  // 확인용 로그
+  console.log("사상충 알림 예약:");
+  console.log("- 전날:", dayBeforeNotification.toString());
+  console.log("- 당일:", onDayNotification.toString());
+}
+
+// local 사냥 종료 알림
+export async function huntNotificationHandler(seconds: number) {
   const now = Date.now();
   const alarm = new Date(now + seconds * 1000);
 
@@ -64,7 +163,7 @@ export async function getExpoPushToken(): Promise<string | null> {
     const pushTokenData = await Notifications.getExpoPushTokenAsync();
     return pushTokenData.data;
   } catch (error) {
-    console.error("푸시 알림 토큰 요청 실패:", error);
+    // console.error("푸시 알림 토큰 요청 실패:", error);
     return null;
   }
 }
