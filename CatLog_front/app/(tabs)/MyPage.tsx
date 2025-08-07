@@ -54,10 +54,6 @@ export default function MyPage() {
     >
       <View className="m-4">
         <View className="flex flex-row justify-between p-4 mb-5 ">
-          <Button
-            title="test"
-            onPress={() => heartwormNotificationHandler(new Date("2025-06-26"), "40", "test")}
-          ></Button>
           <Text className="text-xl font-medium ">{userData && userData.name}님의 반려묘</Text>
           <Link href="/CreateCat" asChild>
             <Pressable android_ripple={{ color: "lightgray", borderless: true }}>
@@ -69,21 +65,22 @@ export default function MyPage() {
           {cats.length > 0 ? (
             cats?.map((v: CatData) => (
               <View className="flex flex-row py-4 bg-white shadow-md rounded-xl" key={v._id}>
-                <View className="pt-4 rounded-full h-[120] bg-linen mr-4">
+                <View className="pt-4 h-[120] ml-2 mr-3">
                   <Image
-                    source={require("@/assets/images/whiteCat.png")}
+                    source={require("@/assets/images/BlackCat.png")}
                     style={{ width: 100, height: 100, objectFit: "contain" }}
                   />
                 </View>
 
                 <View className="flex flex-col flex-1">
                   <View className="flex flex-row justify-between">
-                    <View className="flex flex-row items-center gap-2">
+                    <View className="flex flex-row items-center gap-3">
                       <Text className="text-lg font-bold">{v.name}</Text>
                       <Text className="">{calculateAge(v.birthDate)}살</Text>
                     </View>
 
                     <Link
+                      className="mr-2"
                       href={{
                         pathname: "/EditCatModal",
                         params: {
@@ -104,7 +101,7 @@ export default function MyPage() {
                     </Link>
                   </View>
                   {v.medicalLogs ? (
-                    <View className="">
+                    <View className="gap-0.5 pt-2">
                       <Text>건강검진 다녀온 날 : {v.medicalLogs.healthCheckupDate}</Text>
                       <Text
                         style={

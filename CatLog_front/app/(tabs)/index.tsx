@@ -26,22 +26,15 @@ import * as Haptics from "expo-haptics";
 
 import * as Notifications from "expo-notifications";
 import { UserData } from "@/types/auth";
-import { getExpoPushToken, huntNotificationHandler } from "@/utils/notifications";
+import {
+  getExpoPushToken,
+  huntNotificationHandler,
+  setGlobalNotificationHandler,
+} from "@/utils/notifications";
 import { onFetchUpdateAsync } from "@/utils/easUpdate";
 import LargeIndicator from "@/components/LargeIndicator";
 import RiveCatAnimation from "@/components/RiveCatAnimation";
 import { clearTimerEndTime, loadRemainingTime, saveTimerEndTime } from "@/utils/timer";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-      shouldShowBanner: true,
-      shouldShowList: true,
-    };
-  },
-});
 
 export default function App() {
   const router = useRouter();
@@ -50,7 +43,7 @@ export default function App() {
   const { cats, setCats } = useCatStore();
   const [timerStart, setTimerStart] = useState(false);
   const [timeComplete, setTimeComplete] = useState(false);
-  const [riveState, setRiveState] = useState("BasicMovement");
+  const [movementState, setMovementState] = useState("BasicMovement");
   const [timerPickerModalOpen, setTimerPickerModalOpen] = useState(false);
   const [huntingTime, setHuntingTime] = useState(60 * 20);
   const [ownerPickTime, setOwnerPickTime] = useState<number | null>(null);
@@ -84,23 +77,25 @@ export default function App() {
       const remaining = await loadRemainingTime();
       if (remaining) {
         setTimerStart(true);
-        setRiveState("HuntingMovement");
+        setMovementState("HuntingMovement");
         setHuntingTime(remaining);
       }
     };
 
     restoreTimer();
     initApp();
+    setGlobalNotificationHandler();
   }, []);
-  useEffect(() => {
-    const checkScheduledNotifications = async () => {
-      // 예약된 알림들을 가져옵니다.
-      const newScheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
-      // 콘솔에 예약된 알림들을 출력합니다.
-      console.log("Scheduled notifications:", newScheduledNotifications);
-    };
-    checkScheduledNotifications();
-  }, [scheduledNotifications]);
+
+  // useEffect(() => {
+  //   const checkScheduledNotifications = async () => {
+  //     // 예약된 알림들을 가져옵니다.
+  //     const newScheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
+  //     // 콘솔에 예약된 알림들을 출력합니다.
+  //     console.log("Scheduled notifications:", newScheduledNotifications);
+  //   };
+  //   checkScheduledNotifications();
+  // }, [scheduledNotifications]);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["cats"],
@@ -131,16 +126,15 @@ export default function App() {
   const huntingStart = async () => {
     if (timerStart) {
       setTimerStart(false);
-      setRiveState("BasicMovement");
+      setMovementState("BasicMovement");
       setHuntingTime(ownerPickTime ? ownerPickTime : 60 * 20);
       Notifications.cancelAllScheduledNotificationsAsync();
       await clearTimerEndTime();
     } else {
       setTimerStart(true);
-      setRiveState("HuntingMovement");
+      setMovementState("HuntingMovement");
       const now = Date.now();
       const end = now + huntingTime * 1000;
-      console.log(huntingTime);
       await saveTimerEndTime(end);
       huntNotificationHandler(huntingTime);
     }
@@ -150,8 +144,8 @@ export default function App() {
     <SafeAreaView className="flex-1 bg-snow">
       <ScrollView className="flex">
         <View className="items-center justify-center">
-          <View className="mt-6 w-[350] h-[350] bg-jaggedIce rounded-full">
-            <RiveCatAnimation riveState={riveState} />
+          <View className="items-center w-full pt-16 pb-4 ">
+            <RiveCatAnimation movementState={movementState} />
           </View>
           <View className="mt-12">
             <CountdownCircleTimer
@@ -164,10 +158,9 @@ export default function App() {
               onComplete={() => {
                 setTimeComplete(true);
                 setTimerStart(false);
-                setRiveState("BasicMovement");
+                setMovementState("BasicMovement");
                 setHuntingTime(60 * 20);
                 clearTimerEndTime();
-                // Vibration.vibrate([500, 1000, 500, 1000]);
               }}
             >
               {({ remainingTime }) => {
@@ -224,7 +217,7 @@ export default function App() {
               />
             )}
           </View>
-          <View className="p-8">
+          <View className="">
             <SubmitButton
               children={
                 timerStart ? (

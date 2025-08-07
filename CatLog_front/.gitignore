@@ -80,3 +80,4 @@ yarn-error.*
 
 # @end expo-cli
 ios
+*.zip

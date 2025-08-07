@@ -1,17 +1,16 @@
 import * as Notifications from "expo-notifications";
-import { Platform, Alert } from "react-native";
-import { SchedulableTriggerInputTypes } from "expo-notifications"; // Add this import
+import { Alert, Platform } from "react-native";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldPlaySound: false,
+export function setGlobalNotificationHandler() {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldPlaySound: true,
       shouldSetBadge: false,
       shouldShowBanner: true,
       shouldShowList: true,
-    };
-  },
-});
+    }),
+  });
+}
 
 // local 건강검진 가는 날 알림
 export async function healthCheckupNotificationHandler(day: Date, cycle: string, catName: string) {
@@ -25,7 +24,7 @@ export async function healthCheckupNotificationHandler(day: Date, cycle: string,
   // 전날 알림
   const dayBeforeNotification = new Date(nextMedicationDate);
   dayBeforeNotification.setDate(nextMedicationDate.getDate() - 1);
-  dayBeforeNotification.setHours(17, 34, 0, 0); // 오후 5:00
+  dayBeforeNotification.setHours(17, 36, 0, 0); // 오후 5:00
 
   await Notifications.scheduleNotificationAsync({
     content: {
@@ -42,7 +41,7 @@ export async function healthCheckupNotificationHandler(day: Date, cycle: string,
 
   // 당일 알림
   const onDayNotification = new Date(nextMedicationDate);
-  onDayNotification.setHours(17, 34, 0, 0); // 오후 5:00
+  onDayNotification.setHours(17, 36, 0, 0); // 오후 5:00
 
   await Notifications.scheduleNotificationAsync({
     content: {
@@ -74,7 +73,7 @@ export async function heartwormNotificationHandler(day: Date, cycle: string, cat
   // 전날 알림
   const dayBeforeNotification = new Date(nextMedicationDate);
   dayBeforeNotification.setDate(nextMedicationDate.getDate() - 1);
-  dayBeforeNotification.setHours(17, 34, 0, 0); // 오후 5:00
+  dayBeforeNotification.setHours(17, 36, 0, 0); // 오후 5:00
 
   await Notifications.scheduleNotificationAsync({
     content: {
@@ -91,7 +90,7 @@ export async function heartwormNotificationHandler(day: Date, cycle: string, cat
 
   // 당일 알림
   const onDayNotification = new Date(nextMedicationDate);
-  onDayNotification.setHours(17, 34, 0, 0); // 오후 5:00
+  onDayNotification.setHours(17, 36, 0, 0); // 오후 5:00
 
   await Notifications.scheduleNotificationAsync({
     content: {
