@@ -43,6 +43,7 @@ export default function RootLayout() {
         <Stack.Screen name="ChangeCat/[catId]" options={{ headerShown: false }} />
         <Stack.Screen name="MedicalLog" options={{ headerShown: false }} />
         <Stack.Screen name="Settings" options={{ headerShown: false }} />
+        <Stack.Screen name="SelectCatColor" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="dark" />
     </QueryClientProvider>

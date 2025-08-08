@@ -1,40 +1,30 @@
+import SubmitButton from "@/components/SubmitButton";
 import "@/global.css";
 import { useCatStore } from "@/store/useCatStore";
 import { apiRequest } from "@/utils/fetchApi";
-import { getData, setData } from "@/utils/storage";
+import { getData } from "@/utils/storage";
 import { useQuery } from "@tanstack/react-query";
+import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Platform,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  Vibration,
-  View,
-} from "react-native";
-import Rive from "rive-react-native";
-import ReLogin from "../ReLogin";
+import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-import SubmitButton from "@/components/SubmitButton";
 import { TimerPickerModal } from "react-native-timer-picker";
-import { LinearGradient } from "expo-linear-gradient";
-import * as Haptics from "expo-haptics";
+import ReLogin from "../../ReLogin";
 
-import * as Notifications from "expo-notifications";
+import LargeIndicator from "@/components/LargeIndicator";
+import RiveCatAnimation from "@/components/RiveCatAnimation";
 import { UserData } from "@/types/auth";
+import { onFetchUpdateAsync } from "@/utils/easUpdate";
 import {
   getExpoPushToken,
   huntNotificationHandler,
   setGlobalNotificationHandler,
 } from "@/utils/notifications";
-import { onFetchUpdateAsync } from "@/utils/easUpdate";
-import LargeIndicator from "@/components/LargeIndicator";
-import RiveCatAnimation from "@/components/RiveCatAnimation";
 import { clearTimerEndTime, loadRemainingTime, saveTimerEndTime } from "@/utils/timer";
+import * as Notifications from "expo-notifications";
+import { Entypo } from "@expo/vector-icons";
 
 export default function App() {
   const router = useRouter();
@@ -122,7 +112,7 @@ export default function App() {
     console.log("notLogin");
     return <ReLogin />;
   }
-
+  console.log(cats);
   const huntingStart = async () => {
     if (timerStart) {
       setTimerStart(false);
@@ -144,9 +134,17 @@ export default function App() {
     <SafeAreaView className="flex-1 bg-snow">
       <ScrollView className="flex">
         <View className="items-center justify-center">
-          <View className="items-center w-full pt-16 pb-4 ">
+          <View className="items-center w-full pt-16 pb-4">
+            <Pressable
+              onPress={() => router.push("/SelectCatColor")}
+              android_ripple={{ color: "lightgray", radius: 25 }}
+              className="absolute top-0 right-0"
+            >
+              <Entypo name={"cycle"} size={32} color="black" className="p-4" />
+            </Pressable>
             <RiveCatAnimation movementState={movementState} />
           </View>
+
           <View className="mt-12">
             <CountdownCircleTimer
               key={huntingTime}

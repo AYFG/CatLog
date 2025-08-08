@@ -1,8 +1,8 @@
 import { UserData } from "@/types/auth";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData, removeData } from "@/utils/storage";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link, useLocalSearchParams, useRouter } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";

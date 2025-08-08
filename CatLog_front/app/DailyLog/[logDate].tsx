@@ -246,7 +246,7 @@ export default function DailyLog() {
 
         <Pressable
           android_ripple={{ color: "#f5d4e0" }}
-          className="flex items-center justify-center p-4 mt-10 rounded-lg h-14 bg-wePeep"
+          className="flex items-center justify-center p-4 mt-10 rounded-lg h-15 bg-wePeep"
           onPress={handleSubmit}
           disabled={mutation.isPending}
         >

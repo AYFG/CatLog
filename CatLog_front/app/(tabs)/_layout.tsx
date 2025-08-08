@@ -1,6 +1,7 @@
-import { Link, router, Tabs } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { router, Stack, Tabs } from "expo-router";
 import { Pressable, Text } from "react-native";
 export default function TabsLayout() {
   return (
@@ -16,7 +17,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           title: "",
           tabBarIcon: ({ color, focused }) => (
@@ -29,7 +30,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="CalendarScreen"
+        name="calendar"
         options={{
           title: "",
           tabBarIcon: ({ color, focused }) => (
@@ -42,7 +43,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="MyPage"
+        name="mypage"
         options={{
           title: "",
           tabBarIcon: ({ color, focused }) => (

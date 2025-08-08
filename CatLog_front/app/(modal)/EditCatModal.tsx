@@ -1,9 +1,5 @@
-import { apiRequest } from "@/utils/fetchApi";
-import { getData, removeData } from "@/utils/storage";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link, useGlobalSearchParams, useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { Pressable, StyleSheet, Text } from "react-native";
 import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";
 
 export default function EditCatModal() {

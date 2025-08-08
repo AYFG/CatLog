@@ -1,24 +1,26 @@
+import { useCatTypeStore } from "@/store/useCatStore";
 import { getData } from "@/utils/storage";
 import { useEffect, useState } from "react";
 import Rive from "rive-react-native";
 
-export default function RiveCatAnimation({ movementState }: { movementState: string }) {
-  const [catColor, setCatColor] = useState("CheeseCat"); // WhiteCat, BlackCat, CheeseCat, MackerelCat,
+export default function RiveCatAnimation({
+  movementState,
+  catTypeProp,
+}: {
+  movementState: string;
+  catTypeProp?: string;
+}) {
+  const { catType, setCatType } = useCatTypeStore();
+
   useEffect(() => {
-    const loadArtBoard = async () => {
-      const catData = await getData("catData");
-      if (catData) {
-        setCatColor(catData?.catColor);
-      }
-      console.log("catData");
-      console.log(catData);
-    };
-    loadArtBoard();
-  }, []);
+    if (catTypeProp) {
+      setCatType(catTypeProp);
+    }
+  }, [catType]);
   return (
     <Rive
       resourceName="catlog"
-      artboardName={catColor}
+      artboardName={catType}
       stateMachineName={movementState}
       autoplay={true}
       style={{ width: 300, height: 300 }}
