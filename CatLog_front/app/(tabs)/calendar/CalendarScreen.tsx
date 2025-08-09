@@ -1,4 +1,4 @@
-import RouteButton from "@/components/RouteButton";
+import RouteButton from "@/components/button/RouteButton";
 import { UserData } from "@/types/auth";
 import { DailyLogData } from "@/types/dailyLog";
 import { apiRequest } from "@/utils/fetchApi";

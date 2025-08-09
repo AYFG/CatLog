@@ -8,7 +8,7 @@ import medicalLog from "../models/medicalLog.js";
 
 export const createCat = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, birthDate, owner } = req.body;
+    const { name, birthDate, catType, owner } = req.body;
 
     if (!name) {
       const error = new Error("이름을 입력해주세요.") as CustomError;
@@ -26,6 +26,7 @@ export const createCat = async (req: Request, res: Response, next: NextFunction)
     const cat = new Cat({
       name,
       birthDate,
+      catType,
       owner,
     });
     await cat.save();
@@ -74,7 +75,7 @@ export const getCat = async (req: Request, res: Response, next: NextFunction) =>
 export const updateCat = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const catId = req.params.catId;
-    const { name, birthDate } = req.body;
+    const { name, birthDate, catType } = req.body;
 
     if (!name) {
       const error = new Error("이름을 입력해주세요.") as CustomError;
@@ -98,6 +99,7 @@ export const updateCat = async (req: Request, res: Response, next: NextFunction)
 
     cat.name = name;
     cat.birthDate = birthDate;
+    cat.catType = catType;
     await cat.save();
     await dailyLog.updateMany({ "cat.catId": catId }, { $set: { "cat.catName": name } });
     await medicalLog.updateMany({ "cat.catId": catId }, { $set: { "cat.catName": name } });

@@ -1,4 +1,4 @@
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/button/BackButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link, useRouter } from "expo-router";
 import { Pressable, Text, TextInput, View } from "react-native";

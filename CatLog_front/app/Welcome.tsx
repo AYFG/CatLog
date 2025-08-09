@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../assets/images/adaptive-icon.png";
-import RouteButton from "@/components/RouteButton";
+import RouteButton from "@/components/button/RouteButton";
 import { useEffect, useState } from "react";
 
 export default function Welcome() {

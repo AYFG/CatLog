@@ -8,12 +8,15 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CatData } from "@/types/cat";
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/button/BackButton";
+import RiveCatAnimation, { BasicMovement } from "@/components/Rive/RiveCatAnimation";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function CreateCat() {
   const queryClient = useQueryClient();
   const [catName, setCatName] = useState("");
   const [birthDate, setBirthDate] = useState(new Date());
+  const [catType, setCatType] = useState("");
   const [show, setShow] = useState(false);
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
@@ -66,6 +69,7 @@ export default function CreateCat() {
     const userData = await getData("userData");
     mutation.mutate({
       name: catName,
+      catType: catType,
       birthDate: formatDate(birthDate),
       owner: userData?.userId || "",
     });
@@ -81,6 +85,24 @@ export default function CreateCat() {
           </View>
         </View>
         <View className="">
+          <View className="flex flex-row items-center mt-4">
+            <Pressable
+              className=""
+              // onPress={prevChangeCatButton}
+              android_ripple={{ color: "gray", radius: 25 }}
+            >
+              <AntDesign name="leftcircleo" size={48} color="black" />
+            </Pressable>
+            <RiveCatAnimation movementState={BasicMovement} />
+            <Pressable
+              className=""
+              // onPress={prevChangeCatButton}
+              android_ripple={{ color: "gray", radius: 25 }}
+            >
+              <AntDesign name="rightcircleo" size={48} color="black" />
+            </Pressable>
+          </View>
+
           <View className="mt-6 mb-2 ">
             <Text className="mb-4 font-bold">이름</Text>
             <TextInput

@@ -1,9 +1,9 @@
-import RiveCatAnimation from "@/components/RiveCatAnimation";
+import RiveCatAnimation from "@/components/Rive/RiveCatAnimation";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useEffect, useState } from "react";
-import SubmitButton from "@/components/SubmitButton";
+import SubmitButton from "@/components/button/SubmitButton";
 import * as Haptics from "expo-haptics";
 import { getData, setData } from "@/utils/storage";
 import { useCatTypeStore } from "@/store/useCatStore";
@@ -54,26 +54,26 @@ export default function SelectCatColor() {
 
   return (
     <SafeAreaView className="flex-1 bg-snow">
-      <View className="flex flex-row items-center w-full pt-16 pb-4">
+      <View className="flex flex-row items-center w-full px-8 pt-16 pb-4">
         <Pressable
-          className="ml-2"
+          className=""
           onPress={prevChangeCatButton}
-          android_ripple={{ color: "lightgray", radius: 25 }}
+          android_ripple={{ color: "gray", radius: 25 }}
         >
-          <AntDesign name="leftcircle" size={48} color="black" />
+          <AntDesign name="leftcircleo" size={48} color="black" />
         </Pressable>
 
         <RiveCatAnimation catTypeProp={catType} movementState="BasicMovement" />
 
         <Pressable
-          className="mr-2"
+          className=""
           onPress={nextChangeCatButton}
-          android_ripple={{ color: "lightgray", radius: 25 }}
+          android_ripple={{ color: "gray", radius: 25 }}
         >
           <AntDesign name="rightcircleo" size={48} color="black" />
         </Pressable>
       </View>
-
+      <Text className="text-center"></Text>
       <View className="w-1/2 m-auto">
         <SubmitButton
           children={<Text className="text-xl font-semibold color-[#EF798A]}">캐릭터 저장하기</Text>}

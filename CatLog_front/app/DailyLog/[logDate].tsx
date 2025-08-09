@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { cssInterop } from "nativewind";
 import { DailyLogData } from "@/types/dailyLog";
 import { CatData } from "@/types/cat";
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/button/BackButton";
 cssInterop(Ionicons, { className: "style" });
 
 export default function DailyLog() {

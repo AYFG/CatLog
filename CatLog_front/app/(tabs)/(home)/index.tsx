@@ -1,6 +1,6 @@
-import SubmitButton from "@/components/SubmitButton";
+import SubmitButton from "@/components/button/SubmitButton";
 import "@/global.css";
-import { useCatStore } from "@/store/useCatStore";
+import { useCatStore, useCatTypeStore } from "@/store/useCatStore";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ import { TimerPickerModal } from "react-native-timer-picker";
 import ReLogin from "../../ReLogin";
 
 import LargeIndicator from "@/components/LargeIndicator";
-import RiveCatAnimation from "@/components/RiveCatAnimation";
+import RiveCatAnimation from "@/components/Rive/RiveCatAnimation";
 import { UserData } from "@/types/auth";
 import { onFetchUpdateAsync } from "@/utils/easUpdate";
 import {
@@ -31,6 +31,7 @@ export default function App() {
   const [notLogin, setNotLogin] = useState(true);
   const [userData, setUserData] = useState<UserData | null>(null);
   const { cats, setCats } = useCatStore();
+  const { catType } = useCatTypeStore();
   const [timerStart, setTimerStart] = useState(false);
   const [timeComplete, setTimeComplete] = useState(false);
   const [movementState, setMovementState] = useState("BasicMovement");
@@ -142,7 +143,7 @@ export default function App() {
             >
               <Entypo name={"cycle"} size={32} color="black" className="p-4" />
             </Pressable>
-            <RiveCatAnimation movementState={movementState} />
+            <RiveCatAnimation catTypeProp={catType} movementState={movementState} />
           </View>
 
           <View className="mt-12">

@@ -1,4 +1,4 @@
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/button/BackButton";
 import { useCatStore } from "@/store/useCatStore";
 import { CatData } from "@/types/cat";
 import { MedicalLogData } from "@/types/medicalLog";

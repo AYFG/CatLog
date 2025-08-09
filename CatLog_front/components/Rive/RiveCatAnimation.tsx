@@ -3,6 +3,8 @@ import { getData } from "@/utils/storage";
 import { useEffect, useState } from "react";
 import Rive from "rive-react-native";
 
+export const BasicMovement = "BasicMovement";
+
 export default function RiveCatAnimation({
   movementState,
   catTypeProp,
@@ -17,13 +19,14 @@ export default function RiveCatAnimation({
       setCatType(catTypeProp);
     }
   }, [catType]);
+
   return (
     <Rive
       resourceName="catlog"
       artboardName={catType}
       stateMachineName={movementState}
       autoplay={true}
-      style={{ width: 300, height: 300 }}
+      style={{ width: 200, height: 300 }}
     />
   );
 }

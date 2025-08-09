@@ -1,4 +1,5 @@
-import RouteButton from "@/components/RouteButton";
+import RiveCatAnimation, { BasicMovement } from "@/components/Rive/RiveCatAnimation";
+import RouteButton from "@/components/button/RouteButton";
 import { useCatStore } from "@/store/useCatStore";
 import { UserData } from "@/types/auth";
 import { CatData } from "@/types/cat";
