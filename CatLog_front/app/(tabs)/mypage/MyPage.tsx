@@ -1,4 +1,4 @@
-import RiveCatAnimation, { BasicMovement } from "@/components/Rive/RiveCatAnimation";
+import images from "@/assets/images/catImages";
 import RouteButton from "@/components/button/RouteButton";
 import { useCatStore } from "@/store/useCatStore";
 import { UserData } from "@/types/auth";
@@ -49,7 +49,7 @@ export default function MyPage() {
 
   return (
     <ScrollView
-      className="bg-snow"
+      className="bg-white"
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <View className="m-4">
@@ -64,11 +64,15 @@ export default function MyPage() {
         <View className="flex flex-col gap-6 ">
           {cats.length > 0 ? (
             cats?.map((v: CatData) => (
-              <View className="flex flex-row py-4 bg-white shadow-md rounded-xl" key={v._id}>
+              <View className="flex flex-row py-4 shadow-md bg-snow rounded-xl" key={v._id}>
                 <View className="pt-4 h-[120] ml-2 mr-3">
                   <Image
-                    source={require("@/assets/images/BlackCat.png")}
-                    style={{ width: 100, height: 100, objectFit: "contain" }}
+                    source={v.catType ? images[v.catType as keyof typeof images] : images.WhiteCat}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      objectFit: "contain",
+                    }}
                   />
                 </View>
 
