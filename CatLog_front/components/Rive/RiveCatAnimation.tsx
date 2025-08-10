@@ -1,5 +1,3 @@
-import { useCatTypeStore } from "@/store/useCatStore";
-import { getData } from "@/utils/storage";
 import { useEffect, useState } from "react";
 import Rive from "rive-react-native";
 
@@ -12,13 +10,13 @@ export default function RiveCatAnimation({
   movementState: string;
   catTypeProp?: string;
 }) {
-  const { catType, setCatType } = useCatTypeStore();
+  const [catType, setCatType] = useState("");
 
   useEffect(() => {
     if (catTypeProp) {
       setCatType(catTypeProp);
     }
-  }, [catType]);
+  }, [catTypeProp]);
 
   return (
     <Rive

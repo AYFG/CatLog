@@ -1,24 +1,23 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import BackButton from "@/components/button/BackButton";
+import RiveCatAnimation, { BasicMovement } from "@/components/Rive/RiveCatAnimation";
+import { CatData } from "@/types/cat";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { AntDesign } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { CatData } from "@/types/cat";
-import BackButton from "@/components/button/BackButton";
-import RiveCatAnimation, { BasicMovement } from "@/components/Rive/RiveCatAnimation";
-import { AntDesign } from "@expo/vector-icons";
 
 export default function CreateCat() {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const [catName, setCatName] = useState("");
   const [birthDate, setBirthDate] = useState(new Date());
-  const [catType, setCatType] = useState("");
+  const [catType, setCatType] = useState("WhiteCat");
   const [show, setShow] = useState(false);
-  const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [checkValidation, setCheckValidation] = useState<{ [key: string]: string }>({});
   const newErrors: { [key: string]: string } = {};
@@ -93,7 +92,9 @@ export default function CreateCat() {
             >
               <AntDesign name="leftcircleo" size={48} color="black" />
             </Pressable>
-            <RiveCatAnimation movementState={BasicMovement} />
+
+            <RiveCatAnimation catTypeProp={catType} movementState={BasicMovement} />
+
             <Pressable
               className=""
               // onPress={prevChangeCatButton}

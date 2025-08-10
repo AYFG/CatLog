@@ -1,6 +1,6 @@
 import SubmitButton from "@/components/button/SubmitButton";
 import "@/global.css";
-import { useCatStore, useCatTypeStore } from "@/store/useCatStore";
+import { useCatStore } from "@/store/useCatStore";
 import { apiRequest } from "@/utils/fetchApi";
 import { getData } from "@/utils/storage";
 import { useQuery } from "@tanstack/react-query";
@@ -23,15 +23,15 @@ import {
   setGlobalNotificationHandler,
 } from "@/utils/notifications";
 import { clearTimerEndTime, loadRemainingTime, saveTimerEndTime } from "@/utils/timer";
-import * as Notifications from "expo-notifications";
 import { Entypo } from "@expo/vector-icons";
+import * as Notifications from "expo-notifications";
 
 export default function App() {
   const router = useRouter();
   const [notLogin, setNotLogin] = useState(true);
   const [userData, setUserData] = useState<UserData | null>(null);
   const { cats, setCats } = useCatStore();
-  const { catType } = useCatTypeStore();
+  const [catType, setCatType] = useState("WhiteCat");
   const [timerStart, setTimerStart] = useState(false);
   const [timeComplete, setTimeComplete] = useState(false);
   const [movementState, setMovementState] = useState("BasicMovement");
@@ -51,12 +51,16 @@ export default function App() {
       }
       setUserData(storedUserData);
       setNotLogin(false);
+      // 대표 고양이 확인
+      const storedCatTypeData = await getData("catData");
+      console.log(storedCatTypeData);
+      setCatType(storedCatTypeData);
 
       // 알림 토큰 받기
       const token = await getExpoPushToken();
       if (token) {
         setPushToken(token);
-        console.log("Push Token:", token);
+        // console.log("Push Token:", token);
       }
 
       // EAS 업데이트 확인
@@ -113,7 +117,7 @@ export default function App() {
     console.log("notLogin");
     return <ReLogin />;
   }
-  console.log(cats);
+
   const huntingStart = async () => {
     if (timerStart) {
       setTimerStart(false);

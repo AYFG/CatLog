@@ -46,8 +46,8 @@ export async function refreshTokenRequest() {
   try {
     const userData = await getData("userData");
     const refreshToken = userData.refreshToken;
-    console.log("userData");
-    console.log(userData);
+    // console.log("userData");
+    // console.log(userData);
     const response = await fetch(`${API_URL}/auth/refresh`, {
       method: "POST",
       headers: {

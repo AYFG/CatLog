@@ -1,26 +1,25 @@
+import SubmitButton from "@/components/button/SubmitButton";
 import RiveCatAnimation from "@/components/Rive/RiveCatAnimation";
+import { getData, setData } from "@/utils/storage";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import * as Haptics from "expo-haptics";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { useEffect, useState } from "react";
-import SubmitButton from "@/components/button/SubmitButton";
-import * as Haptics from "expo-haptics";
-import { getData, setData } from "@/utils/storage";
-import { useCatTypeStore } from "@/store/useCatStore";
-import { useRouter } from "expo-router";
 
 export default function SelectCatColor() {
   const catTypeArray = ["WhiteCat", "BlackCat", "CheeseCat", "SphynxCat", "MackerelCat"];
   const [catIndex, setCatIndex] = useState(0);
-  const { catType, setCatType } = useCatTypeStore();
+  const [catType, setCatType] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     const loadArtBoard = async () => {
-      const asyncCatData = await getData("catData");
-      if (asyncCatData) {
-        setCatType(asyncCatData);
-        const savedIndex = catTypeArray.indexOf(asyncCatData);
+      const storedCatTypeData = await getData("catData");
+      if (storedCatTypeData) {
+        setCatType(storedCatTypeData);
+        const savedIndex = catTypeArray.indexOf(storedCatTypeData);
         if (savedIndex !== -1) {
           setCatIndex(savedIndex);
         }
