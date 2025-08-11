@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "tsc && node ./dist/app.js",
+    "reload": "git pull && tsc && pm2 reload catLogBackend",
     "start": "nodemon -e ts --exec \"bun run compile || exit 0\""
   },
   "author": "",
