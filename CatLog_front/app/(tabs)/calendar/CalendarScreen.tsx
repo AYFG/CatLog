@@ -2,6 +2,7 @@ import RouteButton from "@/components/button/RouteButton";
 import { UserData } from "@/types/auth";
 import { DailyLogData } from "@/types/dailyLog";
 import { apiRequest } from "@/utils/fetchApi";
+import { lightHaptics, mediumHaptics } from "@/utils/haptics";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useQueries } from "@tanstack/react-query";
@@ -101,6 +102,10 @@ export default function CalendarScreen() {
         onDayPress={(day) => {
           setLogDate(day.dateString);
           setSelected(day.dateString);
+          lightHaptics();
+        }}
+        onMonthChange={() => {
+          mediumHaptics();
         }}
         markedDates={{
           ...markedDates,
@@ -152,6 +157,9 @@ export default function CalendarScreen() {
                         logDateIdParams: dailyLog._id,
                       },
                     }}
+                    onPress={() => {
+                      lightHaptics();
+                    }}
                   >
                     <Ionicons name={"ellipsis-vertical"} size={24} color="black" />
                   </Link>
@@ -181,10 +189,15 @@ export default function CalendarScreen() {
               />
             </View>
           ) : (
-            <Pressable android_ripple={{ color: "#f5d4e0" }}>
+            <Pressable
+              android_ripple={{ color: "#f5d4e0" }}
+              className="flex items-center w-full p-4 my-10 rounded-lg bg-wePeep"
+            >
               <Link
-                className="flex items-center w-full p-4 my-10 rounded-lg bg-wePeep"
                 href={{ pathname: "/DailyLog/[logDate]", params: { logDate } }}
+                onPress={() => {
+                  mediumHaptics();
+                }}
               >
                 <Text className="text-snow">일일 건강 기록 추가하기</Text>
               </Link>

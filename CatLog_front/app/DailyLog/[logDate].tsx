@@ -1,17 +1,18 @@
+import BackButton from "@/components/button/BackButton";
 import { useCatStore } from "@/store/useCatStore";
+import { CatData } from "@/types/cat";
+import { DailyLogData } from "@/types/dailyLog";
 import { apiRequest } from "@/utils/fetchApi";
+import { successHaptics } from "@/utils/haptics";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { cssInterop } from "nativewind";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { cssInterop } from "nativewind";
-import { DailyLogData } from "@/types/dailyLog";
-import { CatData } from "@/types/cat";
-import BackButton from "@/components/button/BackButton";
 cssInterop(Ionicons, { className: "style" });
 
 export default function DailyLog() {
@@ -111,6 +112,7 @@ export default function DailyLog() {
       logDate: logDate,
       etc: etc,
     });
+    successHaptics();
   };
 
   return (

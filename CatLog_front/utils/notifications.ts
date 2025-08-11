@@ -116,7 +116,6 @@ export async function huntNotificationHandler(seconds: number) {
   const now = Date.now();
   const alarm = new Date(now + seconds * 1000);
 
-  console.log(alarm);
   Notifications.scheduleNotificationAsync({
     content: {
       title: "사냥놀이 종료",

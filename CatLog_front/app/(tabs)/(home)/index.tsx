@@ -25,6 +25,7 @@ import {
 import { clearTimerEndTime, loadRemainingTime, saveTimerEndTime } from "@/utils/timer";
 import { Entypo } from "@expo/vector-icons";
 import * as Notifications from "expo-notifications";
+import { mediumHaptics } from "@/utils/haptics";
 
 export default function App() {
   const router = useRouter();
@@ -53,7 +54,6 @@ export default function App() {
       setNotLogin(false);
       // 대표 고양이 확인
       const storedCatTypeData = await getData("catData");
-      console.log(storedCatTypeData);
       setCatType(storedCatTypeData);
 
       // 알림 토큰 받기
@@ -109,7 +109,6 @@ export default function App() {
   }
 
   if (isError) {
-    console.log("에러");
     console.log(isError);
     return <ReLogin />;
   }
@@ -125,6 +124,7 @@ export default function App() {
       setHuntingTime(ownerPickTime ? ownerPickTime : 60 * 20);
       Notifications.cancelAllScheduledNotificationsAsync();
       await clearTimerEndTime();
+      mediumHaptics();
     } else {
       setTimerStart(true);
       setMovementState("HuntingMovement");
@@ -132,6 +132,7 @@ export default function App() {
       const end = now + huntingTime * 1000;
       await saveTimerEndTime(end);
       huntNotificationHandler(huntingTime);
+      mediumHaptics();
     }
   };
 

@@ -2,6 +2,7 @@ import { UserData } from "@/types/auth";
 import { CatData } from "@/types/cat";
 import { DailyLogData } from "@/types/dailyLog";
 import { apiRequest } from "@/utils/fetchApi";
+import { successHaptics } from "@/utils/haptics";
 import { getData } from "@/utils/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -38,6 +39,7 @@ export default function DeleteCalendarModal() {
 
   const deleteCatHandler = (catId: CatData["_id"]) => {
     mutation.mutate(logDateIdParams.toString());
+    successHaptics();
   };
   return (
     <Animated.View className="items-center justify-center flex-1 bg-[#00000040]" entering={FadeIn}>

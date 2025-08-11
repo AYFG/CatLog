@@ -6,6 +6,7 @@ import { CatData } from "@/types/cat";
 import { calculateAge } from "@/utils/calculateAge";
 import { calculateNextDate } from "@/utils/calculateNextDate";
 import { apiRequest } from "@/utils/fetchApi";
+import { lightHaptics } from "@/utils/haptics";
 import { getData } from "@/utils/storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useQuery } from "@tanstack/react-query";
@@ -56,7 +57,12 @@ export default function MyPage() {
         <View className="flex flex-row justify-between p-4 mb-5 ">
           <Text className="text-xl font-medium ">{userData && userData.name}님의 반려묘</Text>
           <Link href="/CreateCat" asChild>
-            <Pressable android_ripple={{ color: "lightgray", borderless: true }}>
+            <Pressable
+              android_ripple={{ color: "lightgray", borderless: true }}
+              onPress={() => {
+                lightHaptics();
+              }}
+            >
               <Ionicons name="add" size={24} />
             </Pressable>
           </Link>
@@ -91,6 +97,7 @@ export default function MyPage() {
                           catId: v._id,
                           birthDay: v.birthDate,
                           nameParams: v?.name,
+                          catTypeParams: v?.catType,
                           healthDateParams: v.medicalLogs?.healthCheckupDate,
                           healthCycleParams: v.medicalLogs?.healthCycle,
                           heartWormParams: v.medicalLogs?.heartWorm,
@@ -99,7 +106,12 @@ export default function MyPage() {
                       }}
                       asChild
                     >
-                      <Pressable android_ripple={{ color: "lightgray", borderless: true }}>
+                      <Pressable
+                        android_ripple={{ color: "lightgray", borderless: true }}
+                        onPress={() => {
+                          lightHaptics();
+                        }}
+                      >
                         <Ionicons name={"ellipsis-vertical"} size={24} color="black" />
                       </Pressable>
                     </Link>

@@ -1,24 +1,30 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CAT_TYPE_ARRAY } from "@/assets/images/catImages";
+import RiveCatAnimation, { BasicMovement } from "@/components/Rive/RiveCatAnimation";
+import { CatData } from "@/types/cat";
 import { apiRequest } from "@/utils/fetchApi";
+import { mediumHaptics, successHaptics } from "@/utils/haptics";
 import { getData } from "@/utils/storage";
+import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { CatData } from "@/types/cat";
 
 export default function ChangeCat() {
-  const { catId, nameParams, birthDay } = useLocalSearchParams();
+  const { catId, nameParams, birthDay, catTypeParams } = useLocalSearchParams();
   const queryClient = useQueryClient();
   const [catName, setCatName] = useState(nameParams as CatData["name"]);
   const [birthDate, setBirthDate] = useState(birthDay as CatData["birthDate"]);
+  const [catType, setCatType] = useState((catTypeParams as CatData["catType"]) || "WhiteCat");
   const [show, setShow] = useState(false);
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>(null);
   const [checkValidation, setCheckValidation] = useState<{ [key: string]: string }>({});
+  const [catIndex, setCatIndex] = useState(0);
   const newErrors: { [key: string]: string } = {};
 
   useEffect(() => {
@@ -28,6 +34,7 @@ export default function ChangeCat() {
     };
     fetchUserData();
   }, []);
+
   useEffect(() => {
     if (userData) {
       setToken(userData.accessToken || null);
@@ -43,7 +50,11 @@ export default function ChangeCat() {
   };
 
   const mutation = useMutation({
-    mutationFn: async (updateCat: { name: CatData["name"]; birthDate: CatData["birthDate"] }) => {
+    mutationFn: async (updateCat: {
+      name: CatData["name"];
+      birthDate: CatData["birthDate"];
+      catType: CatData["catType"];
+    }) => {
       const userData = await getData("userData");
       return apiRequest(`cat/${catId}`, "PUT", updateCat, token || "");
     },
@@ -69,6 +80,23 @@ export default function ChangeCat() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const prevChangeCatButton = async () => {
+    mediumHaptics();
+    setCatIndex((prevIdx) => {
+      const newIndex = prevIdx === 0 ? CAT_TYPE_ARRAY.length - 1 : prevIdx - 1;
+      setCatType(CAT_TYPE_ARRAY[newIndex]);
+      return newIndex;
+    });
+  };
+
+  const nextChangeCatButton = async () => {
+    mediumHaptics();
+    setCatIndex((prevIdx) => {
+      const newIndex = prevIdx === CAT_TYPE_ARRAY.length - 1 ? 0 : prevIdx + 1;
+      setCatType(CAT_TYPE_ARRAY[newIndex]);
+      return newIndex;
+    });
+  };
   const handleSubmit = async () => {
     if (!validate()) {
       return;
@@ -78,7 +106,10 @@ export default function ChangeCat() {
     mutation.mutate({
       name: catName,
       birthDate: formatDate(birthDate),
+      catType: catType,
     });
+
+    successHaptics();
   };
 
   return (
@@ -92,6 +123,26 @@ export default function ChangeCat() {
             <Text className="text-xl font-semibold">반려묘 정보 수정</Text>
           </View>
         </View>
+        <View className="flex flex-row items-center mt-4">
+          <Pressable
+            className=""
+            onPress={prevChangeCatButton}
+            android_ripple={{ color: "gray", radius: 25 }}
+          >
+            <AntDesign name="leftcircleo" size={48} color="black" />
+          </Pressable>
+
+          <RiveCatAnimation catTypeProp={catType} movementState={BasicMovement} />
+
+          <Pressable
+            className=""
+            onPress={nextChangeCatButton}
+            android_ripple={{ color: "gray", radius: 25 }}
+          >
+            <AntDesign name="rightcircleo" size={48} color="black" />
+          </Pressable>
+        </View>
+
         <View className="mt-6 mb-2">
           <Text className="mb-4 font-bold">이름</Text>
           <TextInput

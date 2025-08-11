@@ -1,5 +1,6 @@
 import React from "react";
 
+import { mediumHaptics, successHaptics } from "@/utils/haptics";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text } from "react-native";
 import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";
@@ -38,6 +39,7 @@ export default function EditCalendarModal() {
                 etcParams,
               },
             });
+            successHaptics();
           }}
           className="w-full p-6 border-b border-[#ddd]"
           android_ripple={{ color: "#ddd" }}
@@ -48,12 +50,13 @@ export default function EditCalendarModal() {
         <Pressable
           className="w-full p-6 border-b"
           android_ripple={{ color: "#ddd" }}
-          onPress={() =>
+          onPress={() => {
             router.push({
               pathname: "/DeleteCalendarModal",
               params: { logDateIdParams },
-            })
-          }
+            });
+            mediumHaptics();
+          }}
         >
           <Text className="font-medium text-lg text-center text-[#ff0000]">삭제</Text>
         </Pressable>

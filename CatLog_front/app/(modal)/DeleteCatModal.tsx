@@ -1,6 +1,7 @@
 import { UserData } from "@/types/auth";
 import { CatData } from "@/types/cat";
 import { apiRequest } from "@/utils/fetchApi";
+import { successHaptics } from "@/utils/haptics";
 import { getData } from "@/utils/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -35,6 +36,7 @@ export default function DeleteCatModal() {
 
   const deleteCatHandler = (catId: CatData["_id"]) => {
     mutation.mutate(catId);
+    successHaptics();
   };
   return (
     <Animated.View className="items-center justify-center flex-1 bg-[#00000040]" entering={FadeIn}>

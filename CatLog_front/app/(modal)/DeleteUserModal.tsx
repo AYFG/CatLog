@@ -1,5 +1,6 @@
 import { UserData } from "@/types/auth";
 import { apiRequest } from "@/utils/fetchApi";
+import { successHaptics } from "@/utils/haptics";
 import { getData, removeData } from "@/utils/storage";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
@@ -33,6 +34,7 @@ export default function DeleteUserModal() {
 
   const deleteUserHandler = () => {
     mutation.mutate();
+    successHaptics();
   };
   return (
     <Animated.View className="items-center justify-center flex-1 bg-[#00000040]" entering={FadeIn}>

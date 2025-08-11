@@ -7,6 +7,7 @@ export default function EditCatModal() {
   const {
     catId,
     birthDay,
+    catTypeParams,
     nameParams,
     healthDateParams,
     healthCycleParams,
@@ -52,6 +53,7 @@ export default function EditCatModal() {
                 catId: catId.toString() || "",
                 nameParams: nameParams || "",
                 birthDay: birthDay,
+                catTypeParams: catTypeParams,
               },
             });
           }}

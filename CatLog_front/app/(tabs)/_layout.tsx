@@ -1,7 +1,7 @@
-import Entypo from "@expo/vector-icons/Entypo";
+import { mediumHaptics } from "@/utils/haptics";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { router, Stack, Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
 import { Pressable, Text } from "react-native";
 export default function TabsLayout() {
   return (
@@ -64,7 +64,10 @@ export default function TabsLayout() {
           ),
           headerRight: () => (
             <Pressable
-              onPress={() => router.push("/LogoutModal")}
+              onPress={() => {
+                router.push("/LogoutModal");
+                mediumHaptics();
+              }}
               android_ripple={{ color: "lightgray", radius: 30 }}
               className="p-4"
             >

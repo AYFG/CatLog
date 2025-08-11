@@ -3,6 +3,7 @@ import BackButton from "@/components/button/BackButton";
 import RiveCatAnimation, { BasicMovement } from "@/components/Rive/RiveCatAnimation";
 import { CatData } from "@/types/cat";
 import { apiRequest } from "@/utils/fetchApi";
+import { mediumHaptics, successHaptics } from "@/utils/haptics";
 import { getData } from "@/utils/storage";
 import { AntDesign } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -10,7 +11,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
-import * as Haptics from "expo-haptics";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CreateCat() {
@@ -65,17 +65,16 @@ export default function CreateCat() {
     return Object.keys(newErrors).length === 0;
   };
   const prevChangeCatButton = async () => {
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    mediumHaptics();
     setCatIndex((prevIdx) => {
       const newIndex = prevIdx === 0 ? CAT_TYPE_ARRAY.length - 1 : prevIdx - 1;
       setCatType(CAT_TYPE_ARRAY[newIndex]);
-      console.log(catType);
       return newIndex;
     });
   };
 
   const nextChangeCatButton = async () => {
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    mediumHaptics();
     setCatIndex((prevIdx) => {
       const newIndex = prevIdx === CAT_TYPE_ARRAY.length - 1 ? 0 : prevIdx + 1;
       setCatType(CAT_TYPE_ARRAY[newIndex]);
@@ -89,22 +88,13 @@ export default function CreateCat() {
     }
     const userData = await getData("userData");
 
-    const payload = {
+    mutation.mutate({
       name: catName,
       catType: catType,
       birthDate: formatDate(birthDate),
       owner: userData?.userId || "",
-    };
-
-    console.log("📤 요청 데이터:", payload);
-    mutation.mutate(payload);
-
-    // mutation.mutate({
-    //   name: catName,
-    //   catType: catType,
-    //   birthDate: formatDate(birthDate),
-    //   owner: userData?.userId || "",
-    // });
+    });
+    successHaptics();
   };
 
   return (
