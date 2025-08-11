@@ -32,7 +32,7 @@ export default function DeleteCalendarModal() {
       apiRequest(`dailyLog/${logDateIdParams}`, "DELETE", undefined, userData?.accessToken),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["dailyLog"], refetchType: "all" });
-      router.push("/(tabs)/CalendarScreen");
+      router.push("/(tabs)/calendar/CalendarScreen");
     },
   });
 

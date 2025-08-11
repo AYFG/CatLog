@@ -1,3 +1,4 @@
+import { CAT_TYPE_ARRAY } from "@/assets/images/catImages";
 import BackButton from "@/components/button/BackButton";
 import RiveCatAnimation, { BasicMovement } from "@/components/Rive/RiveCatAnimation";
 import { CatData } from "@/types/cat";
@@ -9,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
+import * as Haptics from "expo-haptics";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CreateCat() {
@@ -20,8 +22,9 @@ export default function CreateCat() {
   const [show, setShow] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [checkValidation, setCheckValidation] = useState<{ [key: string]: string }>({});
+  const [catIndex, setCatIndex] = useState(0);
   const newErrors: { [key: string]: string } = {};
-
+  CAT_TYPE_ARRAY;
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = await getData("userData");
@@ -61,17 +64,47 @@ export default function CreateCat() {
     setCheckValidation(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  const prevChangeCatButton = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setCatIndex((prevIdx) => {
+      const newIndex = prevIdx === 0 ? CAT_TYPE_ARRAY.length - 1 : prevIdx - 1;
+      setCatType(CAT_TYPE_ARRAY[newIndex]);
+      console.log(catType);
+      return newIndex;
+    });
+  };
+
+  const nextChangeCatButton = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setCatIndex((prevIdx) => {
+      const newIndex = prevIdx === CAT_TYPE_ARRAY.length - 1 ? 0 : prevIdx + 1;
+      setCatType(CAT_TYPE_ARRAY[newIndex]);
+      return newIndex;
+    });
+  };
+
   const handleSubmit = async () => {
     if (!validate()) {
       return;
     }
     const userData = await getData("userData");
-    mutation.mutate({
+
+    const payload = {
       name: catName,
       catType: catType,
       birthDate: formatDate(birthDate),
       owner: userData?.userId || "",
-    });
+    };
+
+    console.log("📤 요청 데이터:", payload);
+    mutation.mutate(payload);
+
+    // mutation.mutate({
+    //   name: catName,
+    //   catType: catType,
+    //   birthDate: formatDate(birthDate),
+    //   owner: userData?.userId || "",
+    // });
   };
 
   return (
@@ -87,7 +120,7 @@ export default function CreateCat() {
           <View className="flex flex-row items-center mt-4">
             <Pressable
               className=""
-              // onPress={prevChangeCatButton}
+              onPress={prevChangeCatButton}
               android_ripple={{ color: "gray", radius: 25 }}
             >
               <AntDesign name="leftcircleo" size={48} color="black" />
@@ -97,7 +130,7 @@ export default function CreateCat() {
 
             <Pressable
               className=""
-              // onPress={prevChangeCatButton}
+              onPress={nextChangeCatButton}
               android_ripple={{ color: "gray", radius: 25 }}
             >
               <AntDesign name="rightcircleo" size={48} color="black" />

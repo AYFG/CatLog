@@ -1,3 +1,4 @@
+import { CAT_TYPE_ARRAY } from "@/assets/images/catImages";
 import SubmitButton from "@/components/button/SubmitButton";
 import RiveCatAnimation from "@/components/Rive/RiveCatAnimation";
 import { getData, setData } from "@/utils/storage";
@@ -9,7 +10,6 @@ import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SelectCatColor() {
-  const catTypeArray = ["WhiteCat", "BlackCat", "CheeseCat", "SphynxCat", "MackerelCat"];
   const [catIndex, setCatIndex] = useState(0);
   const [catType, setCatType] = useState("");
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function SelectCatColor() {
       const storedCatTypeData = await getData("catData");
       if (storedCatTypeData) {
         setCatType(storedCatTypeData);
-        const savedIndex = catTypeArray.indexOf(storedCatTypeData);
+        const savedIndex = CAT_TYPE_ARRAY.indexOf(storedCatTypeData);
         if (savedIndex !== -1) {
           setCatIndex(savedIndex);
         }
@@ -31,8 +31,8 @@ export default function SelectCatColor() {
   const prevChangeCatButton = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setCatIndex((prevIdx) => {
-      const newIndex = prevIdx === 0 ? catTypeArray.length - 1 : prevIdx - 1;
-      setCatType(catTypeArray[newIndex]);
+      const newIndex = prevIdx === 0 ? CAT_TYPE_ARRAY.length - 1 : prevIdx - 1;
+      setCatType(CAT_TYPE_ARRAY[newIndex]);
       return newIndex;
     });
   };
@@ -40,15 +40,15 @@ export default function SelectCatColor() {
   const nextChangeCatButton = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setCatIndex((prevIdx) => {
-      const newIndex = prevIdx === catTypeArray.length - 1 ? 0 : prevIdx + 1;
-      setCatType(catTypeArray[newIndex]);
+      const newIndex = prevIdx === CAT_TYPE_ARRAY.length - 1 ? 0 : prevIdx + 1;
+      setCatType(CAT_TYPE_ARRAY[newIndex]);
       return newIndex;
     });
   };
 
   const catTypeSubmitButton = () => {
     router.push("/");
-    setData("catData", catTypeArray[catIndex]);
+    setData("catData", CAT_TYPE_ARRAY[catIndex]);
   };
 
   return (

@@ -29,7 +29,7 @@ export default function DeleteCatModal() {
       apiRequest(`cat/${catId}`, "DELETE", undefined, userData?.accessToken),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cats"], refetchType: "all" });
-      router.push("/(tabs)/MyPage");
+      router.push("/(tabs)/mypage/MyPage");
     },
   });
 
