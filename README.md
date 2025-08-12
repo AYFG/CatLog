@@ -185,8 +185,7 @@
 
 ---
 ## 🚀 시작하기
-
-[![앱 구글스토어 링크 이미지](https://github.com/user-attachments/assets/2d4759d8-28e9-4bb8-9255-e76a27630d77)](https://play.google.com/store/apps/details?id=com.anonymous.CatLog)
+#### [![앱 구글스토어 링크 이미지](https://github.com/user-attachments/assets/2d4759d8-28e9-4bb8-9255-e76a27630d77)](https://play.google.com/store/apps/details?id=com.anonymous.CatLog)
 Google Play에서 앱을 다운로드해 사용해 보세요.
 
 
