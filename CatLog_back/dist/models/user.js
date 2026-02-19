@@ -22,5 +22,5 @@ const userSchema = new Schema({
             ref: "Cat",
         },
     ],
-});
+}, { timestamps: true });
 export default mongoose.model("User", userSchema);

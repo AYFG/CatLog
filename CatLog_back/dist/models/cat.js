@@ -7,5 +7,5 @@ const catSchema = new Schema({
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     medicalLogs: { type: Schema.Types.ObjectId, ref: "MedicalLog" },
     dailyLogs: [{ type: Schema.Types.ObjectId, ref: "DailyLog" }],
-});
+}, { timestamps: true });
 export default mongoose.model("Cat", catSchema);

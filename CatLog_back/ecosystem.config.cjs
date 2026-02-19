@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "catLogBackend",
       script: "./dist/app.js",
-      instances: "max",
+      instances: "2",
       exec_mode: "cluster",
     },
   ],

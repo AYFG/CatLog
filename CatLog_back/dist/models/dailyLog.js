@@ -31,5 +31,5 @@ const dailyLogSchema = new Schema({
         type: String,
         required: true,
     },
-});
+}, { timestamps: true });
 export default mongoose.model("DailyLog", dailyLogSchema);

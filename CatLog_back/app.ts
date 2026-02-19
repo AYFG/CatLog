@@ -7,10 +7,12 @@ import catRoutes from "./routes/cat.js";
 import medicalRoutes from "./routes/medicalLog.js";
 import dailyLogRoutes from "./routes/dailyLog.js";
 import { errorHandler } from "./middleware/error.js";
+import { requestLogger } from "./middleware/logger.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
 
 const DATABASE_ID = process.env.DATABASE_ID;
 const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
@@ -19,7 +21,7 @@ const PORT = process.env.PORT;
 
 const MongoDB_URI = `mongodb+srv://${DATABASE_ID}:${DATABASE_PASSWORD}@cluster0.xupmv.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (_req: Request, res: Response) => {
   res.send("Hello World!!!");
 });
 
