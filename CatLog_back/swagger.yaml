@@ -1,0 +1,609 @@
+openapi: 3.0.3
+info:
+  title: CatLog Backend API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:50000
+
+tags:
+  - name: Auth
+  - name: Cat
+  - name: DailyLog
+  - name: MedicalLog
+
+paths:
+  /auth/signup:
+    post:
+      tags: [Auth]
+      summary: 회원가입
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        '201':
+          description: 생성됨
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupResponse'
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: 로그인
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Access token 재발급
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshResponse'
+
+  /auth/deleteUser/{userId}:
+    delete:
+      tags: [Auth]
+      summary: 유저 삭제 (연관 데이터 포함)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkMessageResponse'
+
+  /cat:
+    post:
+      tags: [Cat]
+      summary: 고양이 등록
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCatRequest'
+      responses:
+        '201':
+          description: 생성됨
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatCreateResponse'
+
+  /cat/{userId}:
+    get:
+      tags: [Cat]
+      summary: 유저의 고양이 목록 조회
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatListResponse'
+
+  /cat/{catId}:
+    put:
+      tags: [Cat]
+      summary: 고양이 수정
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: catId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCatRequest'
+      responses:
+        '201':
+          description: 수정됨
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatCreateResponse'
+
+    delete:
+      tags: [Cat]
+      summary: 고양이 삭제
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: catId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+
+  /dailyLog/{catId}:
+    post:
+      tags: [DailyLog]
+      summary: 일일 기록 생성/업데이트 (해당 날짜 있으면 업데이트)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: catId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDailyLogRequest'
+      responses:
+        '201':
+          description: 생성/업데이트됨
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyLogResponse'
+
+  /dailyLog:
+    get:
+      tags: [DailyLog]
+      summary: 특정 날짜의 일일 기록 조회 (본인 소유 고양이 전체)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: logDate
+          required: true
+          schema:
+            type: string
+          description: 날짜 문자열 (클라이언트가 사용하는 포맷 그대로)
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyLogListResponse'
+
+  /dailyLog/everyLogDates:
+    get:
+      tags: [DailyLog]
+      summary: 모든 일일 기록 날짜 조회 (본인 소유 고양이 기준)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EveryLogDatesResponse'
+
+  /dailyLog/{dailyLogId}:
+    delete:
+      tags: [DailyLog]
+      summary: 일일 기록 삭제
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: dailyLogId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkMessageResponse'
+
+  /medicalLog/{catId}:
+    post:
+      tags: [MedicalLog]
+      summary: 건강관리(병원/심장사상충) 기록 생성/업데이트
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: catId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMedicalLogRequest'
+      responses:
+        '201':
+          description: 생성/업데이트됨
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalLogResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+      required: [ok]
+
+    OkMessageResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+      required: [ok, message]
+
+    SignupRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+          description: 2~8자
+        password:
+          type: string
+          description: 6자 이상
+      required: [email, name, password]
+
+    SignupResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: 유저 생성 성공
+        userId:
+          type: string
+      required: [ok, message, userId]
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required: [email, password]
+
+    LoginResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        item:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 유저 로그인 성공
+            accessToken:
+              type: string
+            refreshToken:
+              type: string
+            userId:
+              type: string
+            email:
+              type: string
+              format: email
+            name:
+              type: string
+          required: [message, accessToken, refreshToken, userId, email, name]
+      required: [ok, item]
+
+    RefreshRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      required: [refreshToken]
+
+    RefreshResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: access token을 재발급했습니다.
+        accessToken:
+          type: string
+      required: [ok, message, accessToken]
+
+    CatType:
+      type: string
+      nullable: true
+
+    Cat:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        birthDate:
+          type: string
+        catType:
+          $ref: '#/components/schemas/CatType'
+        owner:
+          type: string
+        dailyLogs:
+          type: array
+          items:
+            type: string
+        medicalLogs:
+          nullable: true
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/MedicalLog'
+
+    CreateCatRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        birthDate:
+          type: string
+        catType:
+          $ref: '#/components/schemas/CatType'
+        owner:
+          type: string
+      required: [name, birthDate]
+
+    UpdateCatRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        birthDate:
+          type: string
+        catType:
+          $ref: '#/components/schemas/CatType'
+      required: [name, birthDate]
+
+    CatCreateResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+        cat:
+          $ref: '#/components/schemas/Cat'
+      required: [ok, message, cat]
+
+    CatListResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+        cats:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cat'
+      required: [ok, message, cats]
+
+    CatRef:
+      type: object
+      properties:
+        catId:
+          type: string
+        catName:
+          type: string
+      required: [catId, catName]
+
+    DailyLog:
+      type: object
+      properties:
+        _id:
+          type: string
+        cat:
+          $ref: '#/components/schemas/CatRef'
+        defecation:
+          type: boolean
+        vitamin:
+          type: boolean
+        weight:
+          type: number
+        etc:
+          nullable: true
+          oneOf:
+            - type: string
+            - type: object
+        logDate:
+          type: string
+      required: [cat, defecation, vitamin, weight, logDate]
+
+    CreateDailyLogRequest:
+      type: object
+      properties:
+        cat:
+          type: object
+          properties:
+            catName:
+              type: string
+          required: [catName]
+        defecation:
+          type: boolean
+        vitamin:
+          type: boolean
+        weight:
+          type: number
+        etc:
+          nullable: true
+          oneOf:
+            - type: string
+            - type: object
+        logDate:
+          type: string
+      required: [cat, defecation, vitamin, weight, logDate]
+
+    DailyLogResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+        dailyLog:
+          $ref: '#/components/schemas/DailyLog'
+      required: [ok, message]
+
+    DailyLogListResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+        dailyLogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyLog'
+      required: [ok, message, dailyLogs]
+
+    EveryLogDatesResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+        everyLogDates:
+          type: array
+          items:
+            type: string
+      required: [ok, message, everyLogDates]
+
+    MedicalLog:
+      type: object
+      properties:
+        _id:
+          type: string
+        cat:
+          $ref: '#/components/schemas/CatRef'
+        healthCheckupDate:
+          type: string
+        healthCycle:
+          type: string
+        heartWorm:
+          type: string
+        heartWormCycle:
+          type: string
+      required: [cat, healthCheckupDate, healthCycle, heartWorm, heartWormCycle]
+
+    CreateMedicalLogRequest:
+      type: object
+      properties:
+        cat:
+          type: object
+          properties:
+            catName:
+              type: string
+          required: [catName]
+        healthCheckupDate:
+          type: string
+        healthCycle:
+          type: string
+        heartWorm:
+          type: string
+        heartWormCycle:
+          type: string
+      required: [cat, healthCheckupDate, healthCycle, heartWorm, heartWormCycle]
+
+    MedicalLogResponse:
+      type: object
+      properties:
+        ok:
+          type: integer
+          example: 1
+        message:
+          type: string
+        medicalLog:
+          $ref: '#/components/schemas/MedicalLog'
+      required: [ok, message]

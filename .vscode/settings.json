@@ -1,0 +1,15 @@
+{
+  "java.compile.nullAnalysis.mode": "automatic",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "[groovy]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  }
+}

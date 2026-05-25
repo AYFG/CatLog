@@ -1,19 +1,19 @@
 meta {
-  name: HelloWorld
+  name: signup
   type: http
   seq: 2
 }
 
-get {
-  url: https://apiwoong.kro.kr/
+post {
+  url: http://localhost:8080/auth/signup
   body: json
   auth: none
 }
 
 body:json {
   {
+    "name":"test",
     "email":"test@test.com",
-    "password":"123123",
-    "name":"test"
+    "password":"test1234"
   }
 }

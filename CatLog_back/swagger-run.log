@@ -1,0 +1,30 @@
+
+> catlog_back@1.0.0 compile
+> tsc && node ./dist/app.js
+
+Client connected
+Swagger: http://localhost:50000/docs
+MongoDB 연결 성공
+[2026-05-25T10:18:07.045Z] GET /docs/
+[2026-05-25T10:18:07.048Z] GET /docs/ - Status: 200
+[2026-05-25T10:18:07.086Z] GET /docs/swagger-ui.css
+[2026-05-25T10:18:07.089Z] GET /docs/swagger-ui-bundle.js
+[2026-05-25T10:18:07.092Z] GET /docs/swagger-ui-standalone-preset.js
+[2026-05-25T10:18:07.092Z] GET /docs/swagger-ui-init.js
+[2026-05-25T10:18:07.092Z] GET /docs/swagger-ui-init.js - Status: 200
+[2026-05-25T10:18:07.103Z] GET /docs/swagger-ui-init.js
+[2026-05-25T10:18:07.103Z] GET /docs/swagger-ui-init.js - Status: 200
+[2026-05-25T10:18:07.104Z] GET /docs/swagger-ui-standalone-preset.js
+[2026-05-25T10:18:07.330Z] GET /docs/favicon-32x32.png
+[2026-05-25T10:18:07.379Z] GET /docs/swagger-ui-bundle.js
+[2026-05-25T12:31:19.495Z] GET /docs/
+[2026-05-25T12:31:19.496Z] GET /docs/ - Status: 200
+[2026-05-25T12:31:19.533Z] GET /docs/swagger-ui.css
+[2026-05-25T12:31:19.536Z] GET /docs/swagger-ui-bundle.js
+[2026-05-25T12:31:19.537Z] GET /docs/swagger-ui-standalone-preset.js
+[2026-05-25T12:31:19.539Z] GET /docs/swagger-ui-init.js
+[2026-05-25T12:31:19.539Z] GET /docs/swagger-ui-init.js - Status: 200
+[2026-05-25T12:31:19.550Z] GET /docs/swagger-ui-init.js
+[2026-05-25T12:31:19.551Z] GET /docs/swagger-ui-init.js - Status: 200
+[2026-05-25T12:31:19.555Z] GET /docs/swagger-ui-standalone-preset.js
+[2026-05-25T12:31:20.196Z] GET /docs/swagger-ui-bundle.js
