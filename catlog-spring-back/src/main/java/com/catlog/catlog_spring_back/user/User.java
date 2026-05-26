@@ -24,6 +24,9 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
+    @Column(length = 255)
+    private String refreshToken;
+
     @Builder
     public User(String name, String email, String password) {
         this.name = name;
@@ -31,4 +34,7 @@ public class User {
         this.password = password;
     }
 
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }

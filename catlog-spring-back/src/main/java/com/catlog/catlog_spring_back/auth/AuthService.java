@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.catlog.catlog_spring_back.auth.dto.LoginRequest;
+import com.catlog.catlog_spring_back.auth.dto.LoginResponse;
 import com.catlog.catlog_spring_back.auth.dto.SignupRequest;
 import com.catlog.catlog_spring_back.auth.dto.SignupResponse;
 import com.catlog.catlog_spring_back.user.User;
@@ -34,5 +36,12 @@ public class AuthService {
         User saved = userRepository.save(user);
 
         return new SignupResponse(1, "유저 생성 성공", saved.getId().toString());
+    }
+
+    @Transactional
+    public LoginResponse login(LoginRequest req) {
+        User user = userRepository.findByEmail(req.email())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이메일이 없습니다."));
+        return null;
     }
 }
