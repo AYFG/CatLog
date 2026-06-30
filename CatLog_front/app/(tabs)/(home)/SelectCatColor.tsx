@@ -75,12 +75,13 @@ export default function SelectCatColor() {
       <Text className="text-center"></Text>
       <View className="w-1/2 m-auto">
         <SubmitButton
-          children={<Text className="text-xl font-semibold color-[#EF798A]}">캐릭터 저장하기</Text>}
           handleSubmit={async () => {
             catTypeSubmitButton();
             await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           }}
-        />
+        >
+          캐릭터 저장하기
+        </SubmitButton>
       </View>
     </SafeAreaView>
   );

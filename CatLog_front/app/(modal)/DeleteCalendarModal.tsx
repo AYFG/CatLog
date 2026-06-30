@@ -26,7 +26,7 @@ export default function DeleteCalendarModal() {
       }
     };
     fetchData();
-  }, []);
+  }, [router]);
 
   const mutation = useMutation({
     mutationFn: (logDateIdParams: DailyLogData["_id"]) =>

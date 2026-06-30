@@ -1,5 +1,10 @@
 package com.catlog.catlog_spring_back.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.catlog.catlog_spring_back.cat.Cat;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +29,11 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
-    @Column(length = 255)
+    @Column(columnDefinition = "TEXT")
     private String refreshToken;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Cat> cats = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String password) {

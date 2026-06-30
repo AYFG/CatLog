@@ -67,16 +67,10 @@ export default function DailyLog() {
     }
   }
 
-  function close() {
-    if (pickerRef.current) {
-      pickerRef.current.blur();
-    }
-  }
-
   const mutation = useMutation({
     mutationFn: (dailyLog: DailyLogData) =>
       apiRequest(`dailyLog/${selectedCat.id}`, "POST", dailyLog, token),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["dailyLog"], refetchType: "all" });
       router.back();
     },
@@ -88,7 +82,7 @@ export default function DailyLog() {
     setWeight(formatted);
   };
   const validate = () => {
-    if (selectedCat.name == "") {
+    if (selectedCat.name === "") {
       newErrors.name = "기록할 반려묘를 선택해주세요.";
     }
 

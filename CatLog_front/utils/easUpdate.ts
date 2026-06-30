@@ -10,7 +10,7 @@ export async function onFetchUpdateAsync() {
       await Updates.fetchUpdateAsync();
       await Updates.reloadAsync();
     }
-  } catch (error) {
+  } catch {
     // alert(`${error}`);
   }
 }

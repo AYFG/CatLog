@@ -46,8 +46,6 @@ export async function refreshTokenRequest() {
   try {
     const userData = await getData("userData");
     const refreshToken = userData.refreshToken;
-    // console.log("userData");
-    // console.log(userData);
     const response = await fetch(`${API_URL}/auth/refresh`, {
       method: "POST",
       headers: {
@@ -58,8 +56,6 @@ export async function refreshTokenRequest() {
     if (!response.ok) {
       const errorResponse = await response.json();
       if (response.status === 401 && errorResponse.errorName === "RefreshTokenExpired") {
-        console.log(errorResponse);
-
         throw new Error(`${response.status}`);
       }
       throw new Error(`${response.status}`);

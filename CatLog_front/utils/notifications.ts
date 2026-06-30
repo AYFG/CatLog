@@ -12,6 +12,10 @@ export function setGlobalNotificationHandler() {
   });
 }
 
+export async function cancelAllNotifications() {
+  await Notifications.cancelAllScheduledNotificationsAsync();
+}
+
 // local 건강검진 가는 날 알림
 export async function healthCheckupNotificationHandler(day: Date, cycle: string, catName: string) {
   const medicationDate = new Date(day); // 예: "2025-05-15"
@@ -56,10 +60,6 @@ export async function healthCheckupNotificationHandler(day: Date, cycle: string,
     },
   });
 
-  // 확인용 로그
-  console.log("사상충 알림 예약:");
-  console.log("- 전날:", dayBeforeNotification.toString());
-  console.log("- 당일:", onDayNotification.toString());
 }
 // local 심장사상충 약 알림
 export async function heartwormNotificationHandler(day: Date, cycle: string, catName: string) {
@@ -105,10 +105,6 @@ export async function heartwormNotificationHandler(day: Date, cycle: string, cat
     },
   });
 
-  // 확인용 로그
-  console.log("사상충 알림 예약:");
-  console.log("- 전날:", dayBeforeNotification.toString());
-  console.log("- 당일:", onDayNotification.toString());
 }
 
 // local 사냥 종료 알림
@@ -160,8 +156,7 @@ export async function getExpoPushToken(): Promise<string | null> {
 
     const pushTokenData = await Notifications.getExpoPushTokenAsync();
     return pushTokenData.data;
-  } catch (error) {
-    // console.error("푸시 알림 토큰 요청 실패:", error);
+  } catch {
     return null;
   }
 }

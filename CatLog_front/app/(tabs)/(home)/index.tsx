@@ -18,29 +18,26 @@ import RiveCatAnimation from "@/components/Rive/RiveCatAnimation";
 import { UserData } from "@/types/auth";
 import { onFetchUpdateAsync } from "@/utils/easUpdate";
 import {
+  cancelAllNotifications,
   getExpoPushToken,
   huntNotificationHandler,
   setGlobalNotificationHandler,
 } from "@/utils/notifications";
 import { clearTimerEndTime, loadRemainingTime, saveTimerEndTime } from "@/utils/timer";
 import { Entypo } from "@expo/vector-icons";
-import * as Notifications from "expo-notifications";
 import { mediumHaptics } from "@/utils/haptics";
 
 export default function App() {
   const router = useRouter();
   const [notLogin, setNotLogin] = useState(true);
   const [userData, setUserData] = useState<UserData | null>(null);
-  const { cats, setCats } = useCatStore();
+  const { setCats } = useCatStore();
   const [catType, setCatType] = useState("WhiteCat");
   const [timerStart, setTimerStart] = useState(false);
-  const [timeComplete, setTimeComplete] = useState(false);
   const [movementState, setMovementState] = useState("BasicMovement");
   const [timerPickerModalOpen, setTimerPickerModalOpen] = useState(false);
   const [huntingTime, setHuntingTime] = useState(60 * 20);
   const [ownerPickTime, setOwnerPickTime] = useState<number | null>(null);
-  const [pushToken, setPushToken] = useState<string | null>(null);
-  const [scheduledNotifications, setScheduledNotifications] = useState([]);
 
   useEffect(() => {
     const initApp = async () => {
@@ -57,11 +54,7 @@ export default function App() {
       setCatType(storedCatTypeData);
 
       // 알림 토큰 받기
-      const token = await getExpoPushToken();
-      if (token) {
-        setPushToken(token);
-        // console.log("Push Token:", token);
-      }
+      await getExpoPushToken();
 
       // EAS 업데이트 확인
       onFetchUpdateAsync();
@@ -80,17 +73,7 @@ export default function App() {
     restoreTimer();
     initApp();
     setGlobalNotificationHandler();
-  }, []);
-
-  // useEffect(() => {
-  //   const checkScheduledNotifications = async () => {
-  //     // 예약된 알림들을 가져옵니다.
-  //     const newScheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
-  //     // 콘솔에 예약된 알림들을 출력합니다.
-  //     console.log("Scheduled notifications:", newScheduledNotifications);
-  //   };
-  //   checkScheduledNotifications();
-  // }, [scheduledNotifications]);
+  }, [router]);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["cats"],
@@ -102,18 +85,16 @@ export default function App() {
     if (isSuccess && data) {
       setCats(data.cats);
     }
-  }, [data]);
+  }, [data, isSuccess, setCats]);
 
   if (isLoading) {
     return <LargeIndicator />;
   }
 
   if (isError) {
-    console.log(isError);
     return <ReLogin />;
   }
   if (notLogin) {
-    console.log("notLogin");
     return <ReLogin />;
   }
 
@@ -122,7 +103,7 @@ export default function App() {
       setTimerStart(false);
       setMovementState("BasicMovement");
       setHuntingTime(ownerPickTime ? ownerPickTime : 60 * 20);
-      Notifications.cancelAllScheduledNotificationsAsync();
+      await cancelAllNotifications();
       await clearTimerEndTime();
       mediumHaptics();
     } else {
@@ -160,7 +141,6 @@ export default function App() {
               colors={["#EF798A", "#F7B801", "#A30000", "#A30000"]}
               colorsTime={[huntingTime / 2, huntingTime / 3, huntingTime / 4, huntingTime / 5]}
               onComplete={() => {
-                setTimeComplete(true);
                 setTimerStart(false);
                 setMovementState("BasicMovement");
                 setHuntingTime(60 * 20);
@@ -222,16 +202,9 @@ export default function App() {
             )}
           </View>
           <View className="">
-            <SubmitButton
-              children={
-                timerStart ? (
-                  <Text className="text-xl font-semibold color-[#EF798A] ">사냥 놀이 중지</Text>
-                ) : (
-                  <Text className="text-xl font-semibold">사냥 놀이 시작하기</Text>
-                )
-              }
-              handleSubmit={huntingStart}
-            />
+            <SubmitButton handleSubmit={huntingStart}>
+              {timerStart ? "사냥 놀이 중지" : "사냥 놀이 시작하기"}
+            </SubmitButton>
           </View>
         </View>
       </ScrollView>

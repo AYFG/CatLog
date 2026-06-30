@@ -9,7 +9,6 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(modal)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
         <Stack.Screen name="Login" options={{ headerShown: false }} />
         <Stack.Screen
@@ -43,7 +42,6 @@ export default function RootLayout() {
         <Stack.Screen name="ChangeCat/[catId]" options={{ headerShown: false }} />
         <Stack.Screen name="MedicalLog" options={{ headerShown: false }} />
         <Stack.Screen name="Settings" options={{ headerShown: false }} />
-        <Stack.Screen name="SelectCatColor" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="dark" />
     </QueryClientProvider>

@@ -24,7 +24,7 @@ export default function DeleteCatModal() {
       }
     };
     fetchData();
-  }, []);
+  }, [router]);
   const mutation = useMutation({
     mutationFn: (catId: CatData["_id"]) =>
       apiRequest(`cat/${catId}`, "DELETE", undefined, userData?.accessToken),

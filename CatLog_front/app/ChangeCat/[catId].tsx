@@ -22,24 +22,18 @@ export default function ChangeCat() {
   const [show, setShow] = useState(false);
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
-  const [userData, setUserData] = useState<any>(null);
   const [checkValidation, setCheckValidation] = useState<{ [key: string]: string }>({});
-  const [catIndex, setCatIndex] = useState(0);
+  const [, setCatIndex] = useState(0);
   const newErrors: { [key: string]: string } = {};
 
   useEffect(() => {
     const fetchUserData = async () => {
       const data = await getData("userData");
-      setUserData(data);
+      setToken(data?.accessToken || null);
     };
     fetchUserData();
   }, []);
 
-  useEffect(() => {
-    if (userData) {
-      setToken(userData.accessToken || null);
-    }
-  }, [userData]);
   const formatDate = (date: string) => date?.split("T")[0];
 
   const handleChange = (event: object, selectedDate?: Date) => {
@@ -55,15 +49,11 @@ export default function ChangeCat() {
       birthDate: CatData["birthDate"];
       catType: CatData["catType"];
     }) => {
-      const userData = await getData("userData");
       return apiRequest(`cat/${catId}`, "PUT", updateCat, token || "");
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cats"], refetchType: "all" });
       router.back();
-    },
-    onError: (error) => {
-      console.error("고양이 등록 실패:", error);
     },
   });
 
@@ -102,7 +92,6 @@ export default function ChangeCat() {
       return;
     }
 
-    const userData = await getData("userData");
     mutation.mutate({
       name: catName,
       birthDate: formatDate(birthDate),

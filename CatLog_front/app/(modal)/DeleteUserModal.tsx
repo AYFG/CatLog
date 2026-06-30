@@ -22,7 +22,7 @@ export default function DeleteUserModal() {
       }
     };
     fetchData();
-  }, []);
+  }, [router]);
   const mutation = useMutation({
     mutationFn: () =>
       apiRequest(`auth/deleteUser/${userData?.userId}`, "DELETE", undefined, userData?.accessToken),

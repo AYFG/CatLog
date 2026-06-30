@@ -1,7 +1,6 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../assets/images/adaptive-icon.png";
 import RouteButton from "@/components/button/RouteButton";
@@ -20,7 +19,7 @@ export default function Welcome() {
       setCount((prev) => prev - 1);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [count]);
+  }, [count, router]);
 
   return (
     <View className="flex-1 bg-snow">

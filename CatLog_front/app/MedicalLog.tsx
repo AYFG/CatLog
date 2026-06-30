@@ -8,7 +8,6 @@ import {
   heartwormNotificationHandler,
 } from "@/utils/notifications";
 import { getData } from "@/utils/storage";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -16,7 +15,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Pressable,
   ScrollView,
   Text,
@@ -94,16 +92,10 @@ export default function MedicalLog() {
     }
   }
 
-  function close() {
-    if (pickerRef.current) {
-      pickerRef.current.blur();
-    }
-  }
-
   const mutation = useMutation({
     mutationFn: (medicalLog: MedicalLogData) =>
       apiRequest(`medicalLog/${selectedCat.id}`, "POST", medicalLog, token),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cats"] });
       router.back();
     },

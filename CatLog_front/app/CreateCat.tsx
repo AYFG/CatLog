@@ -9,7 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -20,18 +20,9 @@ export default function CreateCat() {
   const [birthDate, setBirthDate] = useState(new Date());
   const [catType, setCatType] = useState("WhiteCat");
   const [show, setShow] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
   const [checkValidation, setCheckValidation] = useState<{ [key: string]: string }>({});
-  const [catIndex, setCatIndex] = useState(0);
+  const [, setCatIndex] = useState(0);
   const newErrors: { [key: string]: string } = {};
-  CAT_TYPE_ARRAY;
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userData = await getData("userData");
-      setToken(userData?.accessToken || null);
-    };
-    fetchUserData();
-  }, []);
 
   const formatDate = (date: Date) => date.toISOString().split("T")[0];
 

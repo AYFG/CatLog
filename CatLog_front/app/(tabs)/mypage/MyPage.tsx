@@ -29,7 +29,7 @@ export default function MyPage() {
     if (isSuccess && data) {
       setCats(data.cats);
     }
-  }, [data]);
+  }, [data, isSuccess, setCats]);
   useEffect(() => {
     const getUserData = async () => {
       const data = await getData("userData");
@@ -40,7 +40,7 @@ export default function MyPage() {
       }
     };
     getUserData();
-  }, []);
+  }, [router]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -176,13 +176,14 @@ export default function MyPage() {
 
                       <View className="">
                         <RouteButton
-                          children={`건강검진 기록하러가기  〉`}
                           routeHref="/MedicalLog"
                           param={{
                             catId: v._id || "",
                             nameParams: v.name,
                           }}
-                        />
+                        >
+                          건강검진 기록하러가기  〉
+                        </RouteButton>
                       </View>
                     </View>
                   )}
@@ -192,7 +193,7 @@ export default function MyPage() {
           ) : (
             <View className="flex flex-col items-center gap-4">
               <Text>등록된 반려묘가 없습니다.</Text>
-              <RouteButton children="반려묘를 등록해주세요" routeHref="/CreateCat" />
+              <RouteButton routeHref="/CreateCat">반려묘를 등록해주세요</RouteButton>
             </View>
           )}
         </View>

@@ -63,7 +63,7 @@ export default function CalendarScreen() {
       }
     };
     fetchData();
-  }, []);
+  }, [router]);
 
   const [getDailyLog, getEveryDate] = useQueries({
     queries: [
@@ -182,11 +182,9 @@ export default function CalendarScreen() {
           {getDailyLog?.data?.dailyLogs?.length === 0 ? (
             <View className="mb-4">
               <Text className="mb-6">오늘의 반려묘 건강을 기록해보세요</Text>
-              <RouteButton
-                routeHref="/DailyLog/[logDate]"
-                param={{ logDate }}
-                children="반려묘 건강 기록하기"
-              />
+              <RouteButton routeHref="/DailyLog/[logDate]" param={{ logDate }}>
+                반려묘 건강 기록하기
+              </RouteButton>
             </View>
           ) : (
             <Pressable

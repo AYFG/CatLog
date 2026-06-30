@@ -1,6 +1,6 @@
 services:
   mariadb:
-    image: mariadb:11.4
+    image: mariadb:11.2
     container_name: catlog-mariadb
     restart: unless-stopped
     environment:
